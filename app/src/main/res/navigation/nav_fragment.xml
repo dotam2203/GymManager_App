@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_fragment"
+    app:startDestination="@id/fragmentLogin">
+
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="com.gym.ui.fragments.LoginFragment"
+        android:label="FragmentLogin"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/navLoginToRegister"
+            app:destination="@id/fragmentRegister" />
+        <action
+            android:id="@+id/navLoginToHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentRegister"
+        android:name="com.gym.ui.fragments.RegisterFragment"
+        android:label="FragmentRegister"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/navRegisterToLogin"
+            app:destination="@id/fragmentLogin" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSlide"
+        android:name="com.gym.ui.fragments.SlideFragment"
+        android:label="FragmentSlide"
+        tools:layout="@layout/fragment_slide">
+        <action
+            android:id="@+id/navSlideToLogin"
+            app:destination="@id/fragmentLogin" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentFeedback"
+        android:name="com.gym.ui.fragments.FeedbackFragment"
+        android:label="FragmentFeedback"
+        tools:layout="@layout/fragment_feedback"/>
+    <fragment
+        android:id="@+id/fragmentHome"
+        android:name="com.gym.ui.fragments.HomeFragment"
+        android:label="FragmentHome"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/navHomeToTrangChu"
+            app:destination="@id/fragmentTrangChu" />
+        <action
+            android:id="@+id/navHomeToThetap"
+            app:destination="@id/fragmentThetap" />
+        <action
+            android:id="@+id/navHomeToDichvu"
+            app:destination="@id/fragmentDichvu" />
+        <action
+            android:id="@+id/navHomeToHoadon"
+            app:destination="@id/fragmentHoadon" />
+        <action
+            android:id="@+id/navHomeToThongke"
+            app:destination="@id/fragmentThongke" />
+        <action
+            android:id="@+id/navHomeToTaikhoan"
+            app:destination="@id/fragmentTaikhoan" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentDichvu"
+        android:name="com.gym.ui.fragments.DichVuFragment"
+        android:label="FragmentDichvu"
+        tools:layout="@layout/fragment_dichvu" />
+    <fragment
+        android:id="@+id/fragmentHoadon"
+        android:name="com.gym.ui.fragments.HoaDonFragment"
+        android:label="FragmentHoadon"
+        tools:layout="@layout/fragment_hoadon" />
+    <fragment
+        android:id="@+id/fragmentTaikhoan"
+        android:name="com.gym.ui.fragments.TaiKhoanFragment"
+        android:label="FragmentTaikhoan"
+        tools:layout="@layout/fragment_taikhoan" />
+    <fragment
+        android:id="@+id/fragmentThetap"
+        android:name="com.gym.ui.fragments.TheTapFragment"
+        android:label="FragmentThetap"
+        tools:layout="@layout/fragment_thetap" />
+    <fragment
+        android:id="@+id/fragmentThongke"
+        android:name="com.gym.ui.fragments.ThongKeFragment"
+        android:label="FragmentThongke"
+        tools:layout="@layout/fragment_thongke" />
+    <fragment
+        android:id="@+id/fragmentTrangChu"
+        android:name="com.gym.ui.fragments.TrangChuFragment"
+        android:label="FragmentTrangchu"
+        tools:layout="@layout/fragment_trangchu" />
+</navigation>
