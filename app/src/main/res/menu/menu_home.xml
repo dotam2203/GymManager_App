@@ -4,10 +4,10 @@
         android:icon="@drawable/ic_home"
         android:title="@string/trangChu"/>
     <item android:id="@+id/menuThetap"
-        android:icon="@drawable/ic_accact"
+        android:icon="@drawable/ic_acc"
         android:title="@string/theKH"/>
     <item android:id="@+id/menuDichvu"
-        android:icon="@drawable/ic_goitap"
+        android:icon="@drawable/ic_dichvu"
         android:title="@string/dichVu"/>
     <item android:id="@+id/menuHoadon"
         android:icon="@drawable/ic_hoadon"

@@ -11,7 +11,11 @@
         <entry key="..\:/Do An TTTN/Kotlin/GymManager/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/custom_menu.xml" value="0.1665" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/fragment_dialog_loaigt.xml" value="0.139" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/ic_add.xml" value="0.1" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/round_border90.xml" value="0.1665" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/round_border_while30.xml" value="0.1" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/round_click_item.xml" value="0.1665" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/round_click_item1.xml" value="0.1665" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/shape_border_20.xml" value="0.139" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/shape_left_panel.xml" value="0.161" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/shape_login_button.xml" value="0.161" />
@@ -25,7 +29,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/bar_home.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_bottom.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_dialog_loaigt.xml" value="0.25" />
-        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_dichvu.xml" value="0.2359375" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_dichvu.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_feedback.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_hoadon.xml" value="0.2359375" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_home.xml" value="0.25" />
@@ -38,6 +42,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_thetap.xml" value="0.2359375" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_thongke.xml" value="0.2359375" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_trangchu.xml" value="0.25" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_dichvu.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/menu/menu.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/menu/menu_home.xml" value="0.25" />
       </map>
