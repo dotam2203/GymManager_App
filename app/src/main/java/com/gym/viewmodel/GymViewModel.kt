@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.gym.model.LoaiGTModel
 import com.gym.network.LoaiGTService
 import com.gym.network.RetrofitInstance
+import kotlinx.coroutines.flow.MutableStateFlow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,15 +16,14 @@ import retrofit2.Response
  */
 class GymViewModel : ViewModel() {
     //Live Data
-    var dataList = MutableLiveData<List<LoaiGTModel>>()
-
-    fun getApiData() {
+    var loaiGTs = MutableLiveData<List<LoaiGTModel>>()
+//    var loaiGT = MutableStateFlow<List<LoaiGTModel>>
+    fun getDSLoaiGT() {
         RetrofitInstance.getApiUrl().create(LoaiGTService::class.java).getDSLoaiGT().enqueue(object : Callback<List<LoaiGTModel>> {
                 override fun onResponse(
                     call: Call<List<LoaiGTModel>>, response: Response<List<LoaiGTModel>>) {
-                    dataList.value = response.body()
+                    loaiGTs.value = response.body()
                 }
-
                 override fun onFailure(call: Call<List<LoaiGTModel>>, t: Throwable) {
 
                 }
