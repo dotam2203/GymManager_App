@@ -19,7 +19,7 @@ class GymViewModel : ViewModel() {
     var loaiGTs = MutableLiveData<List<LoaiGTModel>>()
 //    var loaiGT = MutableStateFlow<List<LoaiGTModel>>
     fun getDSLoaiGT() {
-        RetrofitInstance.getApiUrl().create(LoaiGTService::class.java).getDSLoaiGT().enqueue(object : Callback<List<LoaiGTModel>> {
+        RetrofitInstance.loadApiLoaiGT.getDSLoaiGT().enqueue(object : Callback<List<LoaiGTModel>> {
                 override fun onResponse(
                     call: Call<List<LoaiGTModel>>, response: Response<List<LoaiGTModel>>) {
                     loaiGTs.value = response.body()

@@ -8,16 +8,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gym.R
-import com.gym.adapter.LoaiGtAdapter
+import com.gym.ui.adapter.LoaiGtAdapter
 import com.gym.databinding.FragmentDichvuBinding
 import com.gym.model.LoaiGTModel
-import com.gym.ui.DialogLoad
 import com.gym.viewmodel.GymViewModel
 
 class DichVuFragment : Fragment() {
     private lateinit var binding: FragmentDichvuBinding
     private lateinit var viewModel: GymViewModel
+    private lateinit var loaiGtAdapter: LoaiGtAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,5 +43,6 @@ class DichVuFragment : Fragment() {
             rvLoaiGT.layoutManager = LinearLayoutManager(activity)
             rvLoaiGT.adapter = LoaiGtAdapter(loaiGTs)
         }
+        //loaiGtAdapter.updateData(loaiGTs as ArrayList<LoaiGTModel>)
     }
 }

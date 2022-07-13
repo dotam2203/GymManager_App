@@ -10,42 +10,47 @@
         android:id="@+id/barDichVu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@id/barList"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tvTitleDV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quản Lý Dịch Vụ"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical|center"
+            app:layout_constraintBottom_toBottomOf="@+id/barDichVu"
+            app:layout_constraintEnd_toEndOf="@id/barDichVu"
+            app:layout_constraintStart_toStartOf="@id/barDichVu"
+            app:layout_constraintTop_toTopOf="@id/barDichVu" />
     </androidx.appcompat.widget.Toolbar>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/barList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/barDichVu">
-        <androidx.constraintlayout.widget.Guideline
+        app:layout_constraintTop_toBottomOf="@id/barDichVu"
+        app:layout_constraintBottom_toTopOf="@id/rvLoaiGT">
+        <!--<androidx.constraintlayout.widget.Guideline
             android:id="@+id/lineV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.4" />
-        <TextView
-            android:id="@+id/tvTitleMaLoatGT"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/lineV"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/black"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            android:text="Mã loại"
-            android:gravity="center_vertical|center_horizontal"/>
+            app:layout_constraintGuide_percent="0.9" />-->
         <TextView
             android:id="@+id/tvTitleTenLoatGT"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/lineV"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/barList"
+            app:layout_constraintStart_toStartOf="@id/barList"
+            app:layout_constraintEnd_toEndOf="@id/barList"
+            app:layout_constraintTop_toTopOf="@id/barList"
             android:textColor="@color/black"
             android:textSize="22dp"
             android:textStyle="bold"
@@ -53,22 +58,12 @@
             android:gravity="center_vertical|center_horizontal"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tvTitleDV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quản Lý Dịch Vụ"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/barDichVu"
-        app:layout_constraintStart_toStartOf="@id/barDichVu"
-        app:layout_constraintTop_toTopOf="@id/barDichVu" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLoaiGT"
         android:layout_width="match_parent"
-        android:layout_height="635dp"
+        android:layout_height="630dp"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,5 +89,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

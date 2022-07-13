@@ -1,11 +1,10 @@
-package com.gym.adapter
+package com.gym.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemDichvuBinding
 import com.gym.model.LoaiGTModel
-import java.util.*
 
 /**
  * Author: tamdt35@fpt.com.vn
