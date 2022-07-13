@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemDichvuBinding
-import com.gym.model.LoaiGTModel
+import com.gym.model.LoaiGtModel
 
 /**
  * Author: tamdt35@fpt.com.vn
  * Date:  08/07/2022
  */
-class LoaiGtAdapter(private var loaiGTs: List<LoaiGTModel>): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
+class LoaiGtAdapter(private var loaiGTs: List<LoaiGtModel>): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
     inner class ViewHolder(val binding: ItemDichvuBinding): RecyclerView.ViewHolder(binding.root) {
 
     }
@@ -30,7 +30,7 @@ class LoaiGtAdapter(private var loaiGTs: List<LoaiGTModel>): RecyclerView.Adapte
     override fun getItemCount(): Int {
         return loaiGTs.size
     }
-    fun updateData(loaiGTss: List<LoaiGTModel>){
+    fun updateData(loaiGTss: List<LoaiGtModel>){
         loaiGTs = loaiGTss
         notifyDataSetChanged()
     }

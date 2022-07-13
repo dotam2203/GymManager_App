@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
  * Date:  07/07/2022
  */
 @Parcelize
-data class LoaiGTModel (
+data class LoaiGtModel (
     val maLoaiGT: String,
     val tenLoaiGT: String,
     val trangThai: String,

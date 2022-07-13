@@ -5,7 +5,7 @@
     <data>
         <variable
             name="loaiGT"
-            type="com.gym.model.LoaiGTModel" />
+            type="com.gym.model.LoaiGtModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/itemClickDv"

@@ -2,7 +2,6 @@ package com.gym.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -16,5 +15,7 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    val loadApiLoaiGT = getApiUrl().create(LoaiGTService::class.java)
+    val loadApiLoaiGT: LoaiGtService by lazy {
+        getApiUrl().create(LoaiGtService::class.java)
+    }
 }
