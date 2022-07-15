@@ -39,7 +39,7 @@
     <LinearLayout
         android:id="@+id/llLogin"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="340dp"
         android:layout_margin="40dp"
         android:background="@drawable/shape_login_panel"
         android:orientation="vertical"
@@ -51,20 +51,36 @@
         app:layout_constraintStart_toStartOf="@+id/bgLogin"
         app:layout_constraintTop_toBottomOf="@id/Slogan">
 
-        <EditText
-            android:id="@+id/txtUserLogin"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvUserLogin"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:drawableEnd="@drawable/ic_user"
-            android:hint="Username" />
+            android:hint="user"
+            app:startIconDrawable="@drawable/ic_user"
+            app:endIconMode="clear_text"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtUserLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/txtPassLogin"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvPassLogin"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:drawableEnd="@drawable/ic_pass"
-            android:hint="Password"
-            android:inputType="textPassword" />
+            android:layout_marginTop="15dp"
+            android:hint="password"
+            app:startIconDrawable="@drawable/ic_pass"
+            app:endIconMode="password_toggle"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtPassLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/tvForgotPass"

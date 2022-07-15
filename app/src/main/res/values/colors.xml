@@ -10,8 +10,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#D51FDB</color>
     <color name="violet">#8E0090</color>
+    <color name="violet_100">#FF00FF</color>
+    <color name="red">#FF0000</color>
     <color name="blue">#2276C0</color>
+    <color name="blue_100">#008080</color>
     <color name="green_light">#59CBE6</color>
     <color name="gray">#FFC3C3C3</color>
+    <color name="gray_100">#808080</color>
     <color name="yellow">#FFFF00</color>
 </resources>

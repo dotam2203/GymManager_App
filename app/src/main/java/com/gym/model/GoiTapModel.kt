@@ -6,12 +6,13 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * Author: tamdt35@fpt.com.vn
- * Date:  07/07/2022
+ * Date:  15/07/2022
  */
 @Entity
 @Parcelize
-data class LoaiGtModel (
-    val idLoaiGT: Int,
-    val tenLoaiGT: String,
-    val trangThai: String,
-) : Parcelable
+data class GoiTapModel(
+    val maGoiTap: String,
+    val tenGoiTap: String,
+    val moTa: String,
+    val trangThai: String
+): Parcelable

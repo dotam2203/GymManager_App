@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,9 +32,9 @@ class HomeFragment : FragmentNext() {
             when(it.itemId){
                 R.id.menuTrangChu -> replaceFragment(R.id.fragmentMain, TrangChuFragment())
                 R.id.menuThetap -> replaceFragment(R.id.fragmentMain, TheTapFragment())
-                R.id.menuDichvu -> replaceFragment(R.id.fragmentMain, DichVuFragment())
                 R.id.menuHoadon -> replaceFragment(R.id.fragmentMain, HoaDonFragment())
                 R.id.menuThongke  -> replaceFragment(R.id.fragmentMain, ThongKeFragment())
+                R.id.menuTaikhoan -> replaceFragment(R.id.fragmentMain, TaiKhoanFragment())
             }
             true
         }

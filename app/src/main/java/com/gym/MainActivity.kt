@@ -12,7 +12,4 @@ class MainActivity : AppCompatActivity(){
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
-    private fun getFragmentParent(fragment: Fragment, id: Int) {
-        supportFragmentManager.beginTransaction().replace(id,fragment).commit()
-    }
 }

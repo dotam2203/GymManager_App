@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.DichVuFragment">
+    tools:context=".ui.fragments.KhachHangFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/barDichVu"
@@ -17,10 +17,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <TextView
-            android:id="@+id/tvTitleDV"
+            android:id="@+id/tvTitleKH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quản Lý Dịch Vụ"
+            android:text="Quản Lý Khách Hàng"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -36,16 +36,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/barDichVu"
-        app:layout_constraintBottom_toTopOf="@id/rvLoaiGT">
-        <!--<androidx.constraintlayout.widget.Guideline
-            android:id="@+id/lineV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.9" />-->
+        app:layout_constraintBottom_toTopOf="@id/rvKhachHang">
         <TextView
-            android:id="@+id/tvTitleTenLoatGT"
-            android:layout_width="210dp"
+            android:id="@+id/tvTitleTenKH"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/barList"
             app:layout_constraintStart_toStartOf="@id/barList"
@@ -54,13 +48,13 @@
             android:textColor="@color/black"
             android:textSize="22dp"
             android:textStyle="bold"
-            android:text="Tên loại gói tập"
-            android:gravity="center_vertical|center_horizontal"/>
+            android:text="Tên khách hàng"
+            android:layout_marginStart="60dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvLoaiGT"
+        android:id="@+id/rvKhachHang"
         android:layout_width="match_parent"
         android:layout_height="630dp"
         android:layout_margin="10dp"
@@ -68,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barList"
-        tools:listitem="@layout/item_dichvu"/>
+        tools:listitem="@layout/item_khachhang"/>
 
     <ImageButton
         android:id="@+id/imbAdd"

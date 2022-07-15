@@ -46,14 +46,8 @@
         android:label="FragmentHome"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/navHomeToTrangChu"
-            app:destination="@id/fragmentTrangChu" />
-        <action
             android:id="@+id/navHomeToThetap"
             app:destination="@id/fragmentThetap" />
-        <action
-            android:id="@+id/navHomeToDichvu"
-            app:destination="@id/fragmentDichvu" />
         <action
             android:id="@+id/navHomeToHoadon"
             app:destination="@id/fragmentHoadon" />
@@ -63,12 +57,21 @@
         <action
             android:id="@+id/navHomeToTaikhoan"
             app:destination="@id/fragmentTaikhoan" />
+        <action
+            android:id="@+id/navHomeToDichVu"
+            app:destination="@id/fragmentDichvu" />
+        <action
+            android:id="@+id/navHomeToNguoiDung"
+            app:destination="@id/fragmentNguoiDung" />
+        <action
+            android:id="@+id/navHomeToTrangChu"
+            app:destination="@id/fragmentTrangChu" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDichvu"
         android:name="com.gym.ui.fragments.DichVuFragment"
         android:label="FragmentDichvu"
-        tools:layout="@layout/fragment_dichvu" />
+        tools:layout="@layout/fragment_loaigt" />
     <fragment
         android:id="@+id/fragmentHoadon"
         android:name="com.gym.ui.fragments.HoaDonFragment"
@@ -94,4 +97,29 @@
         android:name="com.gym.ui.fragments.TrangChuFragment"
         android:label="FragmentTrangchu"
         tools:layout="@layout/fragment_trangchu" />
+    <fragment
+        android:id="@+id/fragmentGoiTap"
+        android:name="com.gym.ui.fragments.GoiTapFragment"
+        android:label="fragment_goitap"
+        tools:layout="@layout/fragment_goitap" />
+    <fragment
+        android:id="@+id/fragmentLoaiGT"
+        android:name="com.gym.ui.fragments.LoaiGtFragment"
+        android:label="fragment_loaigt"
+        tools:layout="@layout/fragment_loaigt" />
+    <fragment
+        android:id="@+id/fragmentNguoiDung"
+        android:name="com.gym.ui.fragments.NguoiDungFragment"
+        android:label="tab_layout_nguoidung"
+        tools:layout="@layout/tab_layout_nguoidung" />
+    <fragment
+        android:id="@+id/fragmentKhachHang"
+        android:name="com.gym.ui.fragments.KhachHangFragment"
+        android:label="fragment_khachhang"
+        tools:layout="@layout/fragment_khachhang" />
+    <fragment
+        android:id="@+id/fragmentLoaiKH"
+        android:name="com.gym.ui.fragments.LoaiKhFragment"
+        android:label="fragment_loaikh"
+        tools:layout="@layout/fragment_loaikh" />
 </navigation>

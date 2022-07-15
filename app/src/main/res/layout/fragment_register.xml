@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -36,46 +37,86 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.4"/>
+
     <LinearLayout
         android:id="@+id/llLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="340dp"
+        android:layout_height="380dp"
         android:layout_margin="40dp"
         android:background="@drawable/shape_login_panel"
-        app:layout_constraintBottom_toBottomOf="@id/bgLogin"
-        app:layout_constraintTop_toBottomOf="@id/Slogan"
-        app:layout_constraintStart_toStartOf="parent"
-        android:paddingTop="50dp"
+        android:orientation="vertical"
         android:paddingStart="50dp"
+        android:paddingTop="50dp"
         android:paddingEnd="50dp"
-        android:orientation="vertical">
-        <EditText
-            android:id="@+id/txtUserRegis"
-            android:hint="Username"
+        app:layout_constraintBottom_toBottomOf="@id/bgLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Slogan">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvUserRegis"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:drawableEnd="@drawable/ic_user"/>
-        <EditText
-            android:id="@+id/txtEmailRegis"
-            android:hint="Email"
+            android:hint="user"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_user">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtUserLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvEmailRegis"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:drawableEnd="@drawable/ic_email"/>
-        <EditText
-            android:id="@+id/txtPassRegis"
-            android:hint="Password"
+            android:hint="email"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:endIconMode="clear_text"
+            app:startIconDrawable="@drawable/ic_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEmailRegist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvPassRegis"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:drawableEnd="@drawable/ic_pass"
-            android:inputType="textPassword"/>
-        <EditText
-            android:id="@+id/txtConfirmPass"
-            android:hint="Confirm Password"
+            android:hint="password"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/ic_pass">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtPassRegis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvConfirmPassRegis"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:drawableEnd="@drawable/ic_pass"
-            android:inputType="textPassword"
-            android:layout_marginBottom="100dp"/>
+            android:hint="confirm password"
+            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="outline"
+            app:endIconMode="password_toggle"
+            app:startIconDrawable="@drawable/ic_pass">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtConfirmPassRegis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignUp"
