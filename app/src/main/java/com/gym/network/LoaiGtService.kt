@@ -20,5 +20,5 @@ interface LoaiGtService {
     suspend fun updateLoaiGT(@Body loaiGtModel: LoaiGtModel): Response<LoaiGtModel>
 
     @DELETE("loaigt/{idLoaiGT}")
-    suspend fun deleteLoaiGT(@Path("idLoaiGT") idLoaiGT: Int): Response<LoaiGtModel>
+    suspend fun deleteLoaiGT(@Path("idLoaiGT") idLoaiGT: Int)
 }

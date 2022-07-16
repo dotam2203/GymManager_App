@@ -38,5 +38,10 @@ class LoaiGtViewModel : ViewModel() {
             _loaiGT.postValue(response)
         }
     }
+    fun deleteLoaiGT(id: Int){
+        viewModelScope.launch {
+            loaiGtRespository.deleteLoaiGT(id)
+        }
+    }
 
 }

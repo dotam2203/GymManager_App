@@ -26,11 +26,8 @@ class LoaiGtRespository {
             return request.body()!!
         return null
     }
-    suspend fun deleteLoaiGT(idLoaiGT: Int): LoaiGtModel?{
-        val request = RetrofitInstance.loadApiLoaiGT.deleteLoaiGT(idLoaiGT)
-        if (request.isSuccessful)
-            return request.body()!!
-        return null
+    suspend fun deleteLoaiGT(idLoaiGT: Int){
+        RetrofitInstance.loadApiLoaiGT.deleteLoaiGT(idLoaiGT)
     }
 
 }

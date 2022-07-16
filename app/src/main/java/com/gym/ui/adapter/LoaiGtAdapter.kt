@@ -10,7 +10,7 @@ import com.gym.model.LoaiGtModel
  * Author: tamdt35@fpt.com.vn
  * Date:  08/07/2022
  */
-class LoaiGtAdapter(): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
+class LoaiGtAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
     var loaiGTs = listOf<LoaiGtModel>()
     inner class ViewHolder(val binding: ItemLoaigtBinding): RecyclerView.ViewHolder(binding.root) {
     }
@@ -22,7 +22,15 @@ class LoaiGtAdapter(): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
-            binding.loaiGT = loaiGTs[position]
+            binding.apply {
+                loaiGT = loaiGTs[position]
+                imbEdit.setOnClickListener {
+                    _itemClick.itemClickEdit(loaiGTs[position])
+                }
+                imbDelete.setOnClickListener {
+                    _itemClick.itemClickDelete(loaiGTs[position].idLoaiGT)
+                }
+            }
         }
     }
 
@@ -32,5 +40,9 @@ class LoaiGtAdapter(): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
     fun updateData(loaiGTs: List<LoaiGtModel>){
         this.loaiGTs = loaiGTs
         notifyDataSetChanged()
+    }
+    interface OnItemClick{
+        fun itemClickEdit(loaiGtModel: LoaiGtModel)
+        fun itemClickDelete(id: Int)
     }
 }
