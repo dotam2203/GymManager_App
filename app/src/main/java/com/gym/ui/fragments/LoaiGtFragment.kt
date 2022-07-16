@@ -5,8 +5,10 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +25,8 @@ import com.gym.ui.viewmodel.LoaiGtViewModel
  */
 class LoaiGtFragment : Fragment() {
     private lateinit var binding: FragmentLoaigtBinding
+    var loaiGtAdapter = LoaiGtAdapter()
+    var loaiGTs = ArrayList<LoaiGtModel>()
     val viewModel: LoaiGtViewModel by lazy {
         ViewModelProvider(this).get(LoaiGtViewModel::class.java)
     }
@@ -44,30 +48,36 @@ class LoaiGtFragment : Fragment() {
         //call api
         viewModel.getDSLoaiGT()
         //Livedata observer
-        viewModel.loaiGTs.observe(viewLifecycleOwner) { response ->
+        viewModel.loaiGTs.observe(viewLifecycleOwner) {response ->
             if (response == null) {
                 binding.pbLoad.visibility = View.VISIBLE
                 Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
                 return@observe
             }
-            initAdapter(response)
-            binding.pbLoad.visibility = View.GONE
-        }
-    }
-
-    private fun initAdapter(loaiGTs: List<LoaiGtModel>) {
-        binding.apply {
-            pbLoad.visibility = View.VISIBLE
-            rvLoaiGT.layoutManager = LinearLayoutManager(activity)
-            rvLoaiGT.adapter = LoaiGtAdapter(loaiGTs)
-            LoaiGtAdapter(loaiGTs).notifyDataSetChanged()
-            imbAdd.setOnClickListener {
-//                dialogAddLoaiGT()
-                dialog()
+            else{
+                loaiGtAdapter.loaiGTs = response
+                loaiGTs = response as ArrayList<LoaiGtModel> /* = java.util.ArrayList<com.gym.model.LoaiGtModel> */
+                initAdapter()
+                loaiGtAdapter.notifyDataSetChanged()
+                binding.pbLoad.visibility = View.GONE
             }
         }
     }
-    fun dialog(){
+
+    private fun initAdapter() {
+        binding.apply {
+            pbLoad.visibility = View.VISIBLE
+            rvLoaiGT.apply {
+                layoutManager = LinearLayoutManager(activity!!)
+                adapter = loaiGtAdapter
+            }
+            //loaiGtAdapter.updateData(loaiGTs)
+            imbAdd.setOnClickListener {
+                dialogInsert()
+            }
+        }
+    }
+    fun dialogInsert(){
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loaigt)
@@ -83,9 +93,49 @@ class LoaiGtFragment : Fragment() {
         //false = no; true = yes
         dialog.setCancelable(false)
         dialog.show()
+        val txtTenLoaiGT: EditText = dialog.findViewById(R.id.txtTenLoaiGT)
+        val txtTrangThai: EditText = dialog.findViewById(R.id.txtTTLoaiGT)
+        var btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
         var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
+        btnThem.setOnClickListener {
+            if(txtTenLoaiGT.text.trim().isEmpty()){
+                txtTenLoaiGT.error = "Vui lòng không để trống"
+                txtTenLoaiGT.requestFocus()
+            }
+            else if(txtTrangThai.text.trim().isEmpty()){
+                txtTrangThai.error = "Vui lòng không để trống"
+                txtTrangThai.requestFocus()
+            }
+            else if(!txtTenLoaiGT.text.trim().isEmpty() || !txtTrangThai.text.trim().isEmpty()){
+                //call api
+                viewModel.insertLoaiGT(LoaiGtModel(0, txtTenLoaiGT.text.toString(), txtTrangThai.text.toString()))
+                //Livedata observer
+                getDataCoroutine("Insert success", "Insert fail")
+                initViewModel()
+                Log.d("TAG", "size new: ${loaiGTs.size}")
+//                Log.d("TEST", "dialog: ${txtTenLoaiGT.text}")
+//                Log.d("TEST", "dialog: ${txtTrangThai.text}")
+            }
+            dialog.show()
+        }
         btnHuy.setOnClickListener {
             dialog.dismiss()
+        }
+    }
+
+    private fun getDataCoroutine(success: String, fail: String) {
+        //Livedata observer
+        viewModel.loaiGTs.observe(viewLifecycleOwner) {response ->
+            if (response == null) {
+                Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
+                return@observe
+            }
+            else{
+                loaiGtAdapter.loaiGTs = response
+                initAdapter()
+                loaiGtAdapter.notifyDataSetChanged()
+                Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

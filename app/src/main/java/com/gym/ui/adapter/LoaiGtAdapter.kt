@@ -10,7 +10,8 @@ import com.gym.model.LoaiGtModel
  * Author: tamdt35@fpt.com.vn
  * Date:  08/07/2022
  */
-class LoaiGtAdapter(private var loaiGTs: List<LoaiGtModel>): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
+class LoaiGtAdapter(): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
+    var loaiGTs = listOf<LoaiGtModel>()
     inner class ViewHolder(val binding: ItemLoaigtBinding): RecyclerView.ViewHolder(binding.root) {
     }
 
@@ -28,8 +29,8 @@ class LoaiGtAdapter(private var loaiGTs: List<LoaiGtModel>): RecyclerView.Adapte
     override fun getItemCount(): Int {
         return loaiGTs.size
     }
-    fun updateData(loaiGTss: List<LoaiGtModel>){
-        loaiGTs = loaiGTss
+    fun updateData(loaiGTs: List<LoaiGtModel>){
+        this.loaiGTs = loaiGTs
         notifyDataSetChanged()
     }
 }
