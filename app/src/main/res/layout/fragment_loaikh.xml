@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barList"
-        tools:listitem="@layout/item_loaigt"/>
+        tools:listitem="@layout/item_loaikh"/>
 
     <ImageButton
         android:id="@+id/imbAdd"

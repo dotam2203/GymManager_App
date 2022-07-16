@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gym.model.LoaiGtModel
-import com.gym.repository.LoaiGtRespository
+import com.gym.repository.LoaiGtRepository
 import kotlinx.coroutines.launch
 
 /**
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
  * Date:  07/07/2022
  */
 class LoaiGtViewModel : ViewModel() {
-    private val loaiGtRespository = LoaiGtRespository()
+    private val loaiGtRespository = LoaiGtRepository()
     //Live Data
     private val _loaiGTs = MutableLiveData<List<LoaiGtModel>>()
     private val _loaiGT = MutableLiveData<LoaiGtModel>()

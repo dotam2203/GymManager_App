@@ -7,7 +7,7 @@ import com.gym.network.RetrofitInstance
  * Author: tamdt35@fpt.com.vn
  * Date:  13/07/2022
  */
-class LoaiGtRespository {
+class LoaiGtRepository {
     suspend fun getDSLoaiGT(): List<LoaiGtModel>? {
         val request = RetrofitInstance.loadApiLoaiGT.getDSLoaiGT()
         if (request.isSuccessful)
