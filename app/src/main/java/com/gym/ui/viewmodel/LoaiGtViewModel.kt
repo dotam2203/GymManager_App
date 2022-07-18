@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
  * Date:  07/07/2022
  */
 class LoaiGtViewModel : ViewModel() {
-    private val loaiGtRespository = LoaiGtRepository()
+    private val loaiGtRepository = LoaiGtRepository()
     //Live Data
     private val _loaiGTs = MutableLiveData<List<LoaiGtModel>>()
     private val _loaiGT = MutableLiveData<LoaiGtModel>()
@@ -22,25 +22,25 @@ class LoaiGtViewModel : ViewModel() {
 
     fun getDSLoaiGT() {
         viewModelScope.launch {
-            val response = loaiGtRespository.getDSLoaiGT()
+            val response = loaiGtRepository.getDSLoaiGT()
             _loaiGTs.postValue(response)
         }
     }
     fun insertLoaiGT(loaiGtModel: LoaiGtModel){
         viewModelScope.launch {
-            val response = loaiGtRespository.insertLoaiGT(loaiGtModel)
+            val response = loaiGtRepository.insertLoaiGT(loaiGtModel)
             _loaiGT.postValue(response)
         }
     }
     fun updateLoaiGT(loaiGtModel: LoaiGtModel){
         viewModelScope.launch {
-            val response = loaiGtRespository.updateLoaiGT(loaiGtModel)
+            val response = loaiGtRepository.updateLoaiGT(loaiGtModel)
             _loaiGT.postValue(response)
         }
     }
     fun deleteLoaiGT(id: Int){
         viewModelScope.launch {
-            loaiGtRespository.deleteLoaiGT(id)
+            loaiGtRepository.deleteLoaiGT(id)
         }
     }
 

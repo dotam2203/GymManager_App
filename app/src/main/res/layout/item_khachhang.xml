@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <!--<variable
-            name="goiTap"
-            type="com.gym.model.LoaiGtModel" />-->
+        <variable
+            name="khachHang"
+            type="com.gym.model.KhachHangModel" />
         <variable
             name="onItemClick"
             type="android.view.View.OnClickListener" />
@@ -24,29 +24,40 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.75" />
         <TextView
-            android:id="@+id/tvTenDv"
+            android:id="@+id/tvTenKH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
             android:textColor="@color/black"
             android:textSize="22dp"
+            android:text="@{khachHang.hoTen}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvTrangThaiDv"/>
+            app:layout_constraintBottom_toTopOf="@id/tvLoaiKH"/>
+        <TextView
+            android:id="@+id/tvTenLoaiGT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:textColor="@color/black"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/lineV"
+            app:layout_constraintTop_toTopOf="@id/tvTenKH"/>
 
         <TextView
-            android:id="@+id/tvTT"
+            android:id="@+id/tvLKH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="Trạng thái:"
+            android:text="Loại khách hàng:"
             android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/tvTrangThaiDv"
+            app:layout_constraintTop_toTopOf="@id/tvLoaiKH"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvTrangThaiDv"/>
+            app:layout_constraintEnd_toStartOf="@id/tvLoaiKH"/>
         <TextView
-            android:id="@+id/tvTrangThaiDv"
+            android:id="@+id/tvLoaiKH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -54,8 +65,8 @@
             android:textStyle="bold|italic"
             android:textColor="@color/violet"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvTT"
-            app:layout_constraintTop_toBottomOf="@id/tvTenDv"/>
+            app:layout_constraintStart_toEndOf="@id/tvLKH"
+            app:layout_constraintTop_toBottomOf="@id/tvTenLoaiGT"/>
 
         <ImageButton
             android:id="@+id/imbDelete"

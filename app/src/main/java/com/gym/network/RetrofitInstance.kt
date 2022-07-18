@@ -21,4 +21,11 @@ object RetrofitInstance {
     val loadApiLoaiKH: LoaiKhService by lazy {
         getApiUrl().create(LoaiKhService::class.java)
     }
+    val loadApiGoiTap: GoiTapService by lazy {
+        getApiUrl().create(GoiTapService::class.java)
+    }
+    val loadApiKhachHang: KhachHangService by lazy {
+        getApiUrl().create(KhachHangService::class.java)
+    }
+
 }

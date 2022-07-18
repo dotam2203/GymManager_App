@@ -6,7 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragments.HomeFragment">
+        tools:context=".ui.fragments.HomeFragment"
+        android:background="@color/gray_200">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentMain"
@@ -24,7 +25,8 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_margin="5dp"
+            android:background="@drawable/round_border10"
             app:itemTextColor="@color/color_bottom_navigation"
             app:itemIconTint="@color/color_bottom_navigation"
             app:labelVisibilityMode="selected"

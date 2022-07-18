@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.fragments.TaiKhoanFragment">
+    tools:context=".ui.fragments.TaiKhoanFragment"
+    android:background="@color/gray_200">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#bbdecc"
+        android:background="@color/gray_200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

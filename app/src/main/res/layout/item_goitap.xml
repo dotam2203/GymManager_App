@@ -5,7 +5,7 @@
     <data>
         <variable
             name="goiTap"
-            type="com.gym.model.LoaiGtModel" />
+            type="com.gym.model.GoiTapModel" />
         <variable
             name="onItemClick"
             type="android.view.View.OnClickListener" />
@@ -24,15 +24,26 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.75" />
         <TextView
-            android:id="@+id/tvTenDv"
+            android:id="@+id/tvTenGT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
             android:textColor="@color/black"
             android:textSize="22dp"
+            android:text="@{goiTap.tenGoiTap}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvTrangThaiDv"/>
+            app:layout_constraintBottom_toTopOf="@id/tvTTGoiTap"/>
+        <TextView
+            android:id="@+id/tvTenLoaiGT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:textColor="@color/black"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/lineV"
+            app:layout_constraintTop_toTopOf="@id/tvTenGT"/>
 
         <TextView
             android:id="@+id/tvTT"
@@ -41,21 +52,22 @@
             android:layout_marginStart="10dp"
             android:text="Trạng thái:"
             android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/tvTrangThaiDv"
+            app:layout_constraintTop_toTopOf="@id/tvTTGoiTap"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvTrangThaiDv"/>
+            app:layout_constraintEnd_toStartOf="@id/tvTTGoiTap"/>
         <TextView
-            android:id="@+id/tvTrangThaiDv"
+            android:id="@+id/tvTTGoiTap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:text="@{goiTap.trangThai}"
             android:textSize="16sp"
             android:textStyle="bold|italic"
             android:textColor="@color/violet"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvTT"
-            app:layout_constraintTop_toBottomOf="@id/tvTenDv"/>
+            app:layout_constraintTop_toBottomOf="@id/tvTenLoaiGT"/>
 
         <ImageButton
             android:id="@+id/imbDelete"

@@ -48,7 +48,7 @@
             android:textColor="@color/black"
             android:textSize="22dp"
             android:textStyle="bold"
-            android:text="Tên loại khách hàng"
+            android:text="Danh sách loại khách hàng"
             android:layout_marginStart="60dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

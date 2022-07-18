@@ -48,7 +48,7 @@
             android:textColor="@color/black"
             android:textSize="22dp"
             android:textStyle="bold"
-            android:text="Tên khách hàng"
+            android:text="Danh sách khách hàng"
             android:layout_marginStart="60dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -83,5 +83,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

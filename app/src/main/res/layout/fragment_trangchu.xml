@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.TrangChuFragment">
+    tools:context=".ui.fragments.TrangChuFragment"
+    android:background="@color/gray_200">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/nickName"
@@ -22,7 +23,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@color/purple_100"
+            android:src="@color/gray_100"
             app:layout_constraintStart_toStartOf="@id/lineV"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,9 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nick_name"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold|italic"
+            android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/lineV"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,35 +46,39 @@
         android:id="@+id/lineH"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintGuide_percent="0.55"
         android:orientation="horizontal"/>
+
     <LinearLayout
         android:id="@+id/llDichVu"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:orientation="vertical"
-        app:layout_constraintVertical_bias="0.8"
-        app:layout_constraintTop_toBottomOf="@id/nickName"
-        app:layout_constraintBottom_toBottomOf="@id/lineH"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/llBaiTap"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:background="@drawable/round_border10"
         android:gravity="center"
-        android:background="@drawable/shape_login_button">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/lineH"
+        app:layout_constraintEnd_toStartOf="@id/llBaiTap"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nickName"
+        app:layout_constraintVertical_bias="0.802">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_goitap"/>
+            android:src="@drawable/ic_goitap" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="QL Dịch Vụ"
             android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/llBaiTap"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:orientation="vertical"
         app:layout_constraintVertical_bias="0.8"
         app:layout_constraintTop_toBottomOf="@id/nickName"
@@ -81,7 +86,7 @@
         app:layout_constraintStart_toEndOf="@id/llDichVu"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
-        android:background="@drawable/shape_login_button">
+        android:background="@drawable/round_border10">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,8 +100,8 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/llKhachHang"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:orientation="vertical"
         app:layout_constraintVertical_bias="0.1"
         app:layout_constraintTop_toTopOf="@id/lineH"
@@ -104,7 +109,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/llNhanVien"
         android:gravity="center"
-        android:background="@drawable/shape_login_button">
+        android:background="@drawable/round_border10">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -118,8 +123,8 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/llNhanVien"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
         android:orientation="vertical"
         app:layout_constraintVertical_bias="0.1"
         app:layout_constraintTop_toTopOf="@id/lineH"
@@ -127,7 +132,7 @@
         app:layout_constraintStart_toEndOf="@id/llKhachHang"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
-        android:background="@drawable/shape_login_button">
+        android:background="@drawable/round_border10">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

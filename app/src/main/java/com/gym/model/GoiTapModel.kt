@@ -14,5 +14,6 @@ data class GoiTapModel(
     val maGoiTap: String,
     val tenGoiTap: String,
     val moTa: String,
-    val trangThai: String
+    val trangThai: String,
+    val maLoaiGT: String
 ): Parcelable

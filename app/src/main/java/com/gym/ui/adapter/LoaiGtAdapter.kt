@@ -33,7 +33,6 @@ class LoaiGtAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiGtAda
             }
         }
     }
-
     override fun getItemCount(): Int {
         return loaiGTs.size
     }
