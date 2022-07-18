@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * Author: tamdt35@fpt.com.vn
- * Date:  19/07/2022
+ * Date:  10/07/2022
  */
 @Parcelize
 data class KhachHangModel(
