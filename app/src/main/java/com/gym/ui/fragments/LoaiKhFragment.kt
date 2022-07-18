@@ -199,8 +199,8 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
 
     override fun itemClickDelete(id: Int) {
         viewModel.deleteLoaiKH(id)
+        getDataCoroutine("Delete successed!", "Delete failed!")
         initViewModel()
-        Toast.makeText(context, "Delete $id success!", Toast.LENGTH_SHORT).show()
         return
     }
 }
