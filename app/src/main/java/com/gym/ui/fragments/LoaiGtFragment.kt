@@ -18,6 +18,7 @@ import com.gym.databinding.FragmentLoaigtBinding
 import com.gym.model.LoaiGtModel
 import com.gym.ui.adapter.LoaiGtAdapter
 import com.gym.ui.viewmodel.LoaiGtViewModel
+import com.gym.ui.viewmodel.ViewModel
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -27,8 +28,8 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
     private lateinit var binding: FragmentLoaigtBinding
     var loaiGtAdapter = LoaiGtAdapter(this@LoaiGtFragment)
     var loaiGTs = ArrayList<LoaiGtModel>()
-    val viewModel: LoaiGtViewModel by lazy {
-        ViewModelProvider(this).get(LoaiGtViewModel::class.java)
+    val viewModel: ViewModel by lazy {
+        ViewModelProvider(this).get(ViewModel::class.java)
     }
 
     override fun onCreateView(

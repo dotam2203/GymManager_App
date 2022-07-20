@@ -14,6 +14,12 @@ class LoaiGtRepository {
             return request.body()!!
         return null
     }
+    suspend fun getLoaiGT(idLoaiGT: Int): LoaiGtModel? {
+        val request = RetrofitInstance.loadApiLoaiGT.getLoaiGT(idLoaiGT)
+        if (request.isSuccessful)
+            return request.body()!!
+        return null
+    }
     suspend fun insertLoaiGT(loaiGtModel: LoaiGtModel): LoaiGtModel?{
         val request = RetrofitInstance.loadApiLoaiGT.insertLoaiGT(loaiGtModel)
         if (request.isSuccessful)

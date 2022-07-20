@@ -14,6 +14,12 @@ class LoaiKhRepository {
             return request.body()!!
         return null
     }
+    suspend fun getLoaiKH(idLoaiKH: Int): LoaiKhModel? {
+        val request = RetrofitInstance.loadApiLoaiKH.getLoaiKH(idLoaiKH)
+        if (request.isSuccessful)
+            return request.body()!!
+        return null
+    }
     suspend fun insertLoaiKH(loaiKhModel: LoaiKhModel): LoaiKhModel?{
         val request = RetrofitInstance.loadApiLoaiKH.insertLoaiKH(loaiKhModel)
         if (request.isSuccessful)

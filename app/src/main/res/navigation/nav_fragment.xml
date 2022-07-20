@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_fragment"
-    app:startDestination="@id/fragmentHome">
+    app:startDestination="@id/fragmentLogin">
 
     <fragment
         android:id="@+id/fragmentLogin"
@@ -81,7 +81,11 @@
         android:id="@+id/fragmentTaikhoan"
         android:name="com.gym.ui.fragments.TaiKhoanFragment"
         android:label="FragmentTaikhoan"
-        tools:layout="@layout/fragment_taikhoan" />
+        tools:layout="@layout/fragment_taikhoan" >
+        <action
+            android:id="@+id/navTaikhoanToLogin"
+            app:destination="@id/fragmentLogin" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentThetap"
         android:name="com.gym.ui.fragments.TheTapFragment"

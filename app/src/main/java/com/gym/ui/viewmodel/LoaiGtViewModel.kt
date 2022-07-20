@@ -26,6 +26,12 @@ class LoaiGtViewModel : ViewModel() {
             _loaiGTs.postValue(response)
         }
     }
+    fun getLoaiGT(idLoaiGT: Int) {
+        viewModelScope.launch {
+            val response = loaiGtRepository.getLoaiGT(idLoaiGT)
+            _loaiGT.postValue(response)
+        }
+    }
     fun insertLoaiGT(loaiGtModel: LoaiGtModel){
         viewModelScope.launch {
             val response = loaiGtRepository.insertLoaiGT(loaiGtModel)

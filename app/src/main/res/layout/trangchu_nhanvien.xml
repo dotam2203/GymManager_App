@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.TrangChuFragment"
     android:background="@color/gray_200">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nick_name"
@@ -71,7 +70,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="QL Dịch Vụ"
+            android:text="Dịch Vụ"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </LinearLayout>
@@ -95,7 +94,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="QL Bài Tập"
+            android:text="Bài Tập"
             android:textColor="@color/black"
             android:textStyle="bold"/>
     </LinearLayout>
@@ -118,7 +117,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="QL Khách Hàng"
+            android:text="Khách Hàng"
             android:textColor="@color/black"
             android:textStyle="bold"/>
     </LinearLayout>
@@ -141,7 +140,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="QL Nhân Viên"
+            android:text="Nhân Viên"
             android:textColor="@color/black"
             android:textStyle="bold"/>
     </LinearLayout>

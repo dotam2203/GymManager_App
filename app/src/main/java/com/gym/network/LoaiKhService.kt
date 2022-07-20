@@ -12,6 +12,9 @@ interface LoaiKhService {
     @GET("loaikh")
     suspend fun getDSLoaiKH(): Response<List<LoaiKhModel>>
 
+    @GET("loaikh/lkh")
+    suspend fun getLoaiKH(@Query("idLoaiKH") idLoaiKH: Int): Response<LoaiKhModel>
+
     @POST("loaikh")
     suspend fun insertLoaiKH(@Body loaiKhModel: LoaiKhModel): Response<LoaiKhModel>
 

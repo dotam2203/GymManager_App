@@ -5,22 +5,22 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
 import com.gym.databinding.FragmentKhachhangBinding
 import com.gym.model.KhachHangModel
 import com.gym.ui.adapter.KhachHangAdapter
-import com.gym.ui.viewmodel.KhachHangViewModel
+import com.gym.ui.viewmodel.ViewModel
 
 class KhachHangFragment : Fragment() {
     private lateinit var binding: FragmentKhachhangBinding
     var khachHangAdapter = KhachHangAdapter()
     var khachHangs = ArrayList<KhachHangModel>()
-    val viewModel: KhachHangViewModel by lazy {
-        ViewModelProvider(this).get(KhachHangViewModel::class.java)
+    val viewModel: ViewModel by lazy {
+        ViewModelProvider(this).get(ViewModel::class.java)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -13,6 +13,9 @@ interface LoaiGtService {
     @GET("loaigt")
     suspend fun getDSLoaiGT(): Response<List<LoaiGtModel>>
 
+    @GET("loaigt/lgt")
+    suspend fun getLoaiGT(@Query("idLoaiGT") idLoaiGT: Int): Response<LoaiGtModel>
+
     @POST("loaigt")
     suspend fun insertLoaiGT(@Body loaiGtModel: LoaiGtModel): Response<LoaiGtModel>
 

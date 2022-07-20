@@ -11,9 +11,9 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @Parcelize
 data class GoiTapModel(
-    val maGoiTap: String,
-    val tenGoiTap: String,
-    val moTa: String,
-    val trangThai: String,
-    val maLoaiGT: String
+    var maGoiTap: String = "",
+    var tenGoiTap: String = "",
+    var moTa: String = "",
+    var trangThai: String = "",
+    var idLoaiGT: Int = 0
 ): Parcelable

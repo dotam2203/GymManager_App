@@ -9,12 +9,12 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class KhachHangModel(
-    val maKH : String,
-    val hoTen : String,
-    val email : String,
-    val sdt : String,
-    val phai : String,
-    val diaChi : String,
-    val hinhAnh : String,
-    val idLoaiKH : Int
+    var maKH :  String = "",
+    var hoTen :  String = "",
+    var email :  String = "",
+    var sdt :  String = "",
+    var phai :  String = "",
+    var diaChi :  String = "",
+    var hinhAnh :  String = "",
+    var idLoaiKH : Int = 0
 ) : Parcelable

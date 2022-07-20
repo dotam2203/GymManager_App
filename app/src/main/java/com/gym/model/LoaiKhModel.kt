@@ -11,6 +11,7 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @Parcelize
 data class LoaiKhModel(
-    val idLoaiKH: Int,
-    val tenLoaiKH: String
+    var idLoaiKH: Int = 0,
+    var tenLoaiKH: String = "",
+    var khachHangs: List<KhachHangModel>? = null
 ) : Parcelable

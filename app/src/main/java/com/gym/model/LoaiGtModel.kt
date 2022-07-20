@@ -10,8 +10,8 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class LoaiGtModel (
-    val idLoaiGT: Int,
-    val tenLoaiGT: String,
-    val trangThai: String,
-    val goiTaps: List<GoiTapModel>? = null
+    var idLoaiGT: Int = 0,
+    var tenLoaiGT: String = "",
+    var trangThai: String = "",
+    var goiTaps: List<GoiTapModel>? = null
 ) : Parcelable

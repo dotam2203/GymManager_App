@@ -9,12 +9,13 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 object RetrofitInstance {
     val BASE_URL = "https://gym-manager-api.herokuapp.com/"
-    fun getApiUrl(): Retrofit{
+    fun getApiUrl(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
     val loadApiLoaiGT: LoaiGtService by lazy {
         getApiUrl().create(LoaiGtService::class.java)
     }
@@ -26,6 +27,15 @@ object RetrofitInstance {
     }
     val loadApiKhachHang: KhachHangService by lazy {
         getApiUrl().create(KhachHangService::class.java)
+    }
+    val loadApiNhanVien: NhanVienService by lazy {
+        getApiUrl().create(NhanVienService::class.java)
+    }
+    val loadApiPhanQuyen: PhanQuyenService by lazy {
+        getApiUrl().create(PhanQuyenService::class.java)
+    }
+    val loadApiTaiKhoan: TaiKhoanService by lazy {
+        getApiUrl().create(TaiKhoanService::class.java)
     }
 
 }

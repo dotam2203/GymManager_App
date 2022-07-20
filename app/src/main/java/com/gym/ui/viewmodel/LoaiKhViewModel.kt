@@ -26,6 +26,12 @@ class LoaiKhViewModel : ViewModel() {
             _loaiKHs.postValue(response)
         }
     }
+    fun getLoaiKH(idLoaiKH: Int) {
+        viewModelScope.launch {
+            val response = loaiKhRespository.getLoaiKH(idLoaiKH)
+            _loaiKH.postValue(response)
+        }
+    }
     fun insertLoaiKH(loaiKhModel: LoaiKhModel){
         viewModelScope.launch {
             val response = loaiKhRespository.insertLoaiKH(loaiKhModel)

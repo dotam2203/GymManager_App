@@ -19,7 +19,7 @@ import com.gym.R
 import com.gym.databinding.FragmentLoaikhBinding
 import com.gym.model.LoaiKhModel
 import com.gym.ui.adapter.LoaiKhAdapter
-import com.gym.ui.viewmodel.LoaiKhViewModel
+import com.gym.ui.viewmodel.ViewModel
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -29,8 +29,8 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
     private lateinit var binding: FragmentLoaikhBinding
     var loaiKhAdapter = LoaiKhAdapter(this@LoaiKhFragment)
     var loaiKHs = ArrayList<LoaiKhModel>()
-    val viewModel: LoaiKhViewModel by lazy {
-        ViewModelProvider(this).get(LoaiKhViewModel::class.java)
+    val viewModel: ViewModel by lazy {
+        ViewModelProvider(this).get(ViewModel::class.java)
     }
 
     override fun onCreateView(
