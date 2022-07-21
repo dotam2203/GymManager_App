@@ -6,16 +6,16 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
-import android.widget.EditText
-import androidx.fragment.app.Fragment
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.gym.R
 import com.gym.databinding.FragmentTaikhoanBinding
+import com.gym.model.NhanVienModel
+import com.gym.model.TaiKhoanModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
 import com.gym.ui.viewmodel.ViewModel
-import kotlin.reflect.KParameter
 
 class TaiKhoanFragment : FragmentNext() {
     private lateinit var binding: FragmentTaikhoanBinding
@@ -28,6 +28,7 @@ class TaiKhoanFragment : FragmentNext() {
     ): View? {
         binding = FragmentTaikhoanBinding.inflate(layoutInflater)
         showDataUser()
+        binding.imbSaveAcc.visibility = View.GONE
         return binding.root
     }
 
@@ -36,6 +37,41 @@ class TaiKhoanFragment : FragmentNext() {
         binding.apply {
             imbLogout.setOnClickListener {
                 //dialogLogout()
+            }
+            imbEditAcc.setOnClickListener {
+                txtPassAcc.isEnabled = true
+                txtPassAcc.requestFocus()
+                txtNameAcc.isEnabled = true
+                txtPhoneAcc.isEnabled = true
+                txtAdressAcc.isEnabled = true
+
+                imbEditAcc.visibility = View.GONE
+                imbSaveAcc.visibility = View.VISIBLE
+            }
+            imbSaveAcc.setOnClickListener {
+                //update data
+                val maQuyen: String = SingletonAccount.taiKhoan?.maQuyen.toString()
+                val maNV: String = SingletonAccount.taiKhoan?.maNV.toString()
+                val user: String = SingletonAccount.taiKhoan?.maTK.toString()
+                viewModel.updateTaiKhoan(TaiKhoanModel(user,txtPassAcc.text.toString(),"Hoạt động",maQuyen,maNV))
+                viewModel.updateNhanVien(NhanVienModel(maNV,txtNameAcc.text.toString(),txtEmailAcc.text.toString(),txtPhoneAcc.text.toString(),"Nữ",txtAdressAcc.text.toString()))
+                viewModel.nhanVien.observe(viewLifecycleOwner){
+                    if(it != null){
+                        Toast.makeText(requireContext(), "update staff successful!", Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                        Toast.makeText(requireContext(), "update staff failed!", Toast.LENGTH_SHORT).show()
+                }
+                viewModel.taiKhoan.observe(viewLifecycleOwner){
+                    if(it != null){
+                        Toast.makeText(requireContext(), "update acc successful!", Toast.LENGTH_SHORT).show()
+                        showDataUser()
+                    }
+                    else
+                        Toast.makeText(requireContext(), "update acc failed!", Toast.LENGTH_SHORT).show()
+                }
+                imbEditAcc.visibility = View.VISIBLE
+                imbSaveAcc.visibility = View.GONE
             }
         }
     }
@@ -71,9 +107,9 @@ class TaiKhoanFragment : FragmentNext() {
 
     fun showDataUser(){
         binding.apply {
-            viewModel.getQuyen(SingletonAccount.taiKhoan?.maQuyen.toString())
+            viewModel.getQuyen(SingletonAccount.taiKhoan!!.maQuyen.toString())
             viewModel.quyen.observe(viewLifecycleOwner){ response ->
-                tvQuyen.text = response?.tenQuyen
+                tvQuyen.text = response!!.tenQuyen
             }
             viewModel.getNhanVien(SingletonAccount.taiKhoan!!.maNV.toString())
             viewModel.nhanVien.observe(viewLifecycleOwner){ response ->

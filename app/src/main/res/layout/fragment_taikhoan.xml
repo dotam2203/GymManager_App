@@ -69,6 +69,17 @@
             app:layout_constraintTop_toTopOf="@id/tvQuyen"
             app:layout_constraintBottom_toBottomOf="@id/tvQuyen"
             app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageButton
+            android:id="@+id/imbSaveAcc"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_save"
+            android:layout_gravity="right|center_vertical"
+            android:background="?android:selectableItemBackground"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"
+            app:layout_constraintTop_toTopOf="@id/tvQuyen"
+            app:layout_constraintBottom_toBottomOf="@id/tvQuyen"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/tvQuyen"

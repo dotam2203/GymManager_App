@@ -32,6 +32,9 @@ class LoginFragment : FragmentNext() {
     ): View? {
         binding = FragmentLoginBinding.inflate(layoutInflater)
         innitViewModels()
+//        binding.tvUserLogin.hint = SingletonAccount.taiKhoan?.maTK
+//        binding.txtUserLogin.setText(SingletonAccount.taiKhoan?.maTK)
+//        binding.txtPassLogin.setText(SingletonAccount.taiKhoan?.matKhau)
         return binding.root
     }
 
@@ -94,6 +97,32 @@ class LoginFragment : FragmentNext() {
             }
         }
         return false
+    }
+    fun getCheckAccLogin(): Boolean{
+        var user: String = SingletonAccount.taiKhoan?.maTK.toString()
+        var pass: String = SingletonAccount.taiKhoan?.matKhau.toString()
+        if(user.isEmpty() || pass.isEmpty()){
+            binding.apply {
+                pbLoad.visibility = View.GONE
+                txtUserLogin.isEnabled = true
+                txtPassLogin.isEnabled = true
+                return false
+            }
+        }
+        else{
+            binding.apply {
+                txtUserLogin.apply {
+                    isEnabled = false
+                    setText(user)
+                }
+                txtPassLogin.apply {
+                    isEnabled = false
+                    setText(pass)
+                }
+                pbLoad.visibility = View.VISIBLE
+                return false
+            }
+        }
     }
 
 }
