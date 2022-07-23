@@ -11,13 +11,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
 import com.gym.databinding.FragmentLoaigtBinding
 import com.gym.model.LoaiGtModel
 import com.gym.ui.adapter.LoaiGtAdapter
-import com.gym.ui.viewmodel.LoaiGtViewModel
 import com.gym.ui.viewmodel.ViewModel
 
 /**
@@ -42,27 +42,31 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //binding.pbLoad.visibility = View.VISIBLE
+        binding.imbAdd.setOnClickListener {
+            dialogInsert()
+        }
     }
 
     fun initViewModel() {
         //call api
         viewModel.getDSLoaiGT()
         //Livedata observer
-        viewModel.loaiGTs.observe(viewLifecycleOwner) {response ->
-            if (response == null) {
-                binding.pbLoad.visibility = View.VISIBLE
-                Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
-                return@observe
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiGTs.collect {response ->
+                if (response.isEmpty()) {
+                    binding.pbLoad.visibility = View.VISIBLE
+                    Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
+                    return@collect
+                }
+                else{
+                    initAdapter()
+                    loaiGtAdapter.loaiGTs = response
+                    loaiGTs.addAll(response)
+                    loaiGtAdapter.updateData(response)
+                    binding.pbLoad.visibility = View.GONE
+                }
             }
-            else{
-                initAdapter()
-                loaiGtAdapter.loaiGTs = response
-                loaiGTs = response as ArrayList<LoaiGtModel> /* = java.util.ArrayList<com.gym.model.LoaiGtModel> */
 
-                loaiGtAdapter.notifyDataSetChanged()
-                binding.pbLoad.visibility = View.GONE
-            }
         }
     }
 
@@ -72,10 +76,6 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
             rvLoaiGT.apply {
                 layoutManager = LinearLayoutManager(activity)
                 adapter = loaiGtAdapter
-            }
-            //loaiGtAdapter.updateData(loaiGTs)
-            imbAdd.setOnClickListener {
-                dialogInsert()
             }
         }
     }
@@ -160,7 +160,7 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
                 txtTrangThai.requestFocus()
             }
             //call api
-            viewModel.updateLoaiGT(LoaiGtModel(0, txtTenLoaiGT.text.toString(), txtTrangThai.text.toString()))
+            viewModel.updateLoaiGT(LoaiGtModel(loaiGt.idLoaiGT, txtTenLoaiGT.text.toString(), txtTrangThai.text.toString()))
             //Livedata observer
             getDataCoroutine("Update success","Update fail")
             initViewModel()
@@ -174,16 +174,17 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
 
     private fun getDataCoroutine(success: String, fail: String) {
         //Livedata observer
-        viewModel.loaiGTs.observe(viewLifecycleOwner) {response ->
-            if (response == null) {
-                Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
-                return@observe
-            }
-            else{
-                loaiGtAdapter.loaiGTs = response
-                initAdapter()
-                loaiGtAdapter.notifyDataSetChanged()
-                Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiGTs.collect {response ->
+                if (response.isEmpty()) {
+                    Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
+                    return@collect
+                }
+                else{
+                    loaiGtAdapter.loaiGTs = response
+                    loaiGtAdapter.updateData(response)
+                    Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

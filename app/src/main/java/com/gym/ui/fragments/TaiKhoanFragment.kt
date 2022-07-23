@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.gym.R
 import com.gym.databinding.FragmentTaikhoanBinding
@@ -36,7 +37,7 @@ class TaiKhoanFragment : FragmentNext() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             imbLogout.setOnClickListener {
-                //dialogLogout()
+                dialogLogout()
             }
             imbEditAcc.setOnClickListener {
                 txtPassAcc.isEnabled = true
@@ -53,22 +54,28 @@ class TaiKhoanFragment : FragmentNext() {
                 val maQuyen: String = SingletonAccount.taiKhoan?.maQuyen.toString()
                 val maNV: String = SingletonAccount.taiKhoan?.maNV.toString()
                 val user: String = SingletonAccount.taiKhoan?.maTK.toString()
-                viewModel.updateTaiKhoan(TaiKhoanModel(user,txtPassAcc.text.toString(),"Hoạt động",maQuyen,maNV))
-                viewModel.updateNhanVien(NhanVienModel(maNV,txtNameAcc.text.toString(),txtEmailAcc.text.toString(),txtPhoneAcc.text.toString(),"Nữ",txtAdressAcc.text.toString()))
-                viewModel.nhanVien.observe(viewLifecycleOwner){
-                    if(it != null){
-                        Toast.makeText(requireContext(), "update staff successful!", Toast.LENGTH_SHORT).show()
+
+                lifecycleScope.launchWhenCreated {
+                    viewModel.updateNhanVien(NhanVienModel(maNV,txtNameAcc.text.toString(),txtEmailAcc.text.toString(),txtPhoneAcc.text.toString(),"Nữ",txtAdressAcc.text.toString()))
+                    viewModel.nhanVien.collect{
+                        if(it != null){
+                            Toast.makeText(requireContext(), "update staff successful!", Toast.LENGTH_SHORT).show()
+                        }
+                        else
+                            Toast.makeText(requireContext(), "update staff failed!", Toast.LENGTH_SHORT).show()
                     }
-                    else
-                        Toast.makeText(requireContext(), "update staff failed!", Toast.LENGTH_SHORT).show()
                 }
-                viewModel.taiKhoan.observe(viewLifecycleOwner){
-                    if(it != null){
-                        Toast.makeText(requireContext(), "update acc successful!", Toast.LENGTH_SHORT).show()
-                        showDataUser()
+                lifecycleScope.launchWhenCreated {
+                    viewModel.updateTaiKhoan(TaiKhoanModel(user,txtPassAcc.text.toString(),"Hoạt động",maQuyen,maNV))
+                    viewModel.taiKhoan.collect{
+                        if(it != null){
+                            Toast.makeText(requireContext(), "update acc successful!", Toast.LENGTH_SHORT).show()
+                            SingletonAccount.taiKhoan = TaiKhoanModel(user,txtPassAcc.text.toString(),"Hoạt động",maQuyen,maNV)
+                            showDataUser()
+                        }
+                        else
+                            Toast.makeText(requireContext(), "update acc failed!", Toast.LENGTH_SHORT).show()
                     }
-                    else
-                        Toast.makeText(requireContext(), "update acc failed!", Toast.LENGTH_SHORT).show()
                 }
                 imbEditAcc.visibility = View.VISIBLE
                 imbSaveAcc.visibility = View.GONE
@@ -96,9 +103,10 @@ class TaiKhoanFragment : FragmentNext() {
         var btnYes: Button = dialog.findViewById(R.id.btnYes)
         var btnNo: Button = dialog.findViewById(R.id.btnNo)
         btnYes.setOnClickListener {
-            //getFragment(requireView(),R.id.navTaikhoanToLogin)
+            getFragment(requireView(),R.id.navHomeToLogin)
             //replaceFragment(R.id.fragmentLogin, LoginFragment())
-            activity!!.finish()
+            //activity!!.finish()
+            dialog.dismiss()
         }
         btnNo.setOnClickListener {
             dialog.dismiss()
@@ -107,40 +115,41 @@ class TaiKhoanFragment : FragmentNext() {
 
     fun showDataUser(){
         binding.apply {
-            viewModel.getQuyen(SingletonAccount.taiKhoan!!.maQuyen.toString())
-            viewModel.quyen.observe(viewLifecycleOwner){ response ->
-                tvQuyen.text = response!!.tenQuyen
-            }
-            viewModel.getNhanVien(SingletonAccount.taiKhoan!!.maNV.toString())
-            viewModel.nhanVien.observe(viewLifecycleOwner){ response ->
-                txtUserAcc.apply {
-                    setText(SingletonAccount.taiKhoan!!.maTK)
-                    isEnabled = false
-                }
-                txtPassAcc.apply {
-                    setText(SingletonAccount.taiKhoan!!.matKhau)
-                    isEnabled = false
-                }
-                txtNameAcc.apply {
-                    setText(response!!.hoTen)
-                    isEnabled = false
-                }
-                txtEmailAcc.apply {
-                    setText(response!!.email)
-                    isEnabled = false
-                }
-                txtPhoneAcc.apply {
-                    setText(response!!.sdt)
-                    isEnabled = false
-                }
-                txtAdressAcc.apply {
-                    setText(response!!.diaChi)
-                    isEnabled = false
+            viewModel.getQuyen(SingletonAccount.taiKhoan?.maQuyen.toString())
+            lifecycleScope.launchWhenCreated {
+                viewModel.quyen.collect{ response ->
+                        tvQuyen.text = response?.tenQuyen
                 }
             }
-
+            viewModel.getNhanVien(SingletonAccount.taiKhoan?.maNV.toString())
+            lifecycleScope.launchWhenCreated {
+                viewModel.nhanVien.collect{ response ->
+                    txtUserAcc.apply {
+                        setText(SingletonAccount.taiKhoan?.maTK)
+                        isEnabled = false
+                    }
+                    txtPassAcc.apply {
+                        setText(SingletonAccount.taiKhoan?.matKhau)
+                        isEnabled = false
+                    }
+                    txtNameAcc.apply {
+                        setText(response?.hoTen)
+                        isEnabled = false
+                    }
+                    txtEmailAcc.apply {
+                        setText(response?.email)
+                        isEnabled = false
+                    }
+                    txtPhoneAcc.apply {
+                        setText(response?.sdt)
+                        isEnabled = false
+                    }
+                    txtAdressAcc.apply {
+                        setText(response?.diaChi)
+                        isEnabled = false
+                    }
+                }
+            }
         }
-
     }
-
 }

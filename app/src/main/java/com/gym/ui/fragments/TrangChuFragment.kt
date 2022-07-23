@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -45,9 +46,10 @@ class TrangChuFragment : FragmentNext() {
     }
     fun getDataLogin(){
         viewModel.getNhanVien(SingletonAccount.taiKhoan!!.maNV.toString())
-        viewModel.nhanVien.observe(viewLifecycleOwner){ response ->
-            binding.tvUser.text = response!!.hoTen
+        lifecycleScope.launchWhenCreated {
+            viewModel.nhanVien.collect{ response ->
+                binding.tvUser.text = response?.hoTen
+            }
         }
-
     }
 }

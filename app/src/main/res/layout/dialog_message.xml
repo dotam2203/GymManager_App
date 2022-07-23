@@ -3,15 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/border_background"
-    android:layout_margin="28dp"
-    android:padding="5dp"
+    android:layout_margin="25dp"
+    android:padding="20dp"
     android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -30,7 +24,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="16dp">
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -41,7 +35,7 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginStart="10dp"
                 android:textSize="14sp"/>
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnYes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -53,6 +47,4 @@
                 android:text="Yes"
                 android:textSize="14sp"/>
         </LinearLayout>
-    </LinearLayout>
-
 </LinearLayout>

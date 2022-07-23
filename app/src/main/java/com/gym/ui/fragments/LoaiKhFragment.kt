@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
@@ -44,24 +45,30 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.pbLoad.visibility = View.VISIBLE
+        //loaiKhAdapter.updateData(loaiKHs)
+        binding.imbAdd.setOnClickListener {
+            dialogInsert()
+        }
     }
 
     fun initViewModel() {
         //call api
         viewModel.getDSLoaiKH()
         //Livedata observer
-        viewModel.loaiKHs.observe(viewLifecycleOwner) {response ->
-            if (response == null) {
-                binding.pbLoad.visibility = View.VISIBLE
-                Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
-                return@observe
-            }
-            else{
-                loaiKhAdapter.loaiKHs = response
-                loaiKHs = response as ArrayList<LoaiKhModel> /* = java.util.ArrayList<com.gym.model.LoaiKhModel> */
-                initAdapter()
-                loaiKhAdapter.notifyDataSetChanged()
-                binding.pbLoad.visibility = View.GONE
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiKHs.collect {response ->
+                if (response.isEmpty()) {
+                    binding.pbLoad.visibility = View.VISIBLE
+                    Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
+                    return@collect
+                }
+                else{
+                    loaiKhAdapter.loaiKHs = response
+                    loaiKHs.addAll(response)
+                    initAdapter()
+                    loaiKhAdapter.notifyDataSetChanged()
+                    binding.pbLoad.visibility = View.GONE
+                }
             }
         }
     }
@@ -72,10 +79,6 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
             rvLoaiKH.apply {
                 layoutManager = LinearLayoutManager(activity!!)
                 adapter = loaiKhAdapter
-            }
-            //loaiKhAdapter.updateData(loaiKHs)
-            imbAdd.setOnClickListener {
-                dialogInsert()
             }
         }
     }
@@ -163,7 +166,7 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
             }
             else {
                 //call api
-                viewModel.updateLoaiKH(LoaiKhModel(0, txtTenLoaiKH.text.toString()))
+                viewModel.updateLoaiKH(LoaiKhModel(loaiKh.idLoaiKH, txtTenLoaiKH.text.toString()))
                 if(txtTenLoaiKH.text.toString() != loaiKh.tenLoaiKH){
                     //Livedata observer
                     getDataCoroutine("Update success","Update fail")
@@ -179,16 +182,18 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
 
     private fun getDataCoroutine(success: String, fail: String) {
         //Livedata observer
-        viewModel.loaiKHs.observe(viewLifecycleOwner) {response ->
-            if (response == null) {
-                Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
-                return@observe
-            }
-            else{
-                loaiKhAdapter.loaiKHs = response
-                initAdapter()
-                loaiKhAdapter.notifyDataSetChanged()
-                Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiKHs.collect{response ->
+                if (response.isEmpty()) {
+                    Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
+                    return@collect
+                }
+                else{
+                    loaiKhAdapter.loaiKHs = response
+                    initAdapter()
+                    loaiKhAdapter.notifyDataSetChanged()
+                    Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

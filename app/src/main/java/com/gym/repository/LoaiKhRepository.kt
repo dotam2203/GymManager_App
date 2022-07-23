@@ -2,36 +2,37 @@ package com.gym.repository
 
 import com.gym.model.LoaiKhModel
 import com.gym.network.RetrofitInstance
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import retrofit2.Response
 
 /**
  * Author: tamdt35@fpt.com.vn
  * Date:  16/07/2022
  */
 class LoaiKhRepository {
-    suspend fun getDSLoaiKH(): List<LoaiKhModel>? {
+    fun getDSLoaiKH(): Flow<Response<List<LoaiKhModel>>> = flow {
         val request = RetrofitInstance.loadApiLoaiKH.getDSLoaiKH()
         if (request.isSuccessful)
-            return request.body()!!
-        return null
-    }
-    suspend fun getLoaiKH(idLoaiKH: Int): LoaiKhModel? {
+            emit(request)
+    }.flowOn(Main)
+    fun getLoaiKH(idLoaiKH: Int): Flow<Response<LoaiKhModel>> = flow{
         val request = RetrofitInstance.loadApiLoaiKH.getLoaiKH(idLoaiKH)
         if (request.isSuccessful)
-            return request.body()!!
-        return null
-    }
-    suspend fun insertLoaiKH(loaiKhModel: LoaiKhModel): LoaiKhModel?{
+            emit(request)
+    }.flowOn(Main)
+    fun insertLoaiKH(loaiKhModel: LoaiKhModel): Flow<Response<LoaiKhModel>> = flow{
         val request = RetrofitInstance.loadApiLoaiKH.insertLoaiKH(loaiKhModel)
         if (request.isSuccessful)
-            return request.body()!!
-        return null
-    }
-    suspend fun updateLoaiKH(loaiKhModel: LoaiKhModel): LoaiKhModel?{
+            emit(request)
+    }.flowOn(Main)
+    fun updateLoaiKH(loaiKhModel: LoaiKhModel): Flow<Response<LoaiKhModel>> = flow{
         val request = RetrofitInstance.loadApiLoaiKH.updateLoaiKH(loaiKhModel)
         if (request.isSuccessful)
-            return request.body()!!
-        return null
-    }
+            emit(request)
+    }.flowOn(Main)
     suspend fun deleteLoaiKH(idLoaiKH: Int){
         RetrofitInstance.loadApiLoaiKH.deleteLoaiKH(idLoaiKH)
     }

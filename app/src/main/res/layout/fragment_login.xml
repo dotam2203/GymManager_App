@@ -73,7 +73,7 @@
                     android:id="@+id/txtUserLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{taiKhoan.maTK}"
+                    android:text="dotam"
                     android:textSize="18sp"
                     android:textColor="@color/black"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -92,7 +92,7 @@
                     android:id="@+id/txtPassLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{taiKhoan.matKhau}"
+                    android:text="123"
                     android:inputType="textPassword"
                     android:textSize="18sp"
                     android:textColor="@color/black"/>

@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
 import com.gym.databinding.FragmentKhachhangBinding
@@ -43,18 +44,20 @@ class KhachHangFragment : Fragment() {
         //call api
         viewModel.getDSKhachHang()
         //Livedata observer
-        viewModel.khachHangs.observe(viewLifecycleOwner) {response ->
-            if (response == null) {
-                binding.pbLoad.visibility = View.VISIBLE
-                Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
-                return@observe
-            }
-            else{
-                khachHangAdapter.khachHangs = response
-                khachHangs = response as ArrayList<KhachHangModel> /* = java.util.ArrayList<com.gym.model.KhachHangModel> */
-                initAdapter()
-                khachHangAdapter.notifyDataSetChanged()
-                binding.pbLoad.visibility = View.GONE
+        lifecycleScope.launchWhenCreated {
+            viewModel.khachHangs.collect {response ->
+                if (response.isEmpty()) {
+                    binding.pbLoad.visibility = View.VISIBLE
+                    Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
+                    return@collect
+                }
+                else{
+                    khachHangAdapter.khachHangs = response
+                    khachHangs = response as ArrayList<KhachHangModel> /* = java.util.ArrayList<com.gym.model.KhachHangModel> */
+                    initAdapter()
+                    khachHangAdapter.notifyDataSetChanged()
+                    binding.pbLoad.visibility = View.GONE
+                }
             }
         }
     }

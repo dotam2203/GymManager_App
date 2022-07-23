@@ -1,7 +1,12 @@
 package com.gym.network
 
+import okhttp3.OkHttpClient
+import okhttp3.Protocol
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -11,7 +16,14 @@ object RetrofitInstance {
     val BASE_URL = "https://gym-manager-api.herokuapp.com/"
     fun getApiUrl(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_URL).client(OkHttpClient().newBuilder().also { client ->
+                val loggingInterceptor = HttpLoggingInterceptor()
+                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+                client.addNetworkInterceptor(loggingInterceptor)
+                client.connectTimeout(120, TimeUnit.SECONDS)
+                client.writeTimeout(120, TimeUnit.SECONDS)
+                client.protocols(Collections.singletonList(Protocol.HTTP_1_1))
+            }.build())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -36,6 +48,9 @@ object RetrofitInstance {
     }
     val loadApiTaiKhoan: TaiKhoanService by lazy {
         getApiUrl().create(TaiKhoanService::class.java)
+    }
+    val loadApiGiaGT: GiaGtService by lazy {
+        getApiUrl().create(GiaGtService::class.java)
     }
 
 }

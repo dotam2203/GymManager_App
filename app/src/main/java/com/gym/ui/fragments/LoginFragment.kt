@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.gym.R
 import com.gym.databinding.FragmentLoginBinding
@@ -63,13 +64,15 @@ class LoginFragment : FragmentNext() {
     fun innitViewModels(){
         viewModel.getDSTaiKhoan()
         //live data
-        viewModel.taiKhoans.observe(viewLifecycleOwner){response ->
-            if(response == null){
-                Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
-                return@observe
-            }
-            else{
-                dsTaiKhoan = response as ArrayList<TaiKhoanModel> /* = java.util.ArrayList<com.gym.model.TaiKhoanModel> */
+        lifecycleScope.launchWhenCreated {
+            viewModel.taiKhoans.collect{response ->
+                if(response.isEmpty()){
+                    Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
+                    return@collect
+                }
+                else{
+                    dsTaiKhoan.addAll(response)
+                }
             }
         }
     }

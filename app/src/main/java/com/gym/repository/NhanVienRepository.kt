@@ -2,36 +2,37 @@ package com.gym.repository
 
 import com.gym.model.NhanVienModel
 import com.gym.network.RetrofitInstance
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import retrofit2.Response
 
 /**
  * Author: tamdt35@fpt.com.vn
  * Date:  20/07/2022
  */
 class NhanVienRepository {
-    suspend fun getDSNhanVien(): List<NhanVienModel>? {
+    fun getDSNhanVien(): Flow<Response<List<NhanVienModel>>> = flow{
         val request = RetrofitInstance.loadApiNhanVien.getDSNhanVien()
         if (request.isSuccessful)
-            return request.body()!!
-        return null
-    }
-    suspend fun getNhanVien(maNV: String): NhanVienModel?{
+            emit(request)
+    }.flowOn(Main)
+    fun getNhanVien(maNV: String): Flow<Response<NhanVienModel>> = flow{
         val request = RetrofitInstance.loadApiNhanVien.getNhanVien(maNV)
         if(request.isSuccessful)
-            return request.body()!!
-        return null
-    }
-    suspend fun insertNhanVien(nhanVienModel: NhanVienModel): NhanVienModel?{
+            emit(request)
+    }.flowOn(Main)
+    fun insertNhanVien(nhanVienModel: NhanVienModel): Flow<Response<NhanVienModel>> = flow{
         val request = RetrofitInstance.loadApiNhanVien.insertNhanVien(nhanVienModel)
         if (request.isSuccessful)
-            return request.body()!!
-        return null
-    }
-    suspend fun updateNhanVien(nhanVienModel: NhanVienModel): NhanVienModel?{
+            emit(request)
+    }.flowOn(Main)
+    fun updateNhanVien(nhanVienModel: NhanVienModel): Flow<Response<NhanVienModel>> = flow{
         val request = RetrofitInstance.loadApiNhanVien.updateNhanVien(nhanVienModel)
         if (request.isSuccessful)
-            return request.body()!!
-        return null
-    }
+            emit(request)
+    }.flowOn(Main)
     suspend fun deleteNhanVien(maNV: String){
         RetrofitInstance.loadApiNhanVien.deleteNhanVien(maNV)
     }

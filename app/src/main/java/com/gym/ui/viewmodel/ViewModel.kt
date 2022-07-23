@@ -1,18 +1,22 @@
 package com.gym.ui.viewmodel
 
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gym.model.*
 import com.gym.repository.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 /**
  * Author: tamdt35@fpt.com.vn
  * Date:  07/07/2022
  */
-class ViewModel: ViewModel() {
+class ViewModel : ViewModel() {
     private val goiTapRepository = GoiTapRepository()
     private val khachHangRepository = KhachHangRepository()
     private val loaiKhRepository = LoaiKhRepository()
@@ -20,286 +24,500 @@ class ViewModel: ViewModel() {
     private val nhanVienRepository = NhanVienRepository()
     private val phanQuyenRepository = PhanQuyenRepository()
     private val taiKhoanRepository = TaiKhoanRepository()
+    private val giaRepository = GiaGtRepository()
     //------------------------------Gói tập---------------------------------
+    /*private val _uiNews = MutableStateFlow(T)
+    val uiNews: StateFlow<T> = _uiNews*/
+
     //Live data
-    private val _goiTaps = MutableLiveData<List<GoiTapModel>>()
-    private val _goiTap = MutableLiveData<GoiTapModel>()
-    val goiTaps: LiveData<List<GoiTapModel>?> = _goiTaps
-    val goiTap: LiveData<GoiTapModel?> = _goiTap
+    private val _goiTaps = MutableStateFlow(emptyList<GoiTapModel>())
+    val goiTaps: StateFlow<List<GoiTapModel>> = _goiTaps
+    private val _goiTap: MutableStateFlow<GoiTapModel?> = MutableStateFlow(null)
+    val goiTap: StateFlow<GoiTapModel?> = _goiTap
 
     fun getDSGoiTap() {
         viewModelScope.launch {
-            val response = goiTapRepository.getDSGoiTap()
-            _goiTaps.postValue(response)
+            goiTapRepository.getDSGoiTap().collect {
+                if(it.isSuccessful){
+                    _goiTaps.value = it.body()?: emptyList()
+                }
+            }
         }
     }
+
     fun getDSGoiTapTheoLoaiGT(idLoaiGT: Int) {
         viewModelScope.launch {
-            val response = goiTapRepository.getDSGoiTapTheoLoaiGT(idLoaiGT)
-            _goiTaps.postValue(response)
+            goiTapRepository.getDSGoiTapTheoLoaiGT(idLoaiGT).collect {
+                if(it.isSuccessful){
+                    _goiTaps.value = it.body()?: emptyList()
+                }
+            }
         }
     }
+
     fun getGoiTap(maGT: String) {
         viewModelScope.launch {
-            val response = goiTapRepository.getGoiTap(maGT)
-            _goiTap.postValue(response)
+            goiTapRepository.getGoiTap(maGT).collect {
+                if(it.isSuccessful){
+                    _goiTap.value = it.body()
+                }
+            }
         }
     }
-    fun insertGoiTap(GoiTapModel: GoiTapModel){
+
+    fun insertGoiTap(GoiTapModel: GoiTapModel) {
         viewModelScope.launch {
-            val response = goiTapRepository.insertGoiTap(GoiTapModel)
-            _goiTap.postValue(response)
+            goiTapRepository.insertGoiTap(GoiTapModel).collect {
+                if(it.isSuccessful){
+                    _goiTap.value = it.body()
+                }
+            }
         }
     }
-    fun updateGoiTap(GoiTapModel: GoiTapModel){
+
+    fun updateGoiTap(GoiTapModel: GoiTapModel) {
         viewModelScope.launch {
-            val response = goiTapRepository.updateGoiTap(GoiTapModel)
-            _goiTap.postValue(response)
-            //_goiTap.value = response
+            goiTapRepository.updateGoiTap(GoiTapModel).collect {
+                if(it.isSuccessful){
+                    _goiTap.value = it.body()
+                }
+            }
         }
     }
-    fun deleteGoiTap(maGT: String){
+
+    fun deleteGoiTap(maGT: String) {
         viewModelScope.launch {
             goiTapRepository.deleteGoiTap(maGT)
         }
     }
+
     //-------------------------------------------------------------------------
     //----------------------------------Khách hàng-----------------------------
     //Live data
-    private val _khachHangs = MutableLiveData<List<KhachHangModel>>()
-    private val _khachHang = MutableLiveData<KhachHangModel>()
-    val khachHangs: LiveData<List<KhachHangModel>?> = _khachHangs
-    val khachHang: LiveData<KhachHangModel?> = _khachHang
+    private val _khachHangs = MutableStateFlow(emptyList<KhachHangModel>())
+    val khachHangs: StateFlow<List<KhachHangModel>> = _khachHangs
+    private val _khachHang: MutableStateFlow<KhachHangModel?> = MutableStateFlow(null)
+    val khachHang: StateFlow<KhachHangModel?> = _khachHang
 
     fun getDSKhachHang() {
         viewModelScope.launch {
-            val response = khachHangRepository.getDSKhachHang()
-            _khachHangs.postValue(response)
+            khachHangRepository.getDSKhachHang().collect {
+                if(it.isSuccessful){
+                    _khachHangs.value = it.body()?: emptyList()
+                }
+            }
         }
     }
+
     fun getDSKhachHangTheoLoaiKH(idLoaiKH: Int) {
         viewModelScope.launch {
-            val response = khachHangRepository.getDSKhachHangTheoLoaiKH(idLoaiKH)
-            _khachHangs.postValue(response)
+            khachHangRepository.getDSKhachHangTheoLoaiKH(idLoaiKH).collect {
+                if(it.isSuccessful){
+                    _khachHangs.value = it.body()?: emptyList()
+                }
+            }
         }
     }
+
     fun getKhachHang(maKH: String) {
         viewModelScope.launch {
-            val response = khachHangRepository.getKhachHang(maKH)
-            _khachHang.postValue(response)
+            khachHangRepository.getKhachHang(maKH).collect {
+                if(it.isSuccessful){
+                    _khachHang.value = it.body()
+                }
+            }
         }
     }
-    fun insertKhachHang(KhachHangModel: KhachHangModel){
+
+    fun insertKhachHang(KhachHangModel: KhachHangModel) {
         viewModelScope.launch {
-            val response = khachHangRepository.insertKhachHang(KhachHangModel)
-            _khachHang.postValue(response)
+            khachHangRepository.insertKhachHang(KhachHangModel).collect {
+                if(it.isSuccessful){
+                    _khachHang.value = it.body()
+                }
+            }
         }
     }
-    fun updateKhachHang(KhachHangModel: KhachHangModel){
+
+    fun updateKhachHang(KhachHangModel: KhachHangModel) {
         viewModelScope.launch {
-            val response = khachHangRepository.updateKhachHang(KhachHangModel)
-            _khachHang.postValue(response)
-            //_khachHang.value = response
+            khachHangRepository.updateKhachHang(KhachHangModel).collect {
+                if(it.isSuccessful){
+                    _khachHang.value = it.body()
+                }
+            }
         }
     }
-    fun deleteKhachHang(maKH: String){
+
+    fun deleteKhachHang(maKH: String) {
         viewModelScope.launch {
             khachHangRepository.deleteKhachHang(maKH)
         }
     }
+
     //-------------------------------------------------------------------------
     //----------------------------------Loại khách hàng------------------------
-    //Live Data
-    private val _loaiKHs = MutableLiveData<List<LoaiKhModel>>()
-    private val _loaiKH = MutableLiveData<LoaiKhModel>()
-    val loaiKHs: LiveData<List<LoaiKhModel>?> = _loaiKHs
-    val loaiKH: LiveData<LoaiKhModel?> = _loaiKH
+    //Live data
+    private val _loaiKHs = MutableStateFlow(emptyList<LoaiKhModel>())
+    val loaiKHs: StateFlow<List<LoaiKhModel>> = _loaiKHs
+    private val _loaiKH: MutableStateFlow<LoaiKhModel?> = MutableStateFlow(null)
+    val loaiKH: StateFlow<LoaiKhModel?> = _loaiKH
 
-    fun getLoaiKH(idLoaiKH: Int){
+    fun getLoaiKH(idLoaiKH: Int) {
         viewModelScope.launch {
-            val response = loaiKhRepository.getLoaiKH(idLoaiKH)
-            _loaiKH.postValue(response)
+            loaiKhRepository.getLoaiKH(idLoaiKH).collect {
+                if(it.isSuccessful){
+                    _loaiKH.value = it.body()
+                }
+            }
         }
     }
+
     fun getDSLoaiKH() {
         viewModelScope.launch {
-            val response = loaiKhRepository.getDSLoaiKH()
-            _loaiKHs.postValue(response)
+            loaiKhRepository.getDSLoaiKH().collect {
+                if(it.isSuccessful){
+                    _loaiKHs.value = it.body()?: emptyList()
+                }
+            }
         }
     }
-    fun insertLoaiKH(loaiKhModel: LoaiKhModel){
+
+    fun insertLoaiKH(loaiKhModel: LoaiKhModel) {
         viewModelScope.launch {
-            val response = loaiKhRepository.insertLoaiKH(loaiKhModel)
-            _loaiKH.postValue(response)
+            loaiKhRepository.insertLoaiKH(loaiKhModel).collect {
+                if(it.isSuccessful){
+                    _loaiKH.value = it.body()
+                }
+            }
         }
     }
-    fun updateLoaiKH(loaiKhModel: LoaiKhModel){
+
+    fun updateLoaiKH(loaiKhModel: LoaiKhModel) {
         viewModelScope.launch {
-            val response = loaiKhRepository.updateLoaiKH(loaiKhModel)
-            _loaiKH.postValue(response)
+            loaiKhRepository.updateLoaiKH(loaiKhModel).collect {
+                if(it.isSuccessful){
+                    _loaiKH.value = it.body()
+                }
+            }
         }
     }
-    fun deleteLoaiKH(id: Int){
+
+    fun deleteLoaiKH(id: Int) {
         viewModelScope.launch {
             loaiKhRepository.deleteLoaiKH(id)
         }
     }
+
     //-------------------------------------------------------------------------
     //----------------------------------Loại Gói Tập-----------------------------
-    //Live Data
-    private val _loaiGTs = MutableLiveData<List<LoaiGtModel>>()
-    private val _loaiGT = MutableLiveData<LoaiGtModel>()
-    val loaiGTs: LiveData<List<LoaiGtModel>?> = _loaiGTs
-    val loaiGT: LiveData<LoaiGtModel?> = _loaiGT
+    //Live data
+    private val _loaiGTs = MutableStateFlow(emptyList<LoaiGtModel>())
+    val loaiGTs: StateFlow<List<LoaiGtModel>> = _loaiGTs
+    private val _loaiGT: MutableStateFlow<LoaiGtModel?> = MutableStateFlow(null)
+    val loaiGT: StateFlow<LoaiGtModel?> = _loaiGT
 
-    fun getLoaiGT(idLoaiGT: Int){
+    fun getLoaiGT(idLoaiGT: Int) {
         viewModelScope.launch {
-            val response = loaiGtRepository.getLoaiGT(idLoaiGT)
-            _loaiGT.postValue(response)
+            loaiGtRepository.getLoaiGT(idLoaiGT).collect {
+                if(it.isSuccessful){
+                    _loaiGT.value = it.body()
+                }
+            }
         }
     }
+
     fun getDSLoaiGT() {
         viewModelScope.launch {
-            val response = loaiGtRepository.getDSLoaiGT()
-            _loaiGTs.postValue(response)
+            loaiGtRepository.getDSLoaiGT().collect {
+                if(it.isSuccessful){
+                    _loaiGTs.value = it.body()?: emptyList()
+                }
+            }
         }
     }
-    fun insertLoaiGT(loaiGtModel: LoaiGtModel){
+
+    fun insertLoaiGT(loaiGtModel: LoaiGtModel) {
+        viewModelScope.launch(Dispatchers.Main) {
+            loaiGtRepository.insertLoaiGT(loaiGtModel).collect {
+                if(it.isSuccessful){
+                    _loaiGT.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun updateLoaiGT(loaiGtModel: LoaiGtModel) {
         viewModelScope.launch {
-            val response = loaiGtRepository.insertLoaiGT(loaiGtModel)
-            _loaiGT.postValue(response)
+            loaiGtRepository.updateLoaiGT(loaiGtModel).collect {
+                if(it.isSuccessful){
+                    _loaiGT.value = it.body()
+                }
+            }
         }
     }
-    fun updateLoaiGT(loaiGtModel: LoaiGtModel){
-        viewModelScope.launch {
-            val response = loaiGtRepository.updateLoaiGT(loaiGtModel)
-            _loaiGT.postValue(response)
-        }
-    }
-    fun deleteLoaiGT(id: Int){
+
+    fun deleteLoaiGT(id: Int) {
         viewModelScope.launch {
             loaiGtRepository.deleteLoaiGT(id)
         }
     }
+
     //-------------------------------------------------------------------------
     //----------------------------------Nhân viên-----------------------------
-    //Live Data
-    private val _nhanViens = MutableLiveData<List<NhanVienModel>>()
-    private val _nhanVien = MutableLiveData<NhanVienModel>()
-    val nhanViens: LiveData<List<NhanVienModel>?> = _nhanViens
-    val nhanVien: LiveData<NhanVienModel?> = _nhanVien
+    //Live data
+    private val _nhanViens = MutableStateFlow(emptyList<NhanVienModel>())
+    val nhanViens: StateFlow<List<NhanVienModel>> = _nhanViens
+    private val _nhanVien: MutableStateFlow<NhanVienModel?> = MutableStateFlow(null)
+    val nhanVien: StateFlow<NhanVienModel?> = _nhanVien
 
-    fun getNhanVien(maNV: String){
+    fun getNhanVien(maNV: String) {
         viewModelScope.launch {
-            val response = nhanVienRepository.getNhanVien(maNV)
-            _nhanVien.postValue(response)
+            nhanVienRepository.getNhanVien(maNV).collect {
+                if(it.isSuccessful){
+                    _nhanVien.value = it.body()
+                }
+            }
         }
     }
+
     fun getDSNhanVien() {
         viewModelScope.launch {
-            val response = nhanVienRepository.getDSNhanVien()
-            _nhanViens.postValue(response)
+            nhanVienRepository.getDSNhanVien().collect {
+                if(it.isSuccessful){
+                    _nhanViens.value = it.body()?: emptyList()
+                }
+            }
         }
     }
-    fun insertNhanVien(nhanVienModel: NhanVienModel){
+
+    fun insertNhanVien(nhanVienModel: NhanVienModel) {
         viewModelScope.launch {
-            val response = nhanVienRepository.insertNhanVien(nhanVienModel)
-            _nhanVien.postValue(response)
+            nhanVienRepository.insertNhanVien(nhanVienModel).collect {
+                if(it.isSuccessful){
+                    _nhanVien.value = it.body()
+                }
+            }
         }
     }
-    fun updateNhanVien(nhanVienModel: NhanVienModel){
+
+    fun updateNhanVien(nhanVienModel: NhanVienModel) {
         viewModelScope.launch {
-            val response = nhanVienRepository.updateNhanVien(nhanVienModel)
-            _nhanVien.postValue(response)
+            nhanVienRepository.updateNhanVien(nhanVienModel).collect {
+                if(it.isSuccessful){
+                    _nhanVien.value = it.body()
+                }
+            }
         }
     }
-    fun deleteNhanVien(maNV: String){
+
+    fun deleteNhanVien(maNV: String) {
         viewModelScope.launch {
             nhanVienRepository.deleteNhanVien(maNV)
         }
     }
+
     //-------------------------------------------------------------------------
     //----------------------------------Phân quyền-----------------------------
-    //Live Data
-    private val _quyens = MutableLiveData<List<PhanQuyenModel>>()
-    private val _quyen = MutableLiveData<PhanQuyenModel>()
-    val quyens: LiveData<List<PhanQuyenModel>?> = _quyens
-    val quyen: LiveData<PhanQuyenModel?> = _quyen
+    //Live data
+    private val _quyens = MutableStateFlow(emptyList<PhanQuyenModel>())
+    val quyens: StateFlow<List<PhanQuyenModel>> = _quyens
+    private val _quyen: MutableStateFlow<PhanQuyenModel?> = MutableStateFlow(null)
+    val quyen: StateFlow<PhanQuyenModel?> = _quyen
 
-    fun getQuyen(maQuyen: String){
+    fun getQuyen(maQuyen: String) {
         viewModelScope.launch {
-            val response = phanQuyenRepository.getQuyen(maQuyen)
-            _quyen.postValue(response)
+            phanQuyenRepository.getQuyen(maQuyen).collect {
+                if(it.isSuccessful){
+                    _quyen.value = it.body()
+                }
+            }
         }
     }
+
     fun getDSQuyen() {
         viewModelScope.launch {
-            val response = phanQuyenRepository.getDSQuyen()
-            _quyens.postValue(response)
+            phanQuyenRepository.getDSQuyen().collect {
+                if(it.isSuccessful){
+                    _quyens.value = it.body()?: emptyList()
+                }
+            }
         }
     }
-    fun insertQuyen(phanQuyenModel: PhanQuyenModel){
+
+    fun insertQuyen(phanQuyenModel: PhanQuyenModel) {
         viewModelScope.launch {
-            val response = phanQuyenRepository.insertQuyen(phanQuyenModel)
-            _quyen.postValue(response)
+            phanQuyenRepository.insertQuyen(phanQuyenModel).collect {
+                if(it.isSuccessful){
+                    _quyen.value = it.body()
+                }
+            }
         }
     }
-    fun updateQuyen(phanQuyenModel: PhanQuyenModel){
+
+    fun updateQuyen(phanQuyenModel: PhanQuyenModel) {
         viewModelScope.launch {
-            val response = phanQuyenRepository.updateQuyen(phanQuyenModel)
-            _quyen.postValue(response)
+            phanQuyenRepository.updateQuyen(phanQuyenModel).collect {
+                if(it.isSuccessful){
+                    _quyen.value = it.body()
+                }
+            }
         }
     }
-    fun deleteQuyen(maNV: String){
+
+    fun deleteQuyen(maNV: String) {
         viewModelScope.launch {
             phanQuyenRepository.deleteQuyen(maNV)
         }
     }
+
     //------------------------------------------------------------------------
     //------------------------------Tài khoản---------------------------------
     //Live data
-    private val _taiKhoans = MutableLiveData<List<TaiKhoanModel>>()
-    private val _taiKhoan = MutableLiveData<TaiKhoanModel>()
-    val taiKhoans: LiveData<List<TaiKhoanModel>?> = _taiKhoans
-    val taiKhoan: LiveData<TaiKhoanModel?> = _taiKhoan
+    private val _taiKhoans = MutableStateFlow(emptyList<TaiKhoanModel>())
+    val taiKhoans: StateFlow<List<TaiKhoanModel>> = _taiKhoans
+    private val _taiKhoan: MutableStateFlow<TaiKhoanModel?> = MutableStateFlow(null)
+    val taiKhoan: StateFlow<TaiKhoanModel?> = _taiKhoan
 
     fun getDSTaiKhoan() {
         viewModelScope.launch {
-            val response = taiKhoanRepository.getDSTaiKhoan()
-            _taiKhoans.postValue(response)
+            taiKhoanRepository.getDSTaiKhoan().collect {
+                if(it.isSuccessful)
+                    _taiKhoans.value = it.body()?: emptyList()
+            }
         }
     }
+
     fun getDSTaiKhoanTheoQuyen(maQuyen: String) {
         viewModelScope.launch {
-            val response = taiKhoanRepository.getDSTaiKhoanTheoQuyen(maQuyen)
-            _taiKhoans.postValue(response)
+            taiKhoanRepository.getDSTaiKhoanTheoQuyen(maQuyen).collect {
+                if(it.isSuccessful){
+                    _taiKhoans.value = it.body()?: emptyList()
+                }
+            }
         }
     }
+
+    fun getDSTaiKhoanTheoNhanVien(maNV: String) {
+        viewModelScope.launch {
+            taiKhoanRepository.getDSTaiKhoanTheoQuyen(maNV).collect {
+                if(it.isSuccessful){
+                    _taiKhoans.value = it.body()?: emptyList()
+                }
+            }
+        }
+    }
+
     fun getTaiKhoan(maTK: String) {
         viewModelScope.launch {
-            val response = taiKhoanRepository.getTaiKhoan(maTK)
-            _taiKhoan.postValue(response)
+            taiKhoanRepository.getTaiKhoan(maTK).collect {
+                if(it.isSuccessful){
+                    _taiKhoan.value = it.body()
+                }
+            }
         }
     }
-    fun insertTaiKhoan(TaiKhoanModel: TaiKhoanModel){
+
+    fun insertTaiKhoan(taiKhoanModel: TaiKhoanModel) {
         viewModelScope.launch {
-            val response = taiKhoanRepository.insertTaiKhoan(TaiKhoanModel)
-            _taiKhoan.postValue(response)
+            taiKhoanRepository.insertTaiKhoan(taiKhoanModel).collect {
+                if(it.isSuccessful){
+                    _taiKhoan.value = it.body()
+                }
+            }
         }
     }
-    fun updateTaiKhoan(TaiKhoanModel: TaiKhoanModel){
+
+    fun updateTaiKhoan(taiKhoanModel: TaiKhoanModel) {
         viewModelScope.launch {
-            val response = taiKhoanRepository.updateTaiKhoan(TaiKhoanModel)
-            _taiKhoan.postValue(response)
-            //_taiKhoan.value = response
+            taiKhoanRepository.updateTaiKhoan(taiKhoanModel).collect {
+                if(it.isSuccessful){
+                    _taiKhoan.value = it.body()
+                }
+            }
         }
     }
-    fun deleteTaiKhoan(maTK: String){
+
+    fun deleteTaiKhoan(maTK: String) {
         viewModelScope.launch {
             taiKhoanRepository.deleteTaiKhoan(maTK)
         }
     }
-    //==============================================PASS DATA===========================================
+    //------------------------------------------------------------------------
+    //------------------------------Giá Gói Tập---------------------------------
+    //Live data
+    private val _gias = MutableStateFlow(emptyList<GiaGtModel>())
+    val gias: StateFlow<List<GiaGtModel>> = _gias
+    private val _gia: MutableStateFlow<GiaGtModel?> = MutableStateFlow(null)
+    val gia: StateFlow<GiaGtModel?> = _gia
 
-    //==================================================================================================
+    fun getDSGia() {
+        viewModelScope.launch {
+            giaRepository.getDSGia().collect {
+                if(it.isSuccessful){
+                    _gias.value = it.body()?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSGiaTheoGoiTap(maGT: String) {
+        viewModelScope.launch {
+            giaRepository.getDSGiaTheoGoiTap(maGT).collect {
+                if(it.isSuccessful){
+                    _gias.value = it.body()?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSGiaTheoNhanVien(maNV: String) {
+        viewModelScope.launch {
+            giaRepository.getDSGiaTheoNhanVien(maNV).collect {
+                it.body()?.orEmpty()
+                if(it.isSuccessful){
+                    _gias.value = it.body()?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getGia(idGia: Int) {
+        viewModelScope.launch {
+            giaRepository.getGia(idGia).collect {
+                if(it.isSuccessful){
+                    _gia.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun insertGia(giaGtModel: GiaGtModel) {
+        viewModelScope.launch {
+            giaRepository.insertGia(giaGtModel).collect {
+                if(it.isSuccessful){
+                    _gia.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun updateGia(giaGtModel: GiaGtModel) {
+        viewModelScope.launch {
+            giaRepository.updateGia(giaGtModel).collect {
+                if(it.isSuccessful){
+                    _gia.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun deleteGia(idGia: Int) {
+        viewModelScope.launch {
+            giaRepository.deleteGia(idGia)
+        }
+    }
+//==============================================PASS DATA===========================================
+
+//==================================================================================================
 }
