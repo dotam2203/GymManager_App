@@ -16,25 +16,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleThe"
+        app:layout_constraintVertical_bias="0.03"
+        app:layout_constraintVertical_chainStyle="packed"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tvSearchKH"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Nhập số điện thoại..."
-        app:layout_constraintVertical_chainStyle="packed"
-        app:startIconDrawable="@drawable/ic_search"
-        android:background="@drawable/round_border20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitleThe"
+        android:hint="Số điện thoại"
+        app:boxBackgroundMode="outline"
+        app:endIconMode="clear_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnSearch"
-        app:layout_constraintVertical_bias="0.03">
-        <com.google.android.material.textfield.TextInputEditText
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleThe"
+        app:layout_constraintVertical_bias="0.03"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:startIconDrawable="@drawable/ic_search">
+        <AutoCompleteTextView
             android:id="@+id/txtSearchKH"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal"
+            android:background="@color/gray"/>
     </com.google.android.material.textfield.TextInputLayout>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSearch"

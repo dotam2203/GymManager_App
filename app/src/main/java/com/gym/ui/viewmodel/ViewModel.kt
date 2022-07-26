@@ -1,16 +1,14 @@
 package com.gym.ui.viewmodel
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gym.model.*
 import com.gym.repository.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.*
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -39,7 +37,7 @@ class ViewModel : ViewModel() {
         viewModelScope.launch {
             goiTapRepository.getDSGoiTap().collect {
                 if (it.isSuccessful) {
-                    _goiTaps.value = it.body()?: emptyList()
+                    _goiTaps.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -49,7 +47,7 @@ class ViewModel : ViewModel() {
         viewModelScope.launch {
             goiTapRepository.getDSGoiTapTheoLoaiGT(idLoaiGT).collect {
                 if (it.isSuccessful) {
-                    _goiTaps.value = it.body()?: emptyList()
+                    _goiTaps.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -463,6 +461,7 @@ class ViewModel : ViewModel() {
             }
         }
     }
+
     fun getDSGiaTheoGoiTap(maGT: String) {
         viewModelScope.launch {
             giaRepository.getDSGiaTheoGoiTap(maGT).collect {
@@ -521,5 +520,38 @@ class ViewModel : ViewModel() {
     }
 //==============================================PASS DATA===========================================
 
-//==================================================================================================
+    //==================================================================================================
+    fun replaceString(s: String): String {
+        var sToiUu = s
+        sToiUu = sToiUu.trim()
+        val arrWord = sToiUu.split(" ");
+        sToiUu = ""
+        for (word in arrWord) {
+            var newWord = word.lowercase(Locale.getDefault())
+            if (newWord.length > 0) {
+                newWord = newWord.replaceFirst((newWord[0] + ""), (newWord[0] + "").uppercase(Locale.getDefault()))
+                sToiUu += newWord + " "
+            }
+        }
+        return sToiUu.trim()
+    }
+
+    fun randomMaNV(s: String, ma: String): String {
+        val sRandom = replaceString(s)
+        var str = ""
+        val wordArr = sRandom.split(" ")
+        for (word in wordArr) {
+            if (word.length > 0) {
+                str += word[0].toString()
+            }
+        }
+        val str1: Int = ma.substring(2).toInt()
+        if (str1 < 10) {
+            str = str.plus("0")
+            str = str.plus(str1 + 1)
+        } else if (str1 >= 10) {
+            str = str.plus(str1 + 1)
+        }
+        return str.trim()
+    }
 }

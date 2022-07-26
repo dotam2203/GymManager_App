@@ -21,6 +21,7 @@ import com.gym.ui.adapter.GoiTapAdapter
 import com.gym.ui.viewmodel.ViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -180,7 +181,17 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
             }
         }
     }
-
+    fun getMaGTMax(goiTaps: ArrayList<GoiTapModel>): String{
+        var max: Int = goiTaps[0].maGT.substring(2).toInt()
+        var maMax = goiTaps[0].maGT
+        for(i in goiTaps.indices){
+            if(max <= goiTaps[i].maGT.substring(2).toInt()){
+                max = goiTaps[i].maGT.substring(2).toInt()
+                maMax = goiTaps[i].maGT
+            }
+        }
+        return maMax
+    }
 
     fun dialogInsert() {
         val dialog = Dialog(activity!!)
@@ -207,11 +218,13 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         val btnThem: Button = dialog.findViewById(R.id.btnThemGT)
         val btnHuy: Button = dialog.findViewById(R.id.btnHuyGT)
         //----------------------------spinner--------------------------
+        txtMaGT.visibility = View.GONE
         txtTrangThai.apply {
             setText("Hoạt động")
             isEnabled = false
         }
-        var spinner: AutoCompleteTextView = dialog.findViewById(R.id.spLoaiGT)
+        val randomMaGT: String = viewModel.randomMaNV("gói tập",getMaGTMax(goiTaps))
+        val spinner: AutoCompleteTextView = dialog.findViewById(R.id.spLoaiGT)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, tenLoaiGTs)
         var selectItem: String? = ""
         var idLoaiGT: Int = 0
@@ -228,7 +241,8 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         }
         btnThem.setOnClickListener {
             lifecycleScope.launchWhenCreated {
-                viewModel.insertGoiTapGia(GoiTapModel(txtMaGT.text.toString(), txtTenGT.text.toString(), txtMoTa.text.toString(), txtTrangThai.text.toString(), idLoaiGT), GiaGtModel(0,txtNgayAD.text.toString(),txtGiaGT.text.toString(),txtMaGT.text.toString(),maNV))
+                //txtMaGT.text.toString()
+                viewModel.insertGoiTapGia(GoiTapModel(randomMaGT, txtTenGT.text.toString(), txtMoTa.text.toString(), txtTrangThai.text.toString(), idLoaiGT), GiaGtModel(0,txtNgayAD.text.toString(),txtGiaGT.text.toString(),randomMaGT,maNV))
             }
         }
         //-------------------------------------------------------------
