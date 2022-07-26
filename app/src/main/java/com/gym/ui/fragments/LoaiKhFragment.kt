@@ -39,13 +39,12 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoaikhBinding.inflate(layoutInflater)
+        binding.pbLoad.visibility = View.VISIBLE
         initViewModel()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.pbLoad.visibility = View.VISIBLE
-        //loaiKhAdapter.updateData(loaiKHs)
         binding.imbAdd.setOnClickListener {
             dialogInsert()
         }
@@ -58,8 +57,8 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
         lifecycleScope.launchWhenCreated {
             viewModel.loaiKHs.collect {response ->
                 if (response.isEmpty()) {
-                    binding.pbLoad.visibility = View.VISIBLE
-                    Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
+                    binding.pbLoad.visibility = View.GONE
+                    Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
                     return@collect
                 }
                 else{

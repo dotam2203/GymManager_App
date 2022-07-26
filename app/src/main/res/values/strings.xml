@@ -8,4 +8,6 @@
     <string name="thongKe">Thống kê</string>
     <string name="taiKhoan">Tài khoản</string>
     <string name="hoaDon">Hóa đơn</string>
+
+    <string name="search">Tìm kiếm</string>
 </resources>

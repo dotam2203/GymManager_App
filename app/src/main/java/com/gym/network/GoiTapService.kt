@@ -25,5 +25,5 @@ interface GoiTapService {
     suspend fun updateGoiTap(@Body loaiGtModel: GoiTapModel): Response<GoiTapModel>
 
     @DELETE("goitap/{maGT}")
-    suspend fun deleteGoiTap(@Path("maGT") maGT: String)
+    suspend fun deleteGoiTap(@Path("maGT") maGT: String): Response<Any>
 }

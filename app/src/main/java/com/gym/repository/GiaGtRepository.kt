@@ -2,7 +2,7 @@ package com.gym.repository
 
 import com.gym.model.GiaGtModel
 import com.gym.network.RetrofitInstance
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -14,42 +14,42 @@ class GiaGtRepository {
         if(request.isSuccessful){
             emit(request)
         }
-    }.flowOn(Main)
+    }.flowOn(IO)
 
     fun getDSGiaTheoGoiTap(maGT: String): Flow<Response<List<GiaGtModel>>> = flow{
         val request = RetrofitInstance.loadApiGiaGT.getDSGiaTheoGoiTap(maGT)
         if(request.isSuccessful){
             emit(request)
         }
-    }.flowOn(Main)
+    }.flowOn(IO)
 
     fun getDSGiaTheoNhanVien(maNV: String): Flow<Response<List<GiaGtModel>>> = flow{
         val request = RetrofitInstance.loadApiGiaGT.getDSGiaTheoNhanVien(maNV)
         if(request.isSuccessful){
             emit(request)
         }
-    }.flowOn(Main)
+    }.flowOn(IO)
 
     fun getGia(idGia: Int): Flow<Response<GiaGtModel>> = flow{
         val request = RetrofitInstance.loadApiGiaGT.getGia(idGia)
         if(request.isSuccessful){
             emit(request)
         }
-    }.flowOn(Main)
+    }.flowOn(IO)
 
-    fun insertGia(goiTapModel: GiaGtModel): Flow<Response<GiaGtModel>> = flow{
-        val request = RetrofitInstance.loadApiGiaGT.insertGia(goiTapModel)
+    fun insertGia(giaModel: GiaGtModel): Flow<Response<GiaGtModel>> = flow{
+        val request = RetrofitInstance.loadApiGiaGT.insertGia(giaModel)
         if(request.isSuccessful){
             emit(request)
         }
-    }.flowOn(Main)
+    }.flowOn(IO)
 
-    fun updateGia(goiTapModel: GiaGtModel): Flow<Response<GiaGtModel>> = flow{
-        val request = RetrofitInstance.loadApiGiaGT.updateGia(goiTapModel)
+    fun updateGia(giaModel: GiaGtModel): Flow<Response<GiaGtModel>> = flow{
+        val request = RetrofitInstance.loadApiGiaGT.updateGia(giaModel)
         if(request.isSuccessful){
             emit(request)
         }
-    }.flowOn(Main)
+    }.flowOn(IO)
 
     suspend fun deleteGia(idGia: Int){
         RetrofitInstance.loadApiGiaGT.deleteGia(idGia)

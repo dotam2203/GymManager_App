@@ -2,7 +2,7 @@ package com.gym.repository
 
 import com.gym.model.LoaiKhModel
 import com.gym.network.RetrofitInstance
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -17,22 +17,22 @@ class LoaiKhRepository {
         val request = RetrofitInstance.loadApiLoaiKH.getDSLoaiKH()
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun getLoaiKH(idLoaiKH: Int): Flow<Response<LoaiKhModel>> = flow{
         val request = RetrofitInstance.loadApiLoaiKH.getLoaiKH(idLoaiKH)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun insertLoaiKH(loaiKhModel: LoaiKhModel): Flow<Response<LoaiKhModel>> = flow{
         val request = RetrofitInstance.loadApiLoaiKH.insertLoaiKH(loaiKhModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun updateLoaiKH(loaiKhModel: LoaiKhModel): Flow<Response<LoaiKhModel>> = flow{
         val request = RetrofitInstance.loadApiLoaiKH.updateLoaiKH(loaiKhModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     suspend fun deleteLoaiKH(idLoaiKH: Int){
         RetrofitInstance.loadApiLoaiKH.deleteLoaiKH(idLoaiKH)
     }

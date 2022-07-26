@@ -54,15 +54,15 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
         lifecycleScope.launchWhenCreated {
             viewModel.loaiGTs.collect {response ->
                 if (response.isEmpty()) {
-                    binding.pbLoad.visibility = View.VISIBLE
-                    Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
+                    binding.pbLoad.visibility = View.GONE
+                    Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
                     return@collect
                 }
                 else{
                     initAdapter()
                     loaiGtAdapter.loaiGTs = response
                     loaiGTs.addAll(response)
-                    loaiGtAdapter.updateData(response)
+                    loaiGtAdapter.notifyDataSetChanged()
                     binding.pbLoad.visibility = View.GONE
                 }
             }
@@ -99,13 +99,14 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
         val txtTrangThai: EditText = dialog.findViewById(R.id.txtTTLoaiGT)
         var btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
         var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
+        txtTrangThai.isEnabled = false
         btnThem.setOnClickListener {
             if(txtTenLoaiGT.text.trim().isEmpty()){
-                txtTenLoaiGT.error = "Vui lòng không để trống"
+                txtTenLoaiGT.error = "Vui lòng không để trống!"
                 txtTenLoaiGT.requestFocus()
             }
             else if(txtTrangThai.text.trim().isEmpty()){
-                txtTrangThai.error = "Vui lòng không để trống"
+                txtTrangThai.error = "Vui lòng không để trống!"
                 txtTrangThai.requestFocus()
             }
             else if(!txtTenLoaiGT.text.trim().isEmpty() || !txtTrangThai.text.trim().isEmpty()){
@@ -113,10 +114,10 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
                 viewModel.insertLoaiGT(LoaiGtModel(0, txtTenLoaiGT.text.toString(), txtTrangThai.text.toString()))
                 //Livedata observer
                 getDataCoroutine("Insert success", "Insert fail")
+                initViewModel()
                 txtTenLoaiGT.setText("")
                 txtTrangThai.setText("")
                 txtTenLoaiGT.requestFocus()
-                initViewModel()
                 Log.d("TAG", "size new: ${loaiGTs.size}")
             }
             dialog.show()
@@ -147,16 +148,17 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
         var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
         txtTenLoaiGT.setText(loaiGt.tenLoaiGT)
         txtTrangThai.setText(loaiGt.trangThai)
+        txtTrangThai.isEnabled = true
         btnThem.setText("Update")
         btnThem.setOnClickListener {
             val tenLoaiGT: String = txtTenLoaiGT.text.toString()
             val trangThai: String = txtTrangThai.text.toString()
             if(tenLoaiGT.equals("")){
-                txtTenLoaiGT.error = "Vui lòng không để trống"
+                txtTenLoaiGT.error = "Vui lòng không để trống!"
                 txtTenLoaiGT.requestFocus()
             }
             if(trangThai.equals("")){
-                txtTrangThai.error = "Vui lòng không để trống"
+                txtTrangThai.error = "Vui lòng không để trống!"
                 txtTrangThai.requestFocus()
             }
             //call api
@@ -182,7 +184,8 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
                 }
                 else{
                     loaiGtAdapter.loaiGTs = response
-                    loaiGtAdapter.updateData(response)
+                    initAdapter()
+                    loaiGtAdapter.notifyDataSetChanged()
                     Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
                 }
             }

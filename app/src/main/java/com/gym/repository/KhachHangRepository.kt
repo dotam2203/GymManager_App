@@ -2,7 +2,7 @@ package com.gym.repository
 
 import com.gym.model.KhachHangModel
 import com.gym.network.RetrofitInstance
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -17,28 +17,28 @@ class KhachHangRepository {
         val request = RetrofitInstance.loadApiKhachHang.getDSKhachHang()
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun getDSKhachHangTheoLoaiKH(idLoaiKH: Int): Flow<Response<List<KhachHangModel>>> = flow{
         val request = RetrofitInstance.loadApiKhachHang.getDSKhachHangTheoLoaiKH(idLoaiKH)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun getKhachHang(maGT: String): Flow<Response<KhachHangModel>> = flow{
         val request = RetrofitInstance.loadApiKhachHang.getKhachHang(maGT)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
 
     fun insertKhachHang(khachHangModel: KhachHangModel): Flow<Response<KhachHangModel>> = flow{
         val request = RetrofitInstance.loadApiKhachHang.insertKhachHang(khachHangModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun updateKhachHang(khachHangModel: KhachHangModel): Flow<Response<KhachHangModel>> = flow{
         val request = RetrofitInstance.loadApiKhachHang.updateKhachHang(khachHangModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     suspend fun deleteKhachHang(maGT: String){
         RetrofitInstance.loadApiKhachHang.deleteKhachHang(maGT)
     }

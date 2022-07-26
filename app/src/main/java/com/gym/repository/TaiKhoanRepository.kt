@@ -2,7 +2,7 @@ package com.gym.repository
 
 import com.gym.model.TaiKhoanModel
 import com.gym.network.RetrofitInstance
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -17,28 +17,28 @@ class TaiKhoanRepository {
         val request = RetrofitInstance.loadApiTaiKhoan.getDSTaiKhoan()
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun getDSTaiKhoanTheoQuyen(maQuyen: String): Flow<Response<List<TaiKhoanModel>>> = flow {
         val request = RetrofitInstance.loadApiTaiKhoan.getDSTaiKhoanTheoQuyen(maQuyen)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun getTaiKhoan(maTK: String): Flow<Response<TaiKhoanModel>> = flow {
         val request = RetrofitInstance.loadApiTaiKhoan.getTaiKhoan(maTK)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
 
     fun insertTaiKhoan(goiTapModel: TaiKhoanModel): Flow<Response<TaiKhoanModel>> = flow{
         val request = RetrofitInstance.loadApiTaiKhoan.insertTaiKhoan(goiTapModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun updateTaiKhoan(goiTapModel: TaiKhoanModel): Flow<Response<TaiKhoanModel>> = flow{
         val request = RetrofitInstance.loadApiTaiKhoan.updateTaiKhoan(goiTapModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     suspend fun deleteTaiKhoan(maTK: String){
         RetrofitInstance.loadApiTaiKhoan.deleteTaiKhoan(maTK)
     }

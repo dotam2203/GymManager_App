@@ -64,7 +64,9 @@
                 android:id="@+id/txtTTLoaiGT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:text="Hoạt động"
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton

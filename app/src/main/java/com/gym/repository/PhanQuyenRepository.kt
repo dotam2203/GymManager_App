@@ -2,7 +2,7 @@ package com.gym.repository
 
 import com.gym.model.PhanQuyenModel
 import com.gym.network.RetrofitInstance
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -17,22 +17,22 @@ class PhanQuyenRepository {
         val request = RetrofitInstance.loadApiPhanQuyen.getDSQuyen()
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun getQuyen(maQuyen: String): Flow<Response<PhanQuyenModel>> = flow {
         val request = RetrofitInstance.loadApiPhanQuyen.getQuyen(maQuyen)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun insertQuyen(loaiGtModel: PhanQuyenModel): Flow<Response<PhanQuyenModel>> = flow{
         val request = RetrofitInstance.loadApiPhanQuyen.insertQuyen(loaiGtModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun updateQuyen(loaiGtModel: PhanQuyenModel): Flow<Response<PhanQuyenModel>> = flow{
         val request = RetrofitInstance.loadApiPhanQuyen.updateQuyen(loaiGtModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     suspend fun deleteQuyen(maQuyen: String){
         RetrofitInstance.loadApiPhanQuyen.deleteQuyen(maQuyen)
     }

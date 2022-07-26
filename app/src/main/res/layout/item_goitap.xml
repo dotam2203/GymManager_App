@@ -30,7 +30,7 @@
             android:layout_marginStart="80dp"
             android:textColor="@color/black"
             android:textSize="22dp"
-            android:text="@{goiTap.tenGoiTap}"
+            android:text="@{goiTap.tenGT}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tvTTGoiTap"/>

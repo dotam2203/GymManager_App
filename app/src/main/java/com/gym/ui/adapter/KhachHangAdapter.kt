@@ -10,7 +10,7 @@ import com.gym.model.KhachHangModel
  * Author: tamdt35@fpt.com.vn
  * Date:  19/07/2022
  */
-class KhachHangAdapter : RecyclerView.Adapter<KhachHangAdapter.ViewHolder>() {
+class KhachHangAdapter(val _itemClick: OnItemClick) : RecyclerView.Adapter<KhachHangAdapter.ViewHolder>() {
     var khachHangs = listOf<KhachHangModel>()
     inner class ViewHolder(val binding: ItemKhachhangBinding): RecyclerView.ViewHolder(binding.root){
     }
@@ -24,6 +24,12 @@ class KhachHangAdapter : RecyclerView.Adapter<KhachHangAdapter.ViewHolder>() {
         with(holder){
             binding.apply {
                 khachHang = khachHangs[position]
+                imbEdit.setOnClickListener {
+                    _itemClick.itemClickEdit(khachHangs[position])
+                }
+                imbDelete.setOnClickListener {
+                    _itemClick.itemClickDelete(khachHangs[position].maKH)
+                }
             }
         }
     }
@@ -33,5 +39,9 @@ class KhachHangAdapter : RecyclerView.Adapter<KhachHangAdapter.ViewHolder>() {
     fun updateData(khachHangs: List<KhachHangModel>){
         this.khachHangs = khachHangs
         notifyDataSetChanged()
+    }
+    interface OnItemClick{
+        fun itemClickEdit(khachHangModel: KhachHangModel)
+        fun itemClickDelete(maKH: String)
     }
 }

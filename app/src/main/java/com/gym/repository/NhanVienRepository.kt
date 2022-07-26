@@ -2,7 +2,7 @@ package com.gym.repository
 
 import com.gym.model.NhanVienModel
 import com.gym.network.RetrofitInstance
-import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -17,22 +17,22 @@ class NhanVienRepository {
         val request = RetrofitInstance.loadApiNhanVien.getDSNhanVien()
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun getNhanVien(maNV: String): Flow<Response<NhanVienModel>> = flow{
         val request = RetrofitInstance.loadApiNhanVien.getNhanVien(maNV)
         if(request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun insertNhanVien(nhanVienModel: NhanVienModel): Flow<Response<NhanVienModel>> = flow{
         val request = RetrofitInstance.loadApiNhanVien.insertNhanVien(nhanVienModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     fun updateNhanVien(nhanVienModel: NhanVienModel): Flow<Response<NhanVienModel>> = flow{
         val request = RetrofitInstance.loadApiNhanVien.updateNhanVien(nhanVienModel)
         if (request.isSuccessful)
             emit(request)
-    }.flowOn(Main)
+    }.flowOn(IO)
     suspend fun deleteNhanVien(maNV: String){
         RetrofitInstance.loadApiNhanVien.deleteNhanVien(maNV)
     }

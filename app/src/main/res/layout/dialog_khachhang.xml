@@ -4,14 +4,8 @@
 
     <data>
         <variable
-            name="goiTap"
-            type="com.gym.model.GoiTapModel" />
-        <variable
-            name="loaiGT"
-            type="com.gym.model.LoaiGtModel" />
-        <variable
-            name="giaGT"
-            type="com.gym.model.GiaGtModel" />
+            name="khachHang"
+            type="com.gym.model.KhachHangModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,206 +17,198 @@
         android:background="@drawable/shape_border_20">
 
         <TextView
-            android:id="@+id/tvTitleGoiTap"
+            android:id="@+id/tvTitleKH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Gói Tập"
+            android:text="Khách Hàng"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tvSpLoaiGT"
+            app:layout_constraintBottom_toTopOf="@id/tvSpLoaiKH"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:id="@+id/tvSpLoaiGT"
+            android:id="@+id/tvSpLoaiKH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Loại gói tập"
+            android:hint="Loại khách hàng"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitleGoiTap">
+            app:layout_constraintTop_toBottomOf="@id/tvTitleKH">
 
             <AutoCompleteTextView
-                android:id="@+id/spLoaiGT"
+                android:id="@+id/spLoaiKH"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:inputType="none"
-                android:text="@{loaiGT.tenLoaiGT}"/>
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tvMaGT"
+            android:id="@+id/tvMaKH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Mã gói tập"
+            android:hint="Mã khách hàng"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSpLoaiGT"
+            app:layout_constraintTop_toBottomOf="@id/tvSpLoaiKH"
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtMaGT"
+                android:id="@+id/txtMaKH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="@{goiTap.maGT}"/>
+                android:gravity="center_vertical" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tvTenGT"
+            android:id="@+id/tvTenKH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Tên gói tập"
+            android:hint="Tên khách hàng"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvMaGT"
+            app:layout_constraintTop_toBottomOf="@id/tvMaKH"
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtTenGT"
+                android:id="@+id/txtTenKH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="@{goiTap.tenGT}" />
+                android:gravity="center_vertical" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tvTTGoiTap"
+            android:id="@+id/tvEmailKH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Trạng thái"
+            android:hint="Email"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTenGT"
+            app:layout_constraintTop_toBottomOf="@id/tvTenKH"
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtTTGoiTap"
+                android:id="@+id/txtEmailKH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Hoạt động"
-                android:textColor="@color/black" />
+                android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tvGiaGT"
+            android:id="@+id/tvSdtKH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Giá"
+            android:hint="Số điện thoại"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTTGoiTap"
+            app:layout_constraintTop_toBottomOf="@id/tvEmailKH"
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtGiaGT"
+                android:id="@+id/txtSdtKH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:inputType="numberDecimal"
-                android:text="@{giaGT.gia}"/>
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tvNgayAD"
+            android:id="@+id/tvPhaiKH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Ngày áp dụng"
+            android:hint="Phái"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvGiaGT"
+            app:layout_constraintTop_toBottomOf="@id/tvSdtKH"
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtNgayAD"
+                android:id="@+id/txtPhaiKH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:inputType="date"
-                android:text="@{giaGT.ngayApDung}"/>
+                android:gravity="center_vertical" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tvMoTaGT"
+            android:id="@+id/tvDiaChiKH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Mô tả"
+            android:hint="Địa chỉ"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNgayAD"
+            app:layout_constraintTop_toBottomOf="@id/tvPhaiKH"
             app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtMoTaGT"
+                android:id="@+id/txtDiaChiKH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="@{goiTap.moTa}"/>
+                android:gravity="center_vertical" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnThemGT"
+            android:id="@+id/btnThemKH"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@drawable/shape_login_button"
             android:text="Thêm"
-            app:layout_constraintTop_toBottomOf="@id/tvMoTaGT"
+            app:layout_constraintTop_toBottomOf="@id/tvDiaChiKH"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnHuyGT" />
+            app:layout_constraintStart_toEndOf="@id/btnHuyKH" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnHuyGT"
+            android:id="@+id/btnHuyKH"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@drawable/shape_login_button"
             android:text="Hủy"
-            app:layout_constraintTop_toBottomOf="@id/tvMoTaGT"
+            app:layout_constraintTop_toBottomOf="@id/tvDiaChiKH"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnThemGT"
+            app:layout_constraintEnd_toStartOf="@+id/btnThemKH"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

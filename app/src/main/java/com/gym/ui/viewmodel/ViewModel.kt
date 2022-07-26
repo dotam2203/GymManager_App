@@ -38,7 +38,7 @@ class ViewModel : ViewModel() {
     fun getDSGoiTap() {
         viewModelScope.launch {
             goiTapRepository.getDSGoiTap().collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _goiTaps.value = it.body()?: emptyList()
                 }
             }
@@ -48,7 +48,7 @@ class ViewModel : ViewModel() {
     fun getDSGoiTapTheoLoaiGT(idLoaiGT: Int) {
         viewModelScope.launch {
             goiTapRepository.getDSGoiTapTheoLoaiGT(idLoaiGT).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _goiTaps.value = it.body()?: emptyList()
                 }
             }
@@ -58,27 +58,29 @@ class ViewModel : ViewModel() {
     fun getGoiTap(maGT: String) {
         viewModelScope.launch {
             goiTapRepository.getGoiTap(maGT).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _goiTap.value = it.body()
                 }
             }
         }
     }
 
-    fun insertGoiTap(GoiTapModel: GoiTapModel) {
+    fun insertGoiTapGia(goiTapModel: GoiTapModel, giaGtModel: GiaGtModel) {
         viewModelScope.launch {
-            goiTapRepository.insertGoiTap(GoiTapModel).collect {
-                if(it.isSuccessful){
-                    _goiTap.value = it.body()
+            goiTapRepository.insertGoiTapGia(goiTapModel, giaGtModel).collect {
+                if (it.isSuccessful) {
+                    it.body()?.let {
+                        _goiTap.value = it
+                    }
                 }
             }
         }
     }
 
-    fun updateGoiTap(GoiTapModel: GoiTapModel) {
+    fun updateGoiTap(goiTapModel: GoiTapModel) {
         viewModelScope.launch {
-            goiTapRepository.updateGoiTap(GoiTapModel).collect {
-                if(it.isSuccessful){
+            goiTapRepository.updateGoiTap(goiTapModel).collect {
+                if (it.isSuccessful) {
                     _goiTap.value = it.body()
                 }
             }
@@ -102,8 +104,8 @@ class ViewModel : ViewModel() {
     fun getDSKhachHang() {
         viewModelScope.launch {
             khachHangRepository.getDSKhachHang().collect {
-                if(it.isSuccessful){
-                    _khachHangs.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _khachHangs.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -112,8 +114,8 @@ class ViewModel : ViewModel() {
     fun getDSKhachHangTheoLoaiKH(idLoaiKH: Int) {
         viewModelScope.launch {
             khachHangRepository.getDSKhachHangTheoLoaiKH(idLoaiKH).collect {
-                if(it.isSuccessful){
-                    _khachHangs.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _khachHangs.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -122,7 +124,7 @@ class ViewModel : ViewModel() {
     fun getKhachHang(maKH: String) {
         viewModelScope.launch {
             khachHangRepository.getKhachHang(maKH).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _khachHang.value = it.body()
                 }
             }
@@ -132,7 +134,7 @@ class ViewModel : ViewModel() {
     fun insertKhachHang(KhachHangModel: KhachHangModel) {
         viewModelScope.launch {
             khachHangRepository.insertKhachHang(KhachHangModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _khachHang.value = it.body()
                 }
             }
@@ -142,7 +144,7 @@ class ViewModel : ViewModel() {
     fun updateKhachHang(KhachHangModel: KhachHangModel) {
         viewModelScope.launch {
             khachHangRepository.updateKhachHang(KhachHangModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _khachHang.value = it.body()
                 }
             }
@@ -166,7 +168,7 @@ class ViewModel : ViewModel() {
     fun getLoaiKH(idLoaiKH: Int) {
         viewModelScope.launch {
             loaiKhRepository.getLoaiKH(idLoaiKH).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _loaiKH.value = it.body()
                 }
             }
@@ -176,8 +178,8 @@ class ViewModel : ViewModel() {
     fun getDSLoaiKH() {
         viewModelScope.launch {
             loaiKhRepository.getDSLoaiKH().collect {
-                if(it.isSuccessful){
-                    _loaiKHs.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _loaiKHs.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -186,7 +188,7 @@ class ViewModel : ViewModel() {
     fun insertLoaiKH(loaiKhModel: LoaiKhModel) {
         viewModelScope.launch {
             loaiKhRepository.insertLoaiKH(loaiKhModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _loaiKH.value = it.body()
                 }
             }
@@ -196,7 +198,7 @@ class ViewModel : ViewModel() {
     fun updateLoaiKH(loaiKhModel: LoaiKhModel) {
         viewModelScope.launch {
             loaiKhRepository.updateLoaiKH(loaiKhModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _loaiKH.value = it.body()
                 }
             }
@@ -220,7 +222,7 @@ class ViewModel : ViewModel() {
     fun getLoaiGT(idLoaiGT: Int) {
         viewModelScope.launch {
             loaiGtRepository.getLoaiGT(idLoaiGT).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _loaiGT.value = it.body()
                 }
             }
@@ -230,8 +232,8 @@ class ViewModel : ViewModel() {
     fun getDSLoaiGT() {
         viewModelScope.launch {
             loaiGtRepository.getDSLoaiGT().collect {
-                if(it.isSuccessful){
-                    _loaiGTs.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _loaiGTs.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -240,7 +242,7 @@ class ViewModel : ViewModel() {
     fun insertLoaiGT(loaiGtModel: LoaiGtModel) {
         viewModelScope.launch(Dispatchers.Main) {
             loaiGtRepository.insertLoaiGT(loaiGtModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _loaiGT.value = it.body()
                 }
             }
@@ -250,7 +252,7 @@ class ViewModel : ViewModel() {
     fun updateLoaiGT(loaiGtModel: LoaiGtModel) {
         viewModelScope.launch {
             loaiGtRepository.updateLoaiGT(loaiGtModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _loaiGT.value = it.body()
                 }
             }
@@ -274,7 +276,7 @@ class ViewModel : ViewModel() {
     fun getNhanVien(maNV: String) {
         viewModelScope.launch {
             nhanVienRepository.getNhanVien(maNV).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _nhanVien.value = it.body()
                 }
             }
@@ -284,8 +286,8 @@ class ViewModel : ViewModel() {
     fun getDSNhanVien() {
         viewModelScope.launch {
             nhanVienRepository.getDSNhanVien().collect {
-                if(it.isSuccessful){
-                    _nhanViens.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _nhanViens.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -294,7 +296,7 @@ class ViewModel : ViewModel() {
     fun insertNhanVien(nhanVienModel: NhanVienModel) {
         viewModelScope.launch {
             nhanVienRepository.insertNhanVien(nhanVienModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _nhanVien.value = it.body()
                 }
             }
@@ -304,7 +306,7 @@ class ViewModel : ViewModel() {
     fun updateNhanVien(nhanVienModel: NhanVienModel) {
         viewModelScope.launch {
             nhanVienRepository.updateNhanVien(nhanVienModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _nhanVien.value = it.body()
                 }
             }
@@ -328,7 +330,7 @@ class ViewModel : ViewModel() {
     fun getQuyen(maQuyen: String) {
         viewModelScope.launch {
             phanQuyenRepository.getQuyen(maQuyen).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _quyen.value = it.body()
                 }
             }
@@ -338,8 +340,8 @@ class ViewModel : ViewModel() {
     fun getDSQuyen() {
         viewModelScope.launch {
             phanQuyenRepository.getDSQuyen().collect {
-                if(it.isSuccessful){
-                    _quyens.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _quyens.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -348,7 +350,7 @@ class ViewModel : ViewModel() {
     fun insertQuyen(phanQuyenModel: PhanQuyenModel) {
         viewModelScope.launch {
             phanQuyenRepository.insertQuyen(phanQuyenModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _quyen.value = it.body()
                 }
             }
@@ -358,7 +360,7 @@ class ViewModel : ViewModel() {
     fun updateQuyen(phanQuyenModel: PhanQuyenModel) {
         viewModelScope.launch {
             phanQuyenRepository.updateQuyen(phanQuyenModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _quyen.value = it.body()
                 }
             }
@@ -382,8 +384,8 @@ class ViewModel : ViewModel() {
     fun getDSTaiKhoan() {
         viewModelScope.launch {
             taiKhoanRepository.getDSTaiKhoan().collect {
-                if(it.isSuccessful)
-                    _taiKhoans.value = it.body()?: emptyList()
+                if (it.isSuccessful)
+                    _taiKhoans.value = it.body() ?: emptyList()
             }
         }
     }
@@ -391,8 +393,8 @@ class ViewModel : ViewModel() {
     fun getDSTaiKhoanTheoQuyen(maQuyen: String) {
         viewModelScope.launch {
             taiKhoanRepository.getDSTaiKhoanTheoQuyen(maQuyen).collect {
-                if(it.isSuccessful){
-                    _taiKhoans.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _taiKhoans.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -401,8 +403,8 @@ class ViewModel : ViewModel() {
     fun getDSTaiKhoanTheoNhanVien(maNV: String) {
         viewModelScope.launch {
             taiKhoanRepository.getDSTaiKhoanTheoQuyen(maNV).collect {
-                if(it.isSuccessful){
-                    _taiKhoans.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _taiKhoans.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -411,7 +413,7 @@ class ViewModel : ViewModel() {
     fun getTaiKhoan(maTK: String) {
         viewModelScope.launch {
             taiKhoanRepository.getTaiKhoan(maTK).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _taiKhoan.value = it.body()
                 }
             }
@@ -421,7 +423,7 @@ class ViewModel : ViewModel() {
     fun insertTaiKhoan(taiKhoanModel: TaiKhoanModel) {
         viewModelScope.launch {
             taiKhoanRepository.insertTaiKhoan(taiKhoanModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _taiKhoan.value = it.body()
                 }
             }
@@ -431,7 +433,7 @@ class ViewModel : ViewModel() {
     fun updateTaiKhoan(taiKhoanModel: TaiKhoanModel) {
         viewModelScope.launch {
             taiKhoanRepository.updateTaiKhoan(taiKhoanModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _taiKhoan.value = it.body()
                 }
             }
@@ -443,6 +445,7 @@ class ViewModel : ViewModel() {
             taiKhoanRepository.deleteTaiKhoan(maTK)
         }
     }
+
     //------------------------------------------------------------------------
     //------------------------------Giá Gói Tập---------------------------------
     //Live data
@@ -454,18 +457,17 @@ class ViewModel : ViewModel() {
     fun getDSGia() {
         viewModelScope.launch {
             giaRepository.getDSGia().collect {
-                if(it.isSuccessful){
-                    _gias.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _gias.value = it.body() ?: emptyList()
                 }
             }
         }
     }
-
     fun getDSGiaTheoGoiTap(maGT: String) {
         viewModelScope.launch {
             giaRepository.getDSGiaTheoGoiTap(maGT).collect {
-                if(it.isSuccessful){
-                    _gias.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _gias.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -475,8 +477,8 @@ class ViewModel : ViewModel() {
         viewModelScope.launch {
             giaRepository.getDSGiaTheoNhanVien(maNV).collect {
                 it.body()?.orEmpty()
-                if(it.isSuccessful){
-                    _gias.value = it.body()?: emptyList()
+                if (it.isSuccessful) {
+                    _gias.value = it.body() ?: emptyList()
                 }
             }
         }
@@ -485,7 +487,7 @@ class ViewModel : ViewModel() {
     fun getGia(idGia: Int) {
         viewModelScope.launch {
             giaRepository.getGia(idGia).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _gia.value = it.body()
                 }
             }
@@ -495,7 +497,7 @@ class ViewModel : ViewModel() {
     fun insertGia(giaGtModel: GiaGtModel) {
         viewModelScope.launch {
             giaRepository.insertGia(giaGtModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _gia.value = it.body()
                 }
             }
@@ -505,7 +507,7 @@ class ViewModel : ViewModel() {
     fun updateGia(giaGtModel: GiaGtModel) {
         viewModelScope.launch {
             giaRepository.updateGia(giaGtModel).collect {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     _gia.value = it.body()
                 }
             }

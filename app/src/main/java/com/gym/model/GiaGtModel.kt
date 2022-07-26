@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @Parcelize
 data class GiaGtModel(
-    var idGia: Int?= 0,
-    var ngayAD: String?= "",
-    var gia: String?= "",
-    var maGT: String?= "",
-    var maNV: String?= ""
+    var idGia: Int= 0,
+    var ngayApDung: String= "",
+    var gia: String= "",
+    var maGT: String= "",
+    var maNV: String= ""
 ) : Parcelable
