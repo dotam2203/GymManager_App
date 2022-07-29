@@ -4,11 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.gym.databinding.FragmentDangkyBinding
 import com.gym.ui.FragmentNext
+import com.gym.ui.viewmodel.ViewModel
 
 class DangKyFragment : FragmentNext() {
     private lateinit var binding: FragmentDangkyBinding
+    val viewModel: ViewModel by lazy {
+        ViewModelProvider(this).get(ViewModel::class.java)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +44,5 @@ class DangKyFragment : FragmentNext() {
     }
 
     fun getTenGoiTap(){
-
     }
 }

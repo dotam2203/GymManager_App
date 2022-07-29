@@ -523,43 +523,5 @@ class ViewModel : ViewModel() {
 //==============================================PASS DATA===========================================
 
     //==================================================================================================
-    private fun replaceString(s: String): String {
-        var sToiUu = s
-        sToiUu = sToiUu.trim()
-        val arrWord = sToiUu.split(" ");
-        sToiUu = ""
-        for (word in arrWord) {
-            var newWord = word.lowercase(Locale.getDefault())
-            if (newWord.isNotEmpty()) {
-                newWord = newWord.replaceFirst((newWord[0] + ""), (newWord[0] + "").uppercase(Locale.getDefault()))
-                sToiUu += "$newWord "
-            }
-        }
-        return sToiUu.trim()
-    }
 
-    fun randomMaNV(s: String, ma: String): String {
-        val sRandom = replaceString(s)
-        var str = ""
-        val wordArr = sRandom.split(" ")
-        for (word in wordArr) {
-            if (word.isNotEmpty()) {
-                str += word[0].toString()
-            }
-        }
-        val str1: Int = ma.substring(2).toInt()
-        if (str1 < 10) {
-            str = str.plus("0")
-            str = str.plus(str1 + 1)
-        } else if (str1 >= 10) {
-            str = str.plus(str1 + 1)
-        }
-        return str.trim()
-    }
-    fun formatMoney(money: String): String{
-        val numberFormat = NumberFormat.getCurrencyInstance()
-        numberFormat.maximumFractionDigits = 0;
-        val convert = numberFormat.format(money.trim().toInt())
-        return convert.substring(1)
-    }
 }
