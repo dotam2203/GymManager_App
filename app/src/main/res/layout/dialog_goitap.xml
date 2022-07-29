@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -149,7 +150,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:inputType="numberDecimal"
-                android:text="@{giaGT.gia}"/>
+                android:text="@{giaGT.gia}"
+                android:digits="1234567890."/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -159,22 +161,40 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="Ngày áp dụng"
-            app:boxBackgroundColor="@color/white"
-            app:boxBackgroundMode="outline"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="@string/ngayAD"
+            app:layout_constraintEnd_toStartOf="@id/imbCalendar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGiaGT"
-            app:endIconMode="clear_text">
-
+            app:layout_constraintVertical_bias="0.02"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="@color/gray_200"
+            app:endIconMode="clear_text"
+            android:gravity="center_vertical">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtNgayAD"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:inputType="date"
-                android:text="@{giaGT.ngayApDung}"/>
+                android:enabled="false"
+                android:text="@{giaGT.ngayApDung}"
+                android:textColor="@color/black"
+                android:layout_gravity="center_vertical"
+                android:digits="1234567890/"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <ImageButton
+            android:id="@+id/imbCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_calendar"
+            app:layout_constraintTop_toTopOf="@id/tvNgayAD"
+            app:layout_constraintBottom_toBottomOf="@id/tvNgayAD"
+            app:layout_constraintEnd_toEndOf="@id/tvNgayAD"
+            app:layout_constraintStart_toStartOf="@id/tvNgayAD"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintHorizontal_bias="1"
+            android:background="?android:selectableItemBackground"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tvMoTaGT"

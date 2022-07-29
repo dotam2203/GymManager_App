@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 import java.util.*
 
 /**
@@ -475,7 +476,8 @@ class ViewModel : ViewModel() {
     fun getDSGiaTheoNhanVien(maNV: String) {
         viewModelScope.launch {
             giaRepository.getDSGiaTheoNhanVien(maNV).collect {
-                it.body()?.orEmpty()
+               // it.body()?.orEmpty()
+                it.body().orEmpty()
                 if (it.isSuccessful) {
                     _gias.value = it.body() ?: emptyList()
                 }
@@ -521,16 +523,16 @@ class ViewModel : ViewModel() {
 //==============================================PASS DATA===========================================
 
     //==================================================================================================
-    fun replaceString(s: String): String {
+    private fun replaceString(s: String): String {
         var sToiUu = s
         sToiUu = sToiUu.trim()
         val arrWord = sToiUu.split(" ");
         sToiUu = ""
         for (word in arrWord) {
             var newWord = word.lowercase(Locale.getDefault())
-            if (newWord.length > 0) {
+            if (newWord.isNotEmpty()) {
                 newWord = newWord.replaceFirst((newWord[0] + ""), (newWord[0] + "").uppercase(Locale.getDefault()))
-                sToiUu += newWord + " "
+                sToiUu += "$newWord "
             }
         }
         return sToiUu.trim()
@@ -541,7 +543,7 @@ class ViewModel : ViewModel() {
         var str = ""
         val wordArr = sRandom.split(" ")
         for (word in wordArr) {
-            if (word.length > 0) {
+            if (word.isNotEmpty()) {
                 str += word[0].toString()
             }
         }
@@ -553,5 +555,11 @@ class ViewModel : ViewModel() {
             str = str.plus(str1 + 1)
         }
         return str.trim()
+    }
+    fun formatMoney(money: String): String{
+        val numberFormat = NumberFormat.getCurrencyInstance()
+        numberFormat.maximumFractionDigits = 0;
+        val convert = numberFormat.format(money.trim().toInt())
+        return convert.substring(1)
     }
 }

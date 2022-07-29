@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
 import com.gym.databinding.FragmentLoaigtBinding
@@ -37,8 +36,19 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoaigtBinding.inflate(layoutInflater)
+        refreshData()
         initViewModel()
         return binding.root
+    }
+
+    private fun refreshData() {
+        binding.apply {
+            refresh.setOnRefreshListener {
+                initViewModel()
+                refresh.isRefreshing = false
+            }
+
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

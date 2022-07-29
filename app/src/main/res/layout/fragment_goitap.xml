@@ -16,15 +16,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <TextView
             android:id="@+id/tvTitleGT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center"
             android:text="Quản Lý Gói Tập"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:layout_gravity="center_vertical|center"
             app:layout_constraintBottom_toBottomOf="@+id/barDichVu"
             app:layout_constraintEnd_toEndOf="@id/barDichVu"
             app:layout_constraintStart_toStartOf="@id/barDichVu"
@@ -35,34 +36,46 @@
         android:id="@+id/barList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/refresh"
         app:layout_constraintTop_toBottomOf="@id/barDichVu"
-        app:layout_constraintBottom_toTopOf="@id/rvGoiTap">
+        app:layout_constraintStart_toStartOf="@id/barList"
+        app:layout_constraintEnd_toEndOf="@id/barList">
+
         <TextView
             android:id="@+id/tvTitleTenGT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/barList"
-            app:layout_constraintStart_toStartOf="@id/barList"
-            app:layout_constraintEnd_toEndOf="@id/barList"
-            app:layout_constraintTop_toTopOf="@id/barList"
+            android:layout_marginStart="60dp"
+            android:text="Danh sách gói tập"
             android:textColor="@color/black"
             android:textSize="22dp"
             android:textStyle="bold"
-            android:text="Danh sách gói tập"
-            android:layout_marginStart="60dp"/>
+            app:layout_constraintBottom_toBottomOf="@id/barList"
+            app:layout_constraintEnd_toEndOf="@id/barList"
+            app:layout_constraintStart_toStartOf="@id/barList"
+            app:layout_constraintTop_toTopOf="@id/barList" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvGoiTap"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="630dp"
-        android:layout_margin="10dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barList"
-        tools:listitem="@layout/item_goitap"/>
+        app:layout_constraintTop_toBottomOf="@id/barList">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvGoiTap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barList"
+            tools:listitem="@layout/item_goitap" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ImageButton
         android:id="@+id/imbAdd"
@@ -75,13 +88,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
     <ProgressBar
         android:id="@+id/pbLoad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

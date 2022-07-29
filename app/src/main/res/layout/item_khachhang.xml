@@ -11,7 +11,7 @@
             type="android.view.View.OnClickListener" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/itemClickDv"
+        android:id="@+id/itemClickKH"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:onClick="@{onItemClick}"

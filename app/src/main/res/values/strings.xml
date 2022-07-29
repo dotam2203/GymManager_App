@@ -10,4 +10,7 @@
     <string name="hoaDon">Hóa đơn</string>
 
     <string name="search">Tìm kiếm</string>
+    <string name="gia">Giá</string>
+    <string name="ngayBD">Ngày bắt đầu</string>
+    <string name="ngayAD">Ngày áp dụng</string>
 </resources>

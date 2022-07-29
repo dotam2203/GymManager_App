@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.*
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,10 +13,11 @@ import com.gym.R
 import com.gym.databinding.FragmentKhachhangBinding
 import com.gym.model.KhachHangModel
 import com.gym.model.LoaiKhModel
+import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.KhachHangAdapter
 import com.gym.ui.viewmodel.ViewModel
 
-class KhachHangFragment : Fragment(), KhachHangAdapter.OnItemClick {
+class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
     private lateinit var binding: FragmentKhachhangBinding
     var khachHangAdapter = KhachHangAdapter(this@KhachHangFragment)
     var khachHangs = ArrayList<KhachHangModel>()
@@ -32,6 +32,7 @@ class KhachHangFragment : Fragment(), KhachHangAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentKhachhangBinding.inflate(layoutInflater)
+        refreshData()
         initViewModel()
         getTenLoaiKH()
         return binding.root
@@ -45,6 +46,15 @@ class KhachHangFragment : Fragment(), KhachHangAdapter.OnItemClick {
             }
         }*/
     }
+    private fun refreshData() {
+        binding.apply {
+            refresh.setOnRefreshListener {
+                initViewModel()
+                refresh.isRefreshing = false
+            }
+
+        }
+    }
     fun initViewModel() {
         //call api
         viewModel.getDSKhachHang()
@@ -53,7 +63,7 @@ class KhachHangFragment : Fragment(), KhachHangAdapter.OnItemClick {
             viewModel.khachHangs.collect {response ->
                 if (response.isEmpty()) {
                     binding.pbLoad.visibility = View.GONE
-                    Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
                     return@collect
                 }
                 else{
@@ -71,7 +81,7 @@ class KhachHangFragment : Fragment(), KhachHangAdapter.OnItemClick {
         binding.apply {
             pbLoad.visibility = View.VISIBLE
             rvKhachHang.apply {
-                layoutManager = LinearLayoutManager(activity!!)
+                layoutManager = LinearLayoutManager(activity)
                 adapter = khachHangAdapter
             }
             //loaiGtAdapter.updateData(loaiGTs)
@@ -157,8 +167,8 @@ class KhachHangFragment : Fragment(), KhachHangAdapter.OnItemClick {
         var txtMaKH: EditText = dialog.findViewById(R.id.txtMaKH)
         var txtTenKH: EditText = dialog.findViewById(R.id.txtTenKH)
         var txtEmailKH: EditText = dialog.findViewById(R.id.txtEmailKH)
-        var txtSdtKH: EditText = dialog.findViewById(R.id.txtSdtKH)
-        var txtPhaiKH: EditText = dialog.findViewById(R.id.txtPhaiKH)
+        var txtSdtKH: EditText = dialog.findViewById(R.id.txtPhoneKH)
+        var txtPhaiKH: EditText = dialog.findViewById(R.id.spPhaiKH)
         var txtDiaChiKH: EditText = dialog.findViewById(R.id.txtDiaChiKH)
         var btnUpdate: Button = dialog.findViewById(R.id.btnThemKH)
         var btnHuy: Button = dialog.findViewById(R.id.btnHuyKH)
@@ -203,5 +213,19 @@ class KhachHangFragment : Fragment(), KhachHangAdapter.OnItemClick {
         viewModel.deleteKhachHang(maKH)
         initViewModel()
         return
+    }
+
+    override fun itemLongClick(khachHangModel: KhachHangModel) {
+        passDataKH(khachHangModel)
+    }
+
+    private fun passDataKH(khachHang: KhachHangModel) {
+        val bundle = Bundle()
+        bundle.putParcelable("infoKH",khachHang)
+        val fragment = TheTapFragment()
+        fragment.arguments = bundle
+        childFragmentManager?.beginTransaction()?.replace(R.id.nav_fragment,fragment)?.commit()
+        replaceFragment(R.id.nav_fragment,DangKyFragment())
+        //getFragment(view!!, R.id.navKhachHangToDangKy)
     }
 }

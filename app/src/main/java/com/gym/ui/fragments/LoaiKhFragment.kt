@@ -40,6 +40,7 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
     ): View? {
         binding = FragmentLoaikhBinding.inflate(layoutInflater)
         binding.pbLoad.visibility = View.VISIBLE
+        refreshData()
         initViewModel()
         return binding.root
     }
@@ -50,6 +51,15 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
         }
     }
 
+    private fun refreshData() {
+        binding.apply {
+            refresh.setOnRefreshListener {
+                initViewModel()
+                refresh.isRefreshing = false
+            }
+
+        }
+    }
     fun initViewModel() {
         //call api
         viewModel.getDSLoaiKH()

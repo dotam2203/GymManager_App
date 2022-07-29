@@ -6,26 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/gray_200"
     tools:context=".ui.fragments.TheTapFragment">
-    <TextView
-        android:id="@+id/tvTitleThe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Đăng kí"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <AutoCompleteTextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnSearch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitleThe"
-        app:layout_constraintVertical_bias="0.03"
-        app:layout_constraintVertical_chainStyle="packed"/>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tvSearchKH"
         android:layout_width="300dp"
@@ -36,16 +16,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnSearch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitleThe"
-        app:layout_constraintVertical_bias="0.03"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01"
         app:layout_constraintVertical_chainStyle="packed"
+        android:background="@color/white"
         app:startIconDrawable="@drawable/ic_search">
         <AutoCompleteTextView
             android:id="@+id/txtSearchKH"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="numberDecimal"
-            android:background="@color/gray"/>
+            android:background="@color/white"/>
     </com.google.android.material.textfield.TextInputLayout>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSearch"
@@ -66,4 +47,57 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?android:selectableItemBackground"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"/>
+    <TextView
+        android:id="@+id/tvKhachHang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btnSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"/>
+    <ImageButton
+        android:id="@+id/btnInfoKH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tvKhachHang"
+        app:layout_constraintBottom_toBottomOf="@id/tvKhachHang"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        android:src="@drawable/ic_info"
+        android:background="?android:selectableItemBackground"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"/>
+    <ImageButton
+        android:id="@+id/btnListKH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tvKhachHang"
+        app:layout_constraintBottom_toBottomOf="@id/tvKhachHang"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.96"
+        android:src="@drawable/ic_list"
+        android:background="?android:selectableItemBackground"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"/>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvKhachHang"
+        android:background="@color/gray_200"
+        app:tabTextColor="@color/black"/>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import com.gym.R
 import com.gym.databinding.FragmentLoginBinding
 import com.gym.model.TaiKhoanModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
 import com.gym.ui.viewmodel.ViewModel
-import kotlin.reflect.KParameter
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -33,9 +31,6 @@ class LoginFragment : FragmentNext() {
     ): View? {
         binding = FragmentLoginBinding.inflate(layoutInflater)
         innitViewModels()
-//        binding.tvUserLogin.hint = SingletonAccount.taiKhoan?.maTK
-//        binding.txtUserLogin.setText(SingletonAccount.taiKhoan?.maTK)
-//        binding.txtPassLogin.setText(SingletonAccount.taiKhoan?.matKhau)
         return binding.root
     }
 
@@ -66,12 +61,12 @@ class LoginFragment : FragmentNext() {
         //live data
         lifecycleScope.launchWhenCreated {
             viewModel.taiKhoans.collect{response ->
-                if(response.isEmpty()){
-                    Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
-                    return@collect
+                if(response.isNotEmpty()){
+                    dsTaiKhoan.addAll(response)
                 }
                 else{
-                    dsTaiKhoan.addAll(response)
+                    Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
+                    return@collect
                 }
             }
         }

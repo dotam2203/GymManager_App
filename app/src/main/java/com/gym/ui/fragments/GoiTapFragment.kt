@@ -1,5 +1,4 @@
 package com.gym.ui.fragments
-
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,18 +14,17 @@ import com.gym.databinding.FragmentGoitapBinding
 import com.gym.model.GiaGtModel
 import com.gym.model.GoiTapModel
 import com.gym.model.LoaiGtModel
+import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
 import com.gym.ui.adapter.GoiTapAdapter
 import com.gym.ui.viewmodel.ViewModel
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Author: tamdt35@fpt.com.vn
  * Date:  14/07/2022
  */
-class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
+class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     private lateinit var binding: FragmentGoitapBinding
     var goiTapAdapter = GoiTapAdapter(this@GoiTapFragment)
     var goiTaps = ArrayList<GoiTapModel>()
@@ -45,8 +42,7 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGoitapBinding.inflate(layoutInflater)
-        val currentDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
-        initAdapter()
+        refreshData()
         initViewModel()
         getTenLoaiGT()
         return binding.root
@@ -56,6 +52,15 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         super.onViewCreated(view, savedInstanceState)
         binding.imbAdd.setOnClickListener {
             dialogInsert()
+        }
+    }
+    private fun refreshData() {
+        binding.apply {
+            refresh.setOnRefreshListener {
+                initViewModel()
+                refresh.isRefreshing = false
+            }
+
         }
     }
 
@@ -104,15 +109,17 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         //Livedata observer
         lifecycleScope.launchWhenCreated {
             viewModel.goiTaps.collect { response ->
-                if (response.isEmpty()) {
-                    binding.pbLoad.visibility = View.GONE
-                    Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
-                    return@collect
-                } else {
+                if (response.isNotEmpty()) {
+                    initAdapter()
                     goiTapAdapter.goiTaps = response
                     goiTaps.addAll(response)
                     goiTapAdapter.notifyDataSetChanged()
                     binding.pbLoad.visibility = View.GONE
+
+                } else {
+                    binding.pbLoad.visibility = View.GONE
+                    //Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
+                    return@collect
                 }
             }
         }
@@ -120,7 +127,7 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
             viewModel.goiTap.collect { response ->
                 response ?: return@collect
                 goiTaps.add(response)
-                goiTapAdapter.goiTaps  = goiTaps
+                goiTapAdapter.goiTaps = goiTaps
                 goiTapAdapter.notifyDataSetChanged()
                 binding.pbLoad.visibility = View.GONE
             }
@@ -144,7 +151,7 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         binding.apply {
             pbLoad.visibility = View.VISIBLE
             rvGoiTap.apply {
-                layoutManager = LinearLayoutManager(activity!!)
+                layoutManager = LinearLayoutManager(activity)
                 adapter = goiTapAdapter
             }
         }
@@ -154,14 +161,13 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         //Livedata observer
         lifecycleScope.launchWhenCreated {
             viewModel.goiTaps.collect { response ->
-                if (response.isEmpty()) {
-                    Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
-                    return@collect
-                } else {
+                if (response.isNotEmpty()) {
                     goiTapAdapter.goiTaps = response
-
                     goiTapAdapter.notifyDataSetChanged()
                     Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
+                    return@collect
                 }
             }
         }
@@ -171,26 +177,29 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         //Livedata observer
         lifecycleScope.launchWhenCreated {
             viewModel.gias.collect { response ->
-                if (response.isEmpty()) {
-                    Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
-                    return@collect
-                } else {
+                if (response.isNotEmpty()) {
                     gias.addAll(response)
                     Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
+                    return@collect
                 }
             }
         }
     }
     fun getMaGTMax(goiTaps: ArrayList<GoiTapModel>): String{
-        var max: Int = goiTaps[0].maGT.substring(2).toInt()
-        var maMax = goiTaps[0].maGT
-        for(i in goiTaps.indices){
-            if(max <= goiTaps[i].maGT.substring(2).toInt()){
-                max = goiTaps[i].maGT.substring(2).toInt()
-                maMax = goiTaps[i].maGT
+        if(goiTaps.isNotEmpty()){
+            var max: Int = goiTaps[0].maGT.substring(2).toInt()
+            var maMax = goiTaps[0].maGT
+            for(i in goiTaps.indices){
+                if(max <= goiTaps[i].maGT.substring(2).toInt()){
+                    max = goiTaps[i].maGT.substring(2).toInt()
+                    maMax = goiTaps[i].maGT
+                }
             }
+            return maMax
         }
-        return maMax
+        return "GT00"
     }
 
     fun dialogInsert() {
@@ -217,12 +226,15 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         val txtMoTa: EditText = dialog.findViewById(R.id.txtMoTaGT)
         val btnThem: Button = dialog.findViewById(R.id.btnThemGT)
         val btnHuy: Button = dialog.findViewById(R.id.btnHuyGT)
+        val imbCalendar: ImageButton = dialog.findViewById(R.id.imbCalendar)
         //----------------------------spinner--------------------------
         txtMaGT.visibility = View.GONE
+        getControl(imbCalendar,txtNgayAD)
         txtTrangThai.apply {
             setText("Hoạt động")
             isEnabled = false
         }
+        Log.e("TAG", "GoiTaps size: ${goiTaps.size}", )
         val randomMaGT: String = viewModel.randomMaNV("gói tập",getMaGTMax(goiTaps))
         val spinner: AutoCompleteTextView = dialog.findViewById(R.id.spLoaiGT)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, tenLoaiGTs)
@@ -322,12 +334,13 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
             lifecycleScope.launchWhenCreated {
                 viewModel.updateGia(GiaGtModel(gia.idGia, txtNgayAD.text.toString(), txtGiaGT.text.toString(), txtMaGT.text.toString(), maNV))
                 viewModel.gias.collect {
-                    if (it.isEmpty()) {
-                        Log.d("TAGG", "GiaInsert: failed ${it.toString()}")
-                        return@collect
-                    } else {
+                    if (it.isNotEmpty()) {
                         gias.addAll(it)
                         Log.d("TAGG", "GiaInsert: successful ${it.toString()}")
+
+                    } else {
+                        Log.d("TAGG", "GiaInsert: failed ${it.toString()}")
+                        return@collect
                     }
                 }
             }
@@ -337,6 +350,23 @@ class GoiTapFragment : Fragment(), GoiTapAdapter.OnItemClick {
         btnHuy.setOnClickListener {
             dialog.dismiss()
         }
+    }
+    private fun getControl(imbCalendar: ImageButton,txtNgayAD: EditText) {
+            txtNgayAD.setText(getCurrentDate())
+            imbCalendar.setOnClickListener {
+                val datePickerFragment = DatePickerFragment()
+                val support = requireActivity().supportFragmentManager
+                //receive date
+                support.setFragmentResultListener("REQUEST_KEY", viewLifecycleOwner){
+                        resultKey, bundle ->
+                    if(resultKey == "REQUEST_KEY"){
+                        val date = bundle.getString("PASS_DATE")
+                        txtNgayAD.setText(date)
+                    }
+                }
+                //show dialog
+                datePickerFragment.show(support,"DatePickerFragment")
+            }
     }
 
     override fun itemClickEdit(goiTapModel: GoiTapModel) {

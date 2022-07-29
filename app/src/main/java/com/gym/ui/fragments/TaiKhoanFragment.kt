@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import com.gym.R
 import com.gym.databinding.FragmentTaikhoanBinding
 import com.gym.model.NhanVienModel
@@ -28,6 +27,7 @@ class TaiKhoanFragment : FragmentNext() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTaikhoanBinding.inflate(layoutInflater)
+        refreshData()
         showDataUser()
         binding.imbSaveAcc.visibility = View.GONE
         return binding.root
@@ -150,6 +150,15 @@ class TaiKhoanFragment : FragmentNext() {
                     }
                 }
             }
+        }
+    }
+    private fun refreshData() {
+        binding.apply {
+            refresh.setOnRefreshListener {
+                showDataUser()
+                refresh.isRefreshing = false
+            }
+
         }
     }
 }
