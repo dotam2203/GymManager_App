@@ -9,18 +9,18 @@ import retrofit2.http.*
  * Date:  07/07/2022
  */
 interface NhanVienService {
-    @GET("nhanvien")
+    @GET("nhanvien/get")
     suspend fun getDSNhanVien(): Response<List<NhanVienModel>>
 
-    @GET("nhanvien/nv")
+    @GET("nhanvien/getnv")
     suspend fun getNhanVien(@Query("maNV") maNV : String) : Response<NhanVienModel>
 
-    @POST("nhanvien")
+    @POST("nhanvien/post")
     suspend fun insertNhanVien(@Body nhanVienModel: NhanVienModel): Response<NhanVienModel>
 
-    @PUT("nhanvien")
+    @PUT("nhanvien/put")
     suspend fun updateNhanVien(@Body nhanVienModel: NhanVienModel): Response<NhanVienModel>
 
-    @DELETE("nhanvien/{maNV}")
+    @DELETE("nhanvien/delete/{maNV}")
     suspend fun deleteNhanVien(@Path("maNV") maNV: String)
 }

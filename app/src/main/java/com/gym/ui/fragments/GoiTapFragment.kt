@@ -42,8 +42,8 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGoitapBinding.inflate(layoutInflater)
-        refreshData()
         initViewModel()
+        //refreshData()
         getTenLoaiGT()
         return binding.root
     }
@@ -90,7 +90,19 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
 
     fun getTenLoaiGT() {
         viewModel.getDSLoaiGT()
-
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiGTs.collect { response ->
+                if (response.isEmpty()) {
+                    binding.pbLoad.visibility = View.GONE
+                    return@collect
+                } else {
+                    loaiGTs.addAll(response)
+                    for (i in response.indices) {
+                        tenLoaiGTs.add(loaiGTs[i].tenLoaiGT)
+                    }
+                }
+            }
+        }
     }
 
     fun checkIDGiaByMaGT(goiTap: GoiTapModel, gias: ArrayList<GiaGtModel>): Boolean {
@@ -118,7 +130,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
 
                 } else {
                     binding.pbLoad.visibility = View.GONE
-                    //Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
                     return@collect
                 }
             }
@@ -130,19 +142,6 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
                 goiTapAdapter.goiTaps = goiTaps
                 goiTapAdapter.notifyDataSetChanged()
                 binding.pbLoad.visibility = View.GONE
-            }
-        }
-        lifecycleScope.launchWhenCreated {
-            viewModel.loaiGTs.collect { response ->
-                if (response.isEmpty()) {
-                    binding.pbLoad.visibility = View.GONE
-                    return@collect
-                } else {
-                    loaiGTs.addAll(response)
-                    for (i in response.indices) {
-                        tenLoaiGTs.add(loaiGTs[i].tenLoaiGT)
-                    }
-                }
             }
         }
     }
@@ -254,7 +253,13 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         btnThem.setOnClickListener {
             lifecycleScope.launchWhenCreated {
                 //txtMaGT.text.toString()
-                viewModel.insertGoiTapGia(GoiTapModel(randomMaGT, txtTenGT.text.toString(), txtMoTa.text.toString(), txtTrangThai.text.toString(), idLoaiGT), GiaGtModel(0,txtNgayAD.text.toString(),txtGiaGT.text.toString(),randomMaGT,maNV))
+                val giaGt = GiaGtModel()
+                giaGt.ngayApDung = getFormatDateApi(txtNgayAD.text.toString())
+                giaGt.gia = txtGiaGT.text.toString()
+                giaGt.maGT = randomMaGT
+                giaGt.maNV = maNV
+                //GiaGtModel(0,txtNgayAD.text.toString(),txtGiaGT.text.toString(),randomMaGT,maNV)
+                viewModel.insertGoiTapGia(GoiTapModel(randomMaGT, txtTenGT.text.toString(), txtMoTa.text.toString(), txtTrangThai.text.toString(), idLoaiGT), giaGt)
             }
         }
         //-------------------------------------------------------------

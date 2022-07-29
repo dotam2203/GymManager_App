@@ -102,13 +102,39 @@
         app:layout_constraintEnd_toStartOf="@id/imbCalendar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvGia"
-        app:layout_constraintVertical_bias="0.02"
+        app:layout_constraintVertical_bias="0.04"
         app:boxBackgroundMode="outline"
         app:boxBackgroundColor="@color/gray_200"
         app:endIconMode="clear_text"
         android:gravity="center_vertical">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtNgayBD"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:inputType="none"
+            android:enabled="false"
+            android:textColor="@color/black"
+            android:layout_gravity="center_vertical"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tvNgayKT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/ngayKT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imbCalendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNgayBD"
+        app:layout_constraintVertical_bias="0.05"
+        app:boxBackgroundMode="outline"
+        app:boxBackgroundColor="@color/gray_200"
+        app:endIconMode="clear_text"
+        android:gravity="center_vertical">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtNgayKT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -130,5 +156,14 @@
         app:layout_constraintHorizontal_bias="1"
         android:background="?android:selectableItemBackground"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"/>
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        android:text="@string/dangKy"
+        android:background="@drawable/shape_login_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

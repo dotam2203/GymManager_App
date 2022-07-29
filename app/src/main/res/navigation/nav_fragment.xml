@@ -130,16 +130,16 @@
         android:id="@+id/fragmentNguoiDung"
         android:name="com.gym.ui.fragments.NguoiDungFragment"
         android:label="tab_layout_nguoidung"
-        tools:layout="@layout/tab_layout_nguoidung" />
+        tools:layout="@layout/tab_layout_nguoidung" >
+        <action
+            android:id="@+id/navNguoiDungToThetap"
+            app:destination="@id/fragmentThetap" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentKhachHang"
         android:name="com.gym.ui.fragments.KhachHangFragment"
         android:label="fragment_khachhang"
-        tools:layout="@layout/fragment_khachhang" >
-        <action
-            android:id="@+id/navKhachHangToDangKy"
-            app:destination="@id/fragmentDangKy" />
-    </fragment>
+        tools:layout="@layout/fragment_khachhang" />
     <fragment
         android:id="@+id/fragmentLoaiKH"
         android:name="com.gym.ui.fragments.LoaiKhFragment"

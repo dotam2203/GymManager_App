@@ -9,21 +9,21 @@ import retrofit2.http.*
  * Date:  07/07/2022
  */
 interface GoiTapService {
-    @GET("goitap")
+    @GET("goitap/get")
     suspend fun getDSGoiTap(): Response<List<GoiTapModel>>
 
-    @GET("goitap/dsgt")
+    @GET("goitap/getds")
     suspend fun getDSGoiTapTheoLoaiGT(@Query("idLoaiGT") idLoaiGT: Int): Response<List<GoiTapModel>>
 
-    @GET("goitap/gt")
+    @GET("goitap/getgt")
     suspend fun getGoiTap(@Query("maGT") maGT : String) : Response<GoiTapModel>
 
-    @POST("goitap")
+    @POST("goitap/post")
     suspend fun insertGoiTap(@Body loaiGtModel: GoiTapModel): Response<GoiTapModel>
 
-    @PUT("goitap")
+    @PUT("goitap/put")
     suspend fun updateGoiTap(@Body loaiGtModel: GoiTapModel): Response<GoiTapModel>
 
-    @DELETE("goitap/{maGT}")
+    @DELETE("goitap/delete/{maGT}")
     suspend fun deleteGoiTap(@Path("maGT") maGT: String): Response<Any>
 }

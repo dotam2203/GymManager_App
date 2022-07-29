@@ -37,4 +37,8 @@ class DangKyFragment : FragmentNext() {
             }
         }
     }
+
+    fun getTenGoiTap(){
+
+    }
 }

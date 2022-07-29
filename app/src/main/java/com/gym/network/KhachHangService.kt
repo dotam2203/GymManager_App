@@ -9,22 +9,22 @@ import retrofit2.http.*
  * Date:  10/07/2022
  */
 interface KhachHangService {
-    @GET("khachhang")
+    @GET("khachhang/get")
     suspend fun getDSKhachHang(): Response<List<KhachHangModel>>
 
-    @GET("khachhang/dskh")
+    @GET("khachhang/getds")
     suspend fun getDSKhachHangTheoLoaiKH(@Query("idLoaiKH") idLoaiKH: Int): Response<List<KhachHangModel>>
 
-    @GET("khachhang/kh")
+    @GET("khachhang/getkh")
     suspend fun getKhachHang(@Query("maKH") maKH: String): Response<KhachHangModel>
 
-    @POST("khachhang")
+    @POST("khachhang/post")
     suspend fun insertKhachHang(@Body loaiGtModel: KhachHangModel): Response<KhachHangModel>
 
-    @PUT("khachhang")
+    @PUT("khachhang/put")
     suspend fun updateKhachHang(@Body loaiGtModel: KhachHangModel): Response<KhachHangModel>
 
-    @DELETE("khachhang/{maKH}")
+    @DELETE("khachhang/delete/{maKH}")
     suspend fun deleteKhachHang(@Path("maKH") maKH: String)
 
 

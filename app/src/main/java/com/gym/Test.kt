@@ -55,5 +55,15 @@ fun main() {
     val convert = numberFormat.format(str.toInt())
 
     println(convert.substring(1))*/
-    println("date: ${currentDate()}")
+    //println("date: ${currentDate()}")
+    val date = "02/03/2022"
+    val d: List<Any> = date.split("/")
+    var year: String? = ""
+    var month: String? = ""
+    var day: String? = ""
+    day = d[0].toString().trim()
+    month = d[1].toString().trim()
+    year = d[2].toString().trim()
+    val dateFormat = "$year/$month/$day"
+    println("date format: $dateFormat")
 }

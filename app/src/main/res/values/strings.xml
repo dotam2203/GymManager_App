@@ -12,5 +12,7 @@
     <string name="search">Tìm kiếm</string>
     <string name="gia">Giá</string>
     <string name="ngayBD">Ngày bắt đầu</string>
+    <string name="ngayKT">Ngày kết thúc</string>
     <string name="ngayAD">Ngày áp dụng</string>
+    <string name="dangKy">Đăng ký</string>
 </resources>

@@ -9,18 +9,18 @@ import retrofit2.http.*
  * Date:  20/07/2022
  */
 interface PhanQuyenService {
-    @GET("quyen")
+    @GET("quyen/get")
     suspend fun getDSQuyen(): Response<List<PhanQuyenModel>>
 
-    @GET("quyen/loaiquyen")
+    @GET("quyen/getquyen")
     suspend fun getQuyen(@Query("maQuyen") maQuyen: String): Response<PhanQuyenModel>
 
-    @POST("quyen")
+    @POST("quyen/post")
     suspend fun insertQuyen(@Body quyenModel: PhanQuyenModel): Response<PhanQuyenModel>
 
-    @PUT("quyen")
+    @PUT("quyen/put")
     suspend fun updateQuyen(@Body quyenModel: PhanQuyenModel): Response<PhanQuyenModel>
 
-    @DELETE("quyen/{maQuyen}")
+    @DELETE("quyen/delete/{maQuyen}")
     suspend fun deleteQuyen(@Path("maQuyen") maQuyen: String)
 }

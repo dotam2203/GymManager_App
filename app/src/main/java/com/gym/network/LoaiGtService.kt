@@ -10,18 +10,18 @@ import retrofit2.http.*
  * Date:  07/07/2022
  */
 interface LoaiGtService {
-    @GET("loaigt")
+    @GET("loaigt/get")
     suspend fun getDSLoaiGT(): Response<List<LoaiGtModel>>
 
-    @GET("loaigt/lgt")
+    @GET("loaigt/getlgt")
     suspend fun getLoaiGT(@Query("idLoaiGT") idLoaiGT: Int): Response<LoaiGtModel>
 
-    @POST("loaigt")
+    @POST("loaigt/post")
     suspend fun insertLoaiGT(@Body loaiGtModel: LoaiGtModel): Response<LoaiGtModel>
 
-    @PUT("loaigt")
+    @PUT("loaigt/put")
     suspend fun updateLoaiGT(@Body loaiGtModel: LoaiGtModel): Response<LoaiGtModel>
 
-    @DELETE("loaigt/{idLoaiGT}")
+    @DELETE("loaigt/delete/{idLoaiGT}")
     suspend fun deleteLoaiGT(@Path("idLoaiGT") idLoaiGT: Int)
 }

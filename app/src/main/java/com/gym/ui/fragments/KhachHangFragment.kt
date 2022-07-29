@@ -224,8 +224,8 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         bundle.putParcelable("infoKH",khachHang)
         val fragment = TheTapFragment()
         fragment.arguments = bundle
-        childFragmentManager?.beginTransaction()?.replace(R.id.nav_fragment,fragment)?.commit()
-        replaceFragment(R.id.nav_fragment,DangKyFragment())
+        childFragmentManager.beginTransaction().replace(R.id.nav_fragment,fragment).commit()
+        replaceFragment(R.id.nav_fragment,fragment)
         //getFragment(view!!, R.id.navKhachHangToDangKy)
     }
 }
