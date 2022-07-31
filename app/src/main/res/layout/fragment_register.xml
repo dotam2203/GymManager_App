@@ -124,7 +124,7 @@
         android:text="Sign Up"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:background="@drawable/shape_login_button"
+        android:background="@drawable/click_change"
         app:layout_constraintBottom_toBottomOf="@id/llLogin"
         app:layout_constraintEnd_toEndOf="@id/llLogin"
         app:layout_constraintStart_toStartOf="@id/llLogin"

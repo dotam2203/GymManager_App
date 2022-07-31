@@ -19,9 +19,9 @@ import com.gym.ui.viewmodel.ViewModel
 
 class TaiKhoanFragment : FragmentNext() {
     private lateinit var binding: FragmentTaikhoanBinding
-    val viewModel: ViewModel by lazy{
+    /*val viewModel: ViewModel by lazy{
         ViewModelProvider(this).get(ViewModel::class.java)
-    }
+    }*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

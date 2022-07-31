@@ -34,9 +34,6 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     var tenLoaiGTs = ArrayList<String>()
     var loaiGT = LoaiGtModel()
     var gia = GiaGtModel()
-    val viewModel: ViewModel by lazy {
-        ViewModelProvider(this).get(ViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,13 +41,13 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     ): View? {
         binding = FragmentGoitapBinding.inflate(layoutInflater)
         initViewModel()
-        //refreshData()
         getTenLoaiGT()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        refreshData()
         binding.imbAdd.setOnClickListener {
             dialogInsert()
         }
@@ -268,19 +265,21 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
                         spinner.setText("")
                         selectItem = ""
                         spinner.requestFocus()
+                        break
                     }
-                    else if(selectItem != ""){//GiaGtModel(0,txtNgayAD.text.toString(),txtGiaGT.text.toString(),randomMaGT,maNV)
-                        viewModel.insertGoiTapGia(GoiTapModel(randomMaGT, replaceString(txtTenGT.text.toString()), txtMoTa.text.toString(), txtTrangThai.text.toString(), idLoaiGT), giaGt)
-                        Toast.makeText(activity, "Thêm thành công!", Toast.LENGTH_SHORT).show()
-                        Log.e("ERROR", "Thêm thành công!", )
-                        spinner.setText("")
-                        txtMaGT.setText("")
-                        txtTenGT.setText("")
-                        txtGiaGT.setText("")
-                        txtNgayAD.setText("")
-                        txtMoTa.setText("")
-                        spinner.requestFocus()
-                    }
+                }
+                if(selectItem != ""){
+                    //GiaGtModel(0,txtNgayAD.text.toString(),txtGiaGT.text.toString(),randomMaGT,maNV)
+                    viewModel.insertGoiTapGia(GoiTapModel(randomMaGT, replaceString(txtTenGT.text.toString()), txtMoTa.text.toString(), txtTrangThai.text.toString(), idLoaiGT), giaGt)
+                    Toast.makeText(activity, "Thêm thành công!", Toast.LENGTH_SHORT).show()
+                    Log.e("ERROR", "Thêm thành công!", )
+                    spinner.setText("")
+                    txtMaGT.setText("")
+                    txtTenGT.setText("")
+                    txtGiaGT.setText("")
+                    txtNgayAD.setText("")
+                    txtMoTa.setText("")
+                    spinner.requestFocus()
                 }
             }
         }

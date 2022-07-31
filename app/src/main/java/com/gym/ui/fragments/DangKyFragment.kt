@@ -11,9 +11,9 @@ import com.gym.ui.viewmodel.ViewModel
 
 class DangKyFragment : FragmentNext() {
     private lateinit var binding: FragmentDangkyBinding
-    val viewModel: ViewModel by lazy {
+    /*val viewModel: ViewModel by lazy {
         ViewModelProvider(this).get(ViewModel::class.java)
-    }
+    }*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

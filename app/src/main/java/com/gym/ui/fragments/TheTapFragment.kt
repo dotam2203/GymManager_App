@@ -19,9 +19,9 @@ import com.gym.ui.viewmodel.ViewModel
 
 class TheTapFragment : FragmentNext() {
     private lateinit var binding: FragmentThetapBinding
-    val viewModel: ViewModel by lazy {
+    /*val viewModel: ViewModel by lazy {
         ViewModelProvider(this).get(ViewModel::class.java)
-    }
+    }*/
     var khachHang = KhachHangModel()
     var receiveKH = KhachHangModel()
     var khachHangs = ArrayList<KhachHangModel>()

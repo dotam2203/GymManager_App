@@ -9,38 +9,31 @@ import android.view.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
 import com.gym.databinding.FragmentLoaigtBinding
 import com.gym.model.LoaiGtModel
+import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.LoaiGtAdapter
-import com.gym.ui.viewmodel.ViewModel
 
 /**
  * Author: tamdt35@fpt.com.vn
  * Date:  14/07/2022
  */
-class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
+class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
     private lateinit var binding: FragmentLoaigtBinding
     var loaiGtAdapter = LoaiGtAdapter(this@LoaiGtFragment)
     var loaiGTs = ArrayList<LoaiGtModel>()
-    val viewModel: ViewModel by lazy {
-        ViewModelProvider(this).get(ViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoaigtBinding.inflate(layoutInflater)
-        refreshData()
         initViewModel()
         return binding.root
     }
-
     private fun refreshData() {
         binding.apply {
             refresh.setOnRefreshListener {
@@ -52,6 +45,7 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        refreshData()
         binding.imbAdd.setOnClickListener {
             dialogInsert()
         }
@@ -208,8 +202,8 @@ class LoaiGtFragment : Fragment(), LoaiGtAdapter.OnItemClick {
 
     override fun itemClickDelete(id: Int) {
         viewModel.deleteLoaiGT(id)
-        getDataCoroutine("Delete successed!", "Delete failed!")
-        initViewModel()
+        Toast.makeText(requireContext(), "Delete loaigt success!", Toast.LENGTH_SHORT).show()
+
         return
     }
 }

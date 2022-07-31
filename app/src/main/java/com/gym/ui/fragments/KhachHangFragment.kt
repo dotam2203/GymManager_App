@@ -5,8 +5,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.widget.*
-import androidx.lifecycle.ViewModelProvider
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.EditText
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
@@ -15,7 +17,6 @@ import com.gym.model.KhachHangModel
 import com.gym.model.LoaiKhModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.KhachHangAdapter
-import com.gym.ui.viewmodel.ViewModel
 
 class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
     private lateinit var binding: FragmentKhachhangBinding
@@ -24,9 +25,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
     var loaiKHs = ArrayList<LoaiKhModel>()
     var tenLoaiKHs = ArrayList<String>()
     var loaiKH = LoaiKhModel()
-    val viewModel: ViewModel by lazy {
-        ViewModelProvider(this).get(ViewModel::class.java)
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -185,6 +184,8 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         txtSdtKH.setText(khachHang.sdt)
         txtPhaiKH.setText(khachHang.phai)
         txtDiaChiKH.setText(khachHang.diaChi)
+        txtTenKH.isEnabled = false
+        txtPhaiKH.isEnabled = false
         //---------------------------------
         spLoaiKH.setAdapter(arrayAdapter)
         spLoaiKH.setOnItemClickListener { parent, view, position, id ->
@@ -196,11 +197,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         }
         btnUpdate.setOnClickListener {
             lifecycleScope.launchWhenCreated {
-                viewModel.updateKhachHang(KhachHangModel(khachHang.maKH,txtTenKH.text.toString(),txtEmailKH.text.toString(),txtSdtKH.text.toString(),txtPhaiKH.text.toString(),txtDiaChiKH.text.toString(),selectItem.toString(),idLoaiKH))
-                viewModel.khachHang.collect{
-                    if(it == null)
-                        return@collect
-                }
+                viewModel.updateKhachHang(KhachHangModel(khachHang.maKH,replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),txtPhaiKH.text.toString(),txtDiaChiKH.text.toString(),selectItem.toString(),idLoaiKH))
             }
         }
         //---------------------------------
@@ -211,7 +208,6 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
 
     override fun itemClickDelete(maKH: String) {
         viewModel.deleteKhachHang(maKH)
-        initViewModel()
         return
     }
 

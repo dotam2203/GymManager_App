@@ -7,6 +7,28 @@
     tools:context=".ui.fragments.DangKyFragment">
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:id="@+id/tvSpLoaiGT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Loại gói tập"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.02">
+        <AutoCompleteTextView
+            android:id="@+id/spLoaiGT"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:inputType="none"
+            android:textColor="@color/black"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/tvSpGoiTap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,9 +38,8 @@
         android:hint="Gói tập"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.02">
+        app:layout_constraintTop_toBottomOf="@id/tvSpLoaiGT">
+
         <AutoCompleteTextView
             android:id="@+id/spGoiTap"
             android:layout_width="match_parent"
@@ -29,19 +50,19 @@
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:id="@+id/tvSpLoaiGtThe"
+        android:id="@+id/tvSpCTLoaiGT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="Loại gói tập"
+        android:hint="Số lượng"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSpGoiTap">
 
         <AutoCompleteTextView
-            android:id="@+id/spLoaiGtThe"
+            android:id="@+id/spCTLoaiGT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -57,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSpLoaiGtThe"
+        app:layout_constraintTop_toBottomOf="@id/tvSpCTLoaiGT"
         app:layout_constraintVertical_bias="0.04"
         app:layout_constraintHorizontal_bias="0.08"
         android:textColor="@color/black"
@@ -165,5 +186,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.95"
         android:text="@string/dangKy"
-        android:background="@drawable/shape_login_button" />
+        android:background="@drawable/click_change" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,9 +21,9 @@ import com.gym.ui.viewmodel.ViewModel
 class LoginFragment : FragmentNext() {
     private lateinit var binding: FragmentLoginBinding
     var dsTaiKhoan = ArrayList<TaiKhoanModel>()
-    val viewModel: ViewModel by lazy {
+    /*val viewModel: ViewModel by lazy {
         ViewModelProvider(this).get(ViewModel::class.java)
-    }
+    }*/
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

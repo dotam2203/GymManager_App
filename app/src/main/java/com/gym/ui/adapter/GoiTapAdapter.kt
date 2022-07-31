@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemGoitapBinding
-import com.gym.model.GiaGtModel
 import com.gym.model.GoiTapModel
 
 /**
@@ -13,6 +12,7 @@ import com.gym.model.GoiTapModel
  */
 class GoiTapAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<GoiTapAdapter.ViewHolder>() {
     var goiTaps = listOf<GoiTapModel>()
+
     inner class ViewHolder(val binding: ItemGoitapBinding): RecyclerView.ViewHolder(binding.root){
     }
 
@@ -22,9 +22,11 @@ class GoiTapAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<GoiTapAda
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //val viewModel = ViewModelProvider(this)[ViewModel::class.java]
         with(holder){
             binding.apply {
                 goiTap = goiTaps[position]
+                tvTenLGT.text = goiTaps[position].idLoaiGT.toString().trim()
                 imbEdit.setOnClickListener {
                     _itemClick.itemClickEdit(goiTaps[position])
                 }

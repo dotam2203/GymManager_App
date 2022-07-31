@@ -71,6 +71,7 @@ class ViewModel : ViewModel() {
                     it.body()?.let {
                         _goiTap.value = it
                     }
+                    getDSGoiTap()
                 }
             }
         }
@@ -82,6 +83,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _goiTap.value = it.body()
                 }
+                getDSGoiTap()
             }
         }
     }
@@ -89,6 +91,7 @@ class ViewModel : ViewModel() {
     fun deleteGoiTap(maGT: String) {
         viewModelScope.launch {
             goiTapRepository.deleteGoiTap(maGT)
+            getDSGoiTap()
         }
     }
 
@@ -153,6 +156,7 @@ class ViewModel : ViewModel() {
     fun deleteKhachHang(maKH: String) {
         viewModelScope.launch {
             khachHangRepository.deleteKhachHang(maKH)
+            getDSKhachHang()
         }
     }
 
@@ -190,6 +194,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _loaiKH.value = it.body()
                 }
+                getDSLoaiKH()
             }
         }
     }
@@ -200,6 +205,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _loaiKH.value = it.body()
                 }
+                getDSLoaiKH()
             }
         }
     }
@@ -207,6 +213,7 @@ class ViewModel : ViewModel() {
     fun deleteLoaiKH(id: Int) {
         viewModelScope.launch {
             loaiKhRepository.deleteLoaiKH(id)
+            getDSLoaiKH()
         }
     }
 
@@ -244,6 +251,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _loaiGT.value = it.body()
                 }
+                getDSLoaiGT()
             }
         }
     }
@@ -254,13 +262,17 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _loaiGT.value = it.body()
                 }
+                getDSLoaiGT()
             }
         }
     }
 
     fun deleteLoaiGT(id: Int) {
         viewModelScope.launch {
-            loaiGtRepository.deleteLoaiGT(id)
+            if(loaiGTs.value.isNotEmpty()){
+                loaiGtRepository.deleteLoaiGT(id)
+                getDSLoaiGT()
+            }
         }
     }
 
@@ -298,6 +310,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _nhanVien.value = it.body()
                 }
+                getDSNhanVien()
             }
         }
     }
@@ -308,6 +321,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _nhanVien.value = it.body()
                 }
+                getDSNhanVien()
             }
         }
     }
@@ -315,6 +329,7 @@ class ViewModel : ViewModel() {
     fun deleteNhanVien(maNV: String) {
         viewModelScope.launch {
             nhanVienRepository.deleteNhanVien(maNV)
+            getDSNhanVien()
         }
     }
 
@@ -352,6 +367,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _quyen.value = it.body()
                 }
+                getDSQuyen()
             }
         }
     }
@@ -362,6 +378,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _quyen.value = it.body()
                 }
+                getDSQuyen()
             }
         }
     }
@@ -369,6 +386,7 @@ class ViewModel : ViewModel() {
     fun deleteQuyen(maNV: String) {
         viewModelScope.launch {
             phanQuyenRepository.deleteQuyen(maNV)
+            getDSQuyen()
         }
     }
 
@@ -425,6 +443,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _taiKhoan.value = it.body()
                 }
+                getDSTaiKhoan()
             }
         }
     }
@@ -435,6 +454,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _taiKhoan.value = it.body()
                 }
+                getDSTaiKhoan()
             }
         }
     }
@@ -442,6 +462,7 @@ class ViewModel : ViewModel() {
     fun deleteTaiKhoan(maTK: String) {
         viewModelScope.launch {
             taiKhoanRepository.deleteTaiKhoan(maTK)
+            getDSTaiKhoan()
         }
     }
 
@@ -501,6 +522,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _gia.value = it.body()
                 }
+                getDSGia()
             }
         }
     }
@@ -511,6 +533,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _gia.value = it.body()
                 }
+                getDSGia()
             }
         }
     }
@@ -518,6 +541,7 @@ class ViewModel : ViewModel() {
     fun deleteGia(idGia: Int) {
         viewModelScope.launch {
             giaRepository.deleteGia(idGia)
+            getDSGia()
         }
     }
 //==============================================PASS DATA===========================================

@@ -10,29 +10,23 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
 import com.gym.R
 import com.gym.databinding.FragmentLoaikhBinding
 import com.gym.model.LoaiKhModel
+import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.LoaiKhAdapter
-import com.gym.ui.viewmodel.ViewModel
 
 /**
  * Author: tamdt35@fpt.com.vn
  * Date:  14/07/2022
  */
-class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
+class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
     private lateinit var binding: FragmentLoaikhBinding
     var loaiKhAdapter = LoaiKhAdapter(this@LoaiKhFragment)
     var loaiKHs = ArrayList<LoaiKhModel>()
-    val viewModel: ViewModel by lazy {
-        ViewModelProvider(this).get(ViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,12 +34,12 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
     ): View? {
         binding = FragmentLoaikhBinding.inflate(layoutInflater)
         binding.pbLoad.visibility = View.VISIBLE
-        refreshData()
         initViewModel()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        refreshData()
         binding.imbAdd.setOnClickListener {
             dialogInsert()
         }
@@ -60,18 +54,18 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
 
         }
     }
+
     fun initViewModel() {
         //call api
         viewModel.getDSLoaiKH()
         //Livedata observer
         lifecycleScope.launchWhenCreated {
-            viewModel.loaiKHs.collect {response ->
+            viewModel.loaiKHs.collect { response ->
                 if (response.isEmpty()) {
                     binding.pbLoad.visibility = View.GONE
                     Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
                     return@collect
-                }
-                else{
+                } else {
                     loaiKhAdapter.loaiKHs = response
                     loaiKHs.addAll(response)
                     initAdapter()
@@ -91,16 +85,17 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
             }
         }
     }
-    fun dialogInsert(){
+
+    fun dialogInsert() {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loaigt)
 
         val window: Window? = dialog.window
-        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val windowAtrributes :WindowManager.LayoutParams = window!!.attributes
+        val windowAtrributes: WindowManager.LayoutParams = window!!.attributes
         windowAtrributes.gravity = Gravity.CENTER
         window.attributes = windowAtrributes
         //click ra bên ngoài để tắt dialog
@@ -119,18 +114,15 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
         var btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
         var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
         btnThem.setOnClickListener {
-            if(txtTenLoaiKH.text.trim().isEmpty()){
+            if (txtTenLoaiKH.text.trim().isEmpty()) {
                 txtTenLoaiKH.error = "Vui lòng không để trống"
                 txtTenLoaiKH.requestFocus()
-            }
-            else {
+            } else {
                 //call api
                 viewModel.insertLoaiKH(LoaiKhModel(0, txtTenLoaiKH.text.toString()))
-                //Livedata observer
-                getDataCoroutine("Insert success", "Insert fail")
+                Toast.makeText(requireActivity(), "Thêm loại gt thành công!", Toast.LENGTH_SHORT).show()
                 txtTenLoaiKH.setText("")
                 txtTenLoaiKH.requestFocus()
-                initViewModel()
                 Log.d("TAG", "size new: ${loaiKHs.size}")
             }
             dialog.show()
@@ -139,16 +131,17 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
             dialog.dismiss()
         }
     }
-    fun dialogEdit(loaiKh: LoaiKhModel){
+
+    fun dialogEdit(loaiKh: LoaiKhModel) {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loaigt)
 
         val window: Window? = dialog.window
-        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val windowAtrributes :WindowManager.LayoutParams = window!!.attributes
+        val windowAtrributes: WindowManager.LayoutParams = window!!.attributes
         windowAtrributes.gravity = Gravity.CENTER
         window.attributes = windowAtrributes
         //click ra bên ngoài để tắt dialog
@@ -169,35 +162,35 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
         txtTenLoaiKH.setText(loaiKh.tenLoaiKH)
         btnThem.setText("Update")
         btnThem.setOnClickListener {
-            if(txtTenLoaiKH.text.trim().isEmpty()){
+            if (txtTenLoaiKH.text.trim().isEmpty()) {
                 txtTenLoaiKH.error = "Vui lòng không để trống"
                 txtTenLoaiKH.requestFocus()
-            }
-            else {
+            } else {
                 //call api
                 viewModel.updateLoaiKH(LoaiKhModel(loaiKh.idLoaiKH, txtTenLoaiKH.text.toString()))
-                if(txtTenLoaiKH.text.toString() != loaiKh.tenLoaiKH){
+                Toast.makeText(requireActivity(), "Cập nhật loại khách hàng thành công!", Toast.LENGTH_SHORT).show()
+                /*if(txtTenLoaiKH.text.toString() != loaiKh.tenLoaiKH){
                     //Livedata observer
                     getDataCoroutine("Update success","Update fail")
                     initViewModel()
                     Log.d("TAG", "size new: ${loaiKHs.size}")
-                }}
-            dialog.show()
-        }
-        btnHuy.setOnClickListener {
-            dialog.dismiss()
+                }*/
+                dialog.show()
+            }
+            btnHuy.setOnClickListener {
+                dialog.dismiss()
+            }
         }
     }
 
     private fun getDataCoroutine(success: String, fail: String) {
         //Livedata observer
         lifecycleScope.launchWhenCreated {
-            viewModel.loaiKHs.collect{response ->
+            viewModel.loaiKHs.collect { response ->
                 if (response.isEmpty()) {
                     Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
                     return@collect
-                }
-                else{
+                } else {
                     loaiKhAdapter.loaiKHs = response
                     initAdapter()
                     loaiKhAdapter.notifyDataSetChanged()
@@ -206,6 +199,7 @@ class LoaiKhFragment : Fragment(), LoaiKhAdapter.OnItemClick {
             }
         }
     }
+
     override fun itemClickEdit(loaiKhModel: LoaiKhModel) {
         dialogEdit(loaiKhModel)
         return

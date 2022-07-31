@@ -11,17 +11,25 @@ import android.widget.EditText
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.gym.R
+import com.gym.model.LoaiGtModel
+import com.gym.ui.viewmodel.ViewModel
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Author: tamdt35@fpt.com.vn
  * Date:  06/07/2022
  */
 abstract class FragmentNext : Fragment() {
+    val viewModel: ViewModel by lazy {
+        ViewModelProvider(this)[ViewModel::class.java]
+    }
     fun getFragment(view: View, id: Int) {
         Navigation.findNavController(view).navigate(id)
     }
@@ -152,5 +160,22 @@ abstract class FragmentNext : Fragment() {
             dialog.dismiss()
         }
     }*/
-
+    fun getTenLoaiGT(id: Int): String{
+        var tenLoaiGT: String  = ""
+        viewModel.getDSLoaiGT()
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiGTs.collect{
+                if(it.isNotEmpty()){
+                    for(i in it.indices){
+                        if( id == it[i].idLoaiGT){
+                            tenLoaiGT = it[i].tenLoaiGT
+                        }
+                    }
+                }
+                else
+                    return@collect
+            }
+        }
+        return tenLoaiGT
+    }
 }
