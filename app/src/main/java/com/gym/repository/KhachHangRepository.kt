@@ -23,8 +23,8 @@ class KhachHangRepository {
         if (request.isSuccessful)
             emit(request)
     }.flowOn(IO)
-    fun getKhachHang(maGT: String): Flow<Response<KhachHangModel>> = flow{
-        val request = RetrofitInstance.loadApiKhachHang.getKhachHang(maGT)
+    fun getKhachHang(maKH: String): Flow<Response<KhachHangModel>> = flow{
+        val request = RetrofitInstance.loadApiKhachHang.getKhachHang(maKH)
         if (request.isSuccessful)
             emit(request)
     }.flowOn(IO)
@@ -39,7 +39,7 @@ class KhachHangRepository {
         if (request.isSuccessful)
             emit(request)
     }.flowOn(IO)
-    suspend fun deleteKhachHang(maGT: String){
-        RetrofitInstance.loadApiKhachHang.deleteKhachHang(maGT)
+    suspend fun deleteKhachHang(maKH: String){
+        RetrofitInstance.loadApiKhachHang.deleteKhachHang(maKH)
     }
 }

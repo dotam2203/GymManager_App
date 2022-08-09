@@ -4,15 +4,11 @@ import com.gym.model.LoaiKhModel
 import retrofit2.Response
 import retrofit2.http.*
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  16/07/2022
- */
 interface LoaiKhService {
-    @GET("loaikh/get")
+    @GET("loaikh/getds")
     suspend fun getDSLoaiKH(): Response<List<LoaiKhModel>>
 
-    @GET("loaikh/getlkh")
+    @GET("loaikh/get")
     suspend fun getLoaiKH(@Query("idLoaiKH") idLoaiKH: Int): Response<LoaiKhModel>
 
     @POST("loaikh/post")

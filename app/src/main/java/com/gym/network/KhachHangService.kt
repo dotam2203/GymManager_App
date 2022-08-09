@@ -4,18 +4,15 @@ import com.gym.model.KhachHangModel
 import retrofit2.Response
 import retrofit2.http.*
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  10/07/2022
- */
+
 interface KhachHangService {
-    @GET("khachhang/get")
+    @GET("khachhang/getds")
     suspend fun getDSKhachHang(): Response<List<KhachHangModel>>
 
-    @GET("khachhang/getds")
+    @GET("khachhang/getloaikh")
     suspend fun getDSKhachHangTheoLoaiKH(@Query("idLoaiKH") idLoaiKH: Int): Response<List<KhachHangModel>>
 
-    @GET("khachhang/getkh")
+    @GET("khachhang/get")
     suspend fun getKhachHang(@Query("maKH") maKH: String): Response<KhachHangModel>
 
     @POST("khachhang/post")

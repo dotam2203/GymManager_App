@@ -70,10 +70,17 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
                     binding.pbLoad.visibility = View.GONE
                 }
             }
-
         }
+        //passDataToDangKy(loaiGTs)
     }
 
+    fun passDataToDangKy(loaiGTss: ArrayList<LoaiGtModel>){
+        val bundle = Bundle()
+        bundle.putParcelableArrayList("LoaiGTs",loaiGTss)
+        val fragment = DangKyFragment()
+        fragment.arguments = bundle
+        replaceFragment(R.id.nav_fragment,fragment)
+    }
     private fun initAdapter() {
         binding.apply {
             pbLoad.visibility = View.VISIBLE

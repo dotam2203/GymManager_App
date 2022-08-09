@@ -53,5 +53,26 @@ object RetrofitInstance {
     val loadApiGiaGT: GiaGtService by lazy {
         getApiUrl().create(GiaGtService::class.java)
     }
+    val loadApiHoaDon: HoaDonService by lazy {
+        getApiUrl().create(HoaDonService::class.java)
+    }
+    val loadApiTheTap: TheTapService by lazy {
+        getApiUrl().create(TheTapService::class.java)
+    }
+    val loadApiBaiTap: BaiTapService by lazy {
+        getApiUrl().create(BaiTapService::class.java)
+    }
+    val loadApiKhuyenMai: KhuyenMaiService by lazy {
+        getApiUrl().create(KhuyenMaiService::class.java)
+    }
+    val loadApiCtKhuyenMai: CtKhuyenMaiService by lazy {
+        getApiUrl().create(CtKhuyenMaiService::class.java)
+    }
+    val loadApiCtBaiTap: CtBaiTapService by lazy {
+        getApiUrl().create(CtBaiTapService::class.java)
+    }
+    val loadApiCtTheTap: CtTheTapService by lazy {
+        getApiUrl().create(CtTheTapService::class.java)
+    }
 
 }

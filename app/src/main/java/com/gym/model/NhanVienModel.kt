@@ -13,5 +13,5 @@ data class NhanVienModel(
     var sdt: String?= "",
     var phai: String?= "",
     var diaChi: String?= "",
-    var hinhAnh: String?= ""
+    var hinhAnh: String?= "",
 ) : Parcelable

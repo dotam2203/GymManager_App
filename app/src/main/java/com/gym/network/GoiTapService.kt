@@ -4,18 +4,14 @@ import com.gym.model.GoiTapModel
 import retrofit2.Response
 import retrofit2.http.*
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  07/07/2022
- */
 interface GoiTapService {
-    @GET("goitap/get")
+    @GET("goitap/getds")
     suspend fun getDSGoiTap(): Response<List<GoiTapModel>>
 
-    @GET("goitap/getds")
+    @GET("goitap/getloaigt")
     suspend fun getDSGoiTapTheoLoaiGT(@Query("idLoaiGT") idLoaiGT: Int): Response<List<GoiTapModel>>
 
-    @GET("goitap/getgt")
+    @GET("goitap/get")
     suspend fun getGoiTap(@Query("maGT") maGT : String) : Response<GoiTapModel>
 
     @POST("goitap/post")

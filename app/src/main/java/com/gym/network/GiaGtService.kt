@@ -5,16 +5,16 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface GiaGtService {
-    @GET("gia/get")
+    @GET("gia/getds")
     suspend fun getDSGia(): Response<List<GiaGtModel>>
 
-    @GET("gia/getds_gt")
+    @GET("gia/getgt")
     suspend fun getDSGiaTheoGoiTap(@Query("maGT") maGT: String): Response<List<GiaGtModel>>
 
-    @GET("gia/getds_nv")
+    @GET("gia/getnv")
     suspend fun getDSGiaTheoNhanVien(@Query("maNV") maNV: String): Response<List<GiaGtModel>>
 
-    @GET("gia/getgia")
+    @GET("gia/get")
     suspend fun getGia(@Query("idGia") idGia: Int): Response<GiaGtModel>
 
     @POST("gia/post")

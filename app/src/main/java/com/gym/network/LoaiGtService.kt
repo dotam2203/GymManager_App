@@ -10,10 +10,10 @@ import retrofit2.http.*
  * Date:  07/07/2022
  */
 interface LoaiGtService {
-    @GET("loaigt/get")
+    @GET("loaigt/getds")
     suspend fun getDSLoaiGT(): Response<List<LoaiGtModel>>
 
-    @GET("loaigt/getlgt")
+    @GET("loaigt/get")
     suspend fun getLoaiGT(@Query("idLoaiGT") idLoaiGT: Int): Response<LoaiGtModel>
 
     @POST("loaigt/post")

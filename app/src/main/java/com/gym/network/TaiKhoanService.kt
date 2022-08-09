@@ -9,13 +9,13 @@ import retrofit2.http.*
  * Date:  07/07/2022
  */
 interface TaiKhoanService {
-    @GET("taikhoan/get")
+    @GET("taikhoan/getds")
     suspend fun getDSTaiKhoan(): Response<List<TaiKhoanModel>>
 
-    @GET("taikhoan/getds")
+    @GET("taikhoan/getquyen")
     suspend fun getDSTaiKhoanTheoQuyen(@Query("maQuyen") maQuyen: String): Response<List<TaiKhoanModel>>
 
-    @GET("taikhoan/gettk")
+    @GET("taikhoan/get")
     suspend fun getTaiKhoan(@Query("maTK") maTK : String) : Response<TaiKhoanModel>
 
     @POST("taikhoan/post")

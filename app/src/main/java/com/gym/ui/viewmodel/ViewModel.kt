@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -24,6 +25,13 @@ class ViewModel : ViewModel() {
     private val phanQuyenRepository = PhanQuyenRepository()
     private val taiKhoanRepository = TaiKhoanRepository()
     private val giaRepository = GiaGtRepository()
+    private val hoaDonRepository = HoaDonRepository()
+    private val theTapRepository = TheTapRepository()
+    private val baiTapRepository = BaiTapRepository()
+    private val khuyenMaiRepository = KhuyenMaiRepository()
+    private val ctKhuyenMaiRepository = CtKhuyenMaiRepository()
+    private val ctBaiTapRepository = CtBaiTapRepository()
+    private val ctTheTapRepository = CtTheTapRepository()
     //------------------------------Gói tập---------------------------------
     /*private val _uiNews = MutableStateFlow(T)
     val uiNews: StateFlow<T> = _uiNews*/
@@ -96,7 +104,7 @@ class ViewModel : ViewModel() {
     }
 
     //-------------------------------------------------------------------------
-    //----------------------------------Khách hàng-----------------------------
+    //---------------------------------- Khách hàng -----------------------------
     //Live data
     private val _khachHangs = MutableStateFlow(emptyList<KhachHangModel>())
     val khachHangs: StateFlow<List<KhachHangModel>> = _khachHangs
@@ -133,9 +141,9 @@ class ViewModel : ViewModel() {
         }
     }
 
-    fun insertKhachHang(KhachHangModel: KhachHangModel) {
+    fun insertKhachHang(khachHangModel: KhachHangModel) {
         viewModelScope.launch {
-            khachHangRepository.insertKhachHang(KhachHangModel).collect {
+            khachHangRepository.insertKhachHang(khachHangModel).collect {
                 if (it.isSuccessful) {
                     _khachHang.value = it.body()
                 }
@@ -143,9 +151,9 @@ class ViewModel : ViewModel() {
         }
     }
 
-    fun updateKhachHang(KhachHangModel: KhachHangModel) {
+    fun updateKhachHang(khachHangModel: KhachHangModel) {
         viewModelScope.launch {
-            khachHangRepository.updateKhachHang(KhachHangModel).collect {
+            khachHangRepository.updateKhachHang(khachHangModel).collect {
                 if (it.isSuccessful) {
                     _khachHang.value = it.body()
                 }
@@ -220,6 +228,7 @@ class ViewModel : ViewModel() {
     //-------------------------------------------------------------------------
     //----------------------------------Loại Gói Tập-----------------------------
     //Live data
+    val listLoaiGT = ArrayList<LoaiGtModel>()
     private val _loaiGTs = MutableStateFlow(emptyList<LoaiGtModel>())
     val loaiGTs: StateFlow<List<LoaiGtModel>> = _loaiGTs
     private val _loaiGT: MutableStateFlow<LoaiGtModel?> = MutableStateFlow(null)
@@ -544,6 +553,515 @@ class ViewModel : ViewModel() {
             getDSGia()
         }
     }
+    //---------------------------------------------------------------------
+    //----------------------------------Hóa đơn-----------------------------
+    //Live data
+    private val _hoaDons = MutableStateFlow(emptyList<HoaDonModel>())
+    val hoaDons: StateFlow<List<HoaDonModel>> = _hoaDons
+    private val _hoaDon: MutableStateFlow<HoaDonModel?> = MutableStateFlow(null)
+    val hoaDon: StateFlow<HoaDonModel?> = _hoaDon
+
+    fun getDSHoaDon() {
+        viewModelScope.launch {
+            hoaDonRepository.getDSHoaDon().collect {
+                if (it.isSuccessful) {
+                    _hoaDons.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSHoaDonTheoNV(maNV: String) {
+        viewModelScope.launch {
+            hoaDonRepository.getDSHoaDonTheoNV(maNV).collect {
+                if (it.isSuccessful) {
+                    _hoaDons.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+    fun getDSHoaDonTheoThe(maThe: String) {
+        viewModelScope.launch {
+            hoaDonRepository.getDSHoaDonTheoThe(maThe).collect {
+                if (it.isSuccessful) {
+                    _hoaDons.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getHoaDon(maHD: String) {
+        viewModelScope.launch {
+            hoaDonRepository.getHoaDon(maHD).collect {
+                if (it.isSuccessful) {
+                    _hoaDon.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun insertHoaDon(hoaDonModel: HoaDonModel) {
+        viewModelScope.launch {
+            hoaDonRepository.insertHoaDon(hoaDonModel).collect {
+                if (it.isSuccessful) {
+                    _hoaDon.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun updateHoaDon(hoaDonModel: HoaDonModel) {
+        viewModelScope.launch {
+            hoaDonRepository.updateHoaDon(hoaDonModel).collect {
+                if (it.isSuccessful) {
+                    _hoaDon.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun deleteHoaDon(maHD: String) {
+        viewModelScope.launch {
+            hoaDonRepository.deleteHoaDon(maHD)
+            getDSHoaDon()
+        }
+    }
+    //-------------------------------------------------------------------------
+    //---------------------------------- Thẻ tập -----------------------------
+    //Live data
+    private val _theTaps = MutableStateFlow(emptyList<TheTapModel>())
+    val theTaps: StateFlow<List<TheTapModel>> = _theTaps
+    private val _theTap: MutableStateFlow<TheTapModel?> = MutableStateFlow(null)
+    val theTap: StateFlow<TheTapModel?> = _theTap
+
+    fun getDSTheTap() {
+        viewModelScope.launch {
+            theTapRepository.getDSTheTap().collect {
+                if (it.isSuccessful) {
+                    _theTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSTheTapTheoKH(maKH: String) {
+        viewModelScope.launch {
+            theTapRepository.getDSTheTapTheoKH(maKH).collect {
+                if (it.isSuccessful) {
+                    _theTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getTheTap(maKH: String) {
+        viewModelScope.launch {
+            theTapRepository.getTheTap(maKH).collect {
+                if (it.isSuccessful) {
+                    _theTap.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun insertTheTap(theTapModel: TheTapModel) {
+        viewModelScope.launch {
+            theTapRepository.insertTheTap(theTapModel).collect {
+                if (it.isSuccessful) {
+                    _theTap.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun updateTheTap(theTapModel: TheTapModel) {
+        viewModelScope.launch {
+            theTapRepository.updateTheTap(theTapModel).collect {
+                if (it.isSuccessful) {
+                    _theTap.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun deleteTheTap(maThe: String) {
+        viewModelScope.launch {
+            theTapRepository.deleteTheTap(maThe)
+            getDSTheTap()
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //----------------------------------Bài tập------------------------
+    //Live data
+    private val _baiTaps = MutableStateFlow(emptyList<BaiTapModel>())
+    val baiTaps: StateFlow<List<BaiTapModel>> = _baiTaps
+    private val _baiTap: MutableStateFlow<BaiTapModel?> = MutableStateFlow(null)
+    val baiTap: StateFlow<BaiTapModel?> = _baiTap
+
+    fun getBaiTap(idBT: Int) {
+        viewModelScope.launch {
+            baiTapRepository.getBaiTap(idBT).collect {
+                if (it.isSuccessful) {
+                    _baiTap.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun getDSBaiTap() {
+        viewModelScope.launch {
+            baiTapRepository.getDSBaiTap().collect {
+                if (it.isSuccessful) {
+                    _baiTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun insertBaiTap(baiTapModel: BaiTapModel) {
+        viewModelScope.launch {
+            baiTapRepository.insertBaiTap(baiTapModel).collect {
+                if (it.isSuccessful) {
+                    _baiTap.value = it.body()
+                }
+                getDSBaiTap()
+            }
+        }
+    }
+
+    fun updateBaiTap(baiTapModel: BaiTapModel) {
+        viewModelScope.launch {
+            baiTapRepository.updateBaiTap(baiTapModel).collect {
+                if (it.isSuccessful) {
+                    _baiTap.value = it.body()
+                }
+                getDSBaiTap()
+            }
+        }
+    }
+
+    fun deleteBaiTap(idBT: Int) {
+        viewModelScope.launch {
+            baiTapRepository.deleteBaiTap(idBT)
+            getDSBaiTap()
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    //---------------------------------- Khuyến mại -----------------------------
+    //Live data
+    private val _khuyenMais = MutableStateFlow(emptyList<KhuyenMaiModel>())
+    val khuyenMais: StateFlow<List<KhuyenMaiModel>> = _khuyenMais
+    private val _khuyenMai: MutableStateFlow<KhuyenMaiModel?> = MutableStateFlow(null)
+    val khuyenMai: StateFlow<KhuyenMaiModel?> = _khuyenMai
+
+    fun getDSKhuyenMai() {
+        viewModelScope.launch {
+            khuyenMaiRepository.getDSKhuyenMai().collect {
+                if (it.isSuccessful) {
+                    _khuyenMais.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSKhuyenMaiTheoNV(maNV: String) {
+        viewModelScope.launch {
+            khuyenMaiRepository.getDSKhuyenMaiTheoNV(maNV).collect {
+                if (it.isSuccessful) {
+                    _khuyenMais.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getKhuyenMai(idKM: Int) {
+        viewModelScope.launch {
+            khuyenMaiRepository.getKhuyenMai(idKM).collect {
+                if (it.isSuccessful) {
+                    _khuyenMai.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun insertKhuyenMai(khuyenMaiModel: KhuyenMaiModel) {
+        viewModelScope.launch {
+            khuyenMaiRepository.insertKhuyenMai(khuyenMaiModel).collect {
+                if (it.isSuccessful) {
+                    _khuyenMai.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun updateKhuyenMai(khuyenMaiModel: KhuyenMaiModel) {
+        viewModelScope.launch {
+            khuyenMaiRepository.updateKhuyenMai(khuyenMaiModel).collect {
+                if (it.isSuccessful) {
+                    _khuyenMai.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun deleteKhuyenMai(idKM: Int) {
+        viewModelScope.launch {
+            khuyenMaiRepository.deleteKhuyenMai(idKM)
+            getDSKhuyenMai()
+        }
+    }
+    //---------------------------------------------------------------------------
+    //------------------------------CT khuyến mại---------------------------------
+    //Live data
+    private val _ctKhuyenMais = MutableStateFlow(emptyList<CtKhuyenMaiModel>())
+    val ctKhuyenMais: StateFlow<List<CtKhuyenMaiModel>> = _ctKhuyenMais
+    private val _ctKhuyenMai: MutableStateFlow<CtKhuyenMaiModel?> = MutableStateFlow(null)
+    val ctKhuyenMai: StateFlow<CtKhuyenMaiModel?> = _ctKhuyenMai
+
+    fun getDSCtKhuyenMai() {
+        viewModelScope.launch {
+            ctKhuyenMaiRepository.getDSCtKhuyenMai().collect {
+                if (it.isSuccessful) {
+                    _ctKhuyenMais.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSCtKhuyenMaiTheoGT(maGT: String) {
+        viewModelScope.launch {
+            ctKhuyenMaiRepository.getDSCtKhuyenMaiTheoGT(maGT).collect {
+                if (it.isSuccessful) {
+                    _ctKhuyenMais.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSCtKhuyenMaiTheoKM(idKM: Int) {
+        viewModelScope.launch {
+            ctKhuyenMaiRepository.getDSCtKhuyenMaiTheoKM(idKM).collect {
+                // it.body()?.orEmpty()
+                it.body().orEmpty()
+                if (it.isSuccessful) {
+                    _ctKhuyenMais.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getCtKhuyenMai(idCtKhuyenMai: Int) {
+        viewModelScope.launch {
+            ctKhuyenMaiRepository.getCtKhuyenMai(idCtKhuyenMai).collect {
+                if (it.isSuccessful) {
+                    _ctKhuyenMai.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun insertCtKhuyenMai(ctKhuyenMaiModel: CtKhuyenMaiModel) {
+        viewModelScope.launch {
+            ctKhuyenMaiRepository.insertCtKhuyenMai(ctKhuyenMaiModel).collect {
+                if (it.isSuccessful) {
+                    _ctKhuyenMai.value = it.body()
+                }
+                getDSCtKhuyenMai()
+            }
+        }
+    }
+
+    fun updateCtKhuyenMai(ctKhuyenMaiModel: CtKhuyenMaiModel) {
+        viewModelScope.launch {
+            ctKhuyenMaiRepository.updateCtKhuyenMai(ctKhuyenMaiModel).collect {
+                if (it.isSuccessful) {
+                    _ctKhuyenMai.value = it.body()
+                }
+                getDSCtKhuyenMai()
+            }
+        }
+    }
+
+    fun deleteCtKhuyenMai(idCTKM: Int) {
+        viewModelScope.launch {
+            ctKhuyenMaiRepository.deleteCtKhuyenMai(idCTKM)
+            getDSCtKhuyenMai()
+        }
+    }
+    //-------------------------------------------------------------------------
+    //---------------------------------------------------------------------------
+    //------------------------------CT bài tập---------------------------------
+    //Live data
+    private val _ctBaiTaps = MutableStateFlow(emptyList<CtBaiTapModel>())
+    val ctBaiTaps: StateFlow<List<CtBaiTapModel>> = _ctBaiTaps
+    private val _ctBaiTap: MutableStateFlow<CtBaiTapModel?> = MutableStateFlow(null)
+    val ctBaiTap: StateFlow<CtBaiTapModel?> = _ctBaiTap
+
+    fun getDSCtBaiTap() {
+        viewModelScope.launch {
+            ctBaiTapRepository.getDSCtBaiTap().collect {
+                if (it.isSuccessful) {
+                    _ctBaiTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSCtBaiTapTheoGT(maGT: String) {
+        viewModelScope.launch {
+            ctBaiTapRepository.getDSCtBaiTapTheoGT(maGT).collect {
+                if (it.isSuccessful) {
+                    _ctBaiTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSCtBaiTapTheoBT(idBT: Int) {
+        viewModelScope.launch {
+            ctBaiTapRepository.getDSCtBaiTapTheoBT(idBT).collect {
+                // it.body()?.orEmpty()
+                it.body().orEmpty()
+                if (it.isSuccessful) {
+                    _ctBaiTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getCtBaiTap(idCtBaiTap: Int) {
+        viewModelScope.launch {
+            ctBaiTapRepository.getCtBaiTap(idCtBaiTap).collect {
+                if (it.isSuccessful) {
+                    _ctBaiTap.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun insertCtBaiTap(ctBaiTapModel: CtBaiTapModel) {
+        viewModelScope.launch {
+            ctBaiTapRepository.insertCtBaiTap(ctBaiTapModel).collect {
+                if (it.isSuccessful) {
+                    _ctBaiTap.value = it.body()
+                }
+                getDSCtBaiTap()
+            }
+        }
+    }
+
+    fun updateCtBaiTap(ctBaiTapModel: CtBaiTapModel) {
+        viewModelScope.launch {
+            ctBaiTapRepository.updateCtBaiTap(ctBaiTapModel).collect {
+                if (it.isSuccessful) {
+                    _ctBaiTap.value = it.body()
+                }
+                getDSCtBaiTap()
+            }
+        }
+    }
+
+    fun deleteCtBaiTap(idCTBT: Int) {
+        viewModelScope.launch {
+            ctBaiTapRepository.deleteCtBaiTap(idCTBT)
+            getDSCtBaiTap()
+        }
+    }
+    //---------------------------------------------------------------------------
+    //------------------------------CT thẻ tập---------------------------------
+    //Live data
+    private val _ctTheTaps = MutableStateFlow(emptyList<CtTheTapModel>())
+    val ctTheTaps: StateFlow<List<CtTheTapModel>> = _ctTheTaps
+    private val _ctTheTap: MutableStateFlow<CtTheTapModel?> = MutableStateFlow(null)
+    val ctTheTap: StateFlow<CtTheTapModel?> = _ctTheTap
+
+    fun getDSCtTheTap() {
+        viewModelScope.launch {
+            ctTheTapRepository.getDSCtTheTap().collect {
+                if (it.isSuccessful) {
+                    _ctTheTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSCtTheTapTheoGT(maGT: String) {
+        viewModelScope.launch {
+            ctTheTapRepository.getDSCtTheTapTheoGT(maGT).collect {
+                if (it.isSuccessful) {
+                    _ctTheTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSCtTheTapTheoThe(maThe: String) {
+        viewModelScope.launch {
+            ctTheTapRepository.getDSCtTheTapTheoThe(maThe).collect {
+                // it.body()?.orEmpty()
+                it.body().orEmpty()
+                if (it.isSuccessful) {
+                    _ctTheTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getDSCtTheTapTheoHD(maHD: String) {
+        viewModelScope.launch {
+            ctTheTapRepository.getDSCtTheTapTheoHD(maHD).collect {
+                // it.body()?.orEmpty()
+                it.body().orEmpty()
+                if (it.isSuccessful) {
+                    _ctTheTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+
+    fun getCtTheTap(idCtTheTap: Int) {
+        viewModelScope.launch {
+            ctTheTapRepository.getCtTheTap(idCtTheTap).collect {
+                if (it.isSuccessful) {
+                    _ctTheTap.value = it.body()
+                }
+            }
+        }
+    }
+
+    fun insertCtTheTap(ctTheTapModel: CtTheTapModel) {
+        viewModelScope.launch {
+            ctTheTapRepository.insertCtTheTap(ctTheTapModel).collect {
+                if (it.isSuccessful) {
+                    _ctTheTap.value = it.body()
+                }
+                getDSCtTheTap()
+            }
+        }
+    }
+
+    fun updateCtTheTap(ctTheTapModel: CtTheTapModel) {
+        viewModelScope.launch {
+            ctTheTapRepository.updateCtTheTap(ctTheTapModel).collect {
+                if (it.isSuccessful) {
+                    _ctTheTap.value = it.body()
+                }
+                getDSCtTheTap()
+            }
+        }
+    }
+
+    fun deleteCtTheTap(idCTThe: Int) {
+        viewModelScope.launch {
+            ctTheTapRepository.deleteCtTheTap(idCTThe)
+            getDSCtTheTap()
+        }
+    }
+    //-------------------------------------------------------------------------
+
 //==============================================PASS DATA===========================================
 
     //==================================================================================================

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.text.Editable
 import android.text.TextUtils.substring
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -21,6 +22,7 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -139,6 +141,40 @@ abstract class FragmentNext : Fragment() {
         val convert = numberFormat.format(money.trim().toInt())
         return convert.substring(1)
     }
+    fun getSoLuongLoaiGT(tenLoaiGT: String): ArrayList<String>{
+        val slDangKy = ArrayList<String>()
+        var sl: String = ""
+        when(tenLoaiGT){
+            "Ngày" -> {
+                for( i in 1..6){
+                    sl = "$i ngày"
+                    slDangKy.add(sl)
+                }
+            }
+            "Tuần" -> {
+                for( i in 1..3){
+                    sl = "$i tuần"
+                    slDangKy.add(sl)
+                }
+            }
+            "Tháng" -> {
+                for( i in 1..11){
+                    sl = "$i tháng"
+                    slDangKy.add(sl)
+                }
+            }
+            "Năm" -> {
+                for( i in 1..5){
+                    sl = "$i năm"
+                    slDangKy.add(sl)
+                }
+            }
+            else -> arrayListOf<Any>("")
+
+        }
+        return slDangKy
+    }
+    //--------------------------------------------
     /*fun dialog(){
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
