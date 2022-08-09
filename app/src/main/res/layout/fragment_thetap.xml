@@ -38,15 +38,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/tvSearchKH"
         android:text="@string/search"/>
-    <ImageButton
-        android:id="@+id/btnInsertKH"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="?android:selectableItemBackground"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"/>
     <TextView
         android:id="@+id/tvKhachHang"
         android:layout_width="wrap_content"
@@ -100,4 +91,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+    <ImageButton
+        android:id="@+id/btnInsertKH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="?android:selectableItemBackground"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
