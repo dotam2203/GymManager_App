@@ -18,47 +18,47 @@ import java.util.Collections.addAll
 
 class DangKyFragment : FragmentNext() {
     private lateinit var binding: FragmentDangkyBinding
+    val loaiGTs = ArrayList<LoaiGtModel>()
+    val goiTaps = ArrayList<GoiTapModel>()
+    val gias = ArrayList<GiaGtModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDangkyBinding.inflate(layoutInflater)
         binding.txtNgayBD.setText(getCurrentDate())
+        //getInitViewModel()
         getEnvent()
         getInitCalendar()
         return binding.root
     }
 
-   /* private fun initViewModel() {
+    private fun getInitViewModel() {
+        viewModel.getDSLoaiGT()
         lifecycleScope.launchWhenCreated {
-            viewModel.getDSLoaiGT()
-            viewModel.loaiGTs.collect {
-                if (it.isNotEmpty()) {
-                    viewModel.listLoaiGT.addAll(it)
-                } else
-                    return@collect
+            viewModel.loaiGTs.collect{
+                if(it.isNotEmpty()){
+                    loaiGTs.addAll(it)
+                }
             }
         }
+        viewModel.getDSGoiTap()
         lifecycleScope.launchWhenCreated {
-            viewModel.getDSGoiTap()
-            viewModel.goiTaps.collect {
-                if (it.isNotEmpty()) {
-                    listGT.addAll(it)
-                } else
-                    return@collect
+            viewModel.goiTaps.collect{
+                if(it.isNotEmpty()){
+                    goiTaps.addAll(it)
+                }
             }
         }
+        viewModel.getDSGia()
         lifecycleScope.launchWhenCreated {
-            viewModel.getDSGia()
-            viewModel.gias.collect {
-                if (it.isNotEmpty()) {
-                    listGia.addAll(it)
-                } else
-                    return@collect
+            viewModel.gias.collect{
+                if(it.isNotEmpty()){
+                    gias.addAll(it)
+                }
             }
         }
-
-    }*/
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,38 +67,33 @@ class DangKyFragment : FragmentNext() {
     private fun getEnvent() {
         var selectLoaiGT: String = ""
         var selectGT: String = ""
+        var selectSL: String = ""
         binding.apply {
-            val loaiGTs: ArrayList<String> = getListTenLoaiGT()
+            val tenLoaiGTs: ArrayList<String> = getListTenLoaiGT()
             Log.e("Error", "loaiGT array: ${getListTenLoaiGT().size} ")
-            val arrAdapterLoaiGT = ArrayAdapter(requireContext(), R.layout.dropdown_item, loaiGTs)
+            val arrAdapterLoaiGT = ArrayAdapter(requireContext(), R.layout.dropdown_item, tenLoaiGTs)
             spLoaiGT.setAdapter(arrAdapterLoaiGT)
             spLoaiGT.setOnItemClickListener { parent, view, position, id ->
+                spGoiTap.setText("")
+                spCTLoaiGT.setText("")
                 selectLoaiGT = parent.getItemAtPosition(position).toString()
-                val goiTaps: ArrayList<String> = getListTenGTByIDLoaiGT(getIDByTenLoaiGT(selectLoaiGT))
-                val arrAdapterGT = ArrayAdapter(requireContext(), R.layout.dropdown_item, goiTaps)
-                spGoiTap.setAdapter(arrAdapterLoaiGT)
+                //-------------------------Số lượng đăng ký-----------------------
+                val soLuongs: ArrayList<String> = getSoLuongLoaiGT(selectLoaiGT)
+                val arrAdapterSL = ArrayAdapter(requireContext(), R.layout.dropdown_item, soLuongs)
+                spCTLoaiGT.setAdapter(arrAdapterSL)
+                spCTLoaiGT.setOnItemClickListener { parent, view, position, id ->
+                    selectSL = parent.getItemAtPosition(position).toString()
+                }
+                //---------------------------------------------------------------
+                //--------------------------Gói tập----------------------------
+                val tenGTs: ArrayList<String> = getListTenGTByIDLoaiGT(getIDByTenLoaiGT(selectLoaiGT))
+                val arrAdapterGT = ArrayAdapter(requireContext(), R.layout.dropdown_item, tenGTs)
+                spGoiTap.setAdapter(arrAdapterGT)
                 spGoiTap.setOnItemClickListener { parent, view, position, id ->
                     selectGT = parent.getItemAtPosition(position).toString()
+                    //---------------------------------------------------------------
                 }
             }
-            //lấy ds gói tập
-            /*spGoiTap.isEnabled = true
-            spCTLoaiGT.isEnabled = true*/
-
-            /*if(selectLoaiGT.isEmpty()){
-                spGoiTap.isEnabled = false
-                spCTLoaiGT.isEnabled = false
-            }
-            else if (selectLoaiGT.trim().isNotEmpty()){
-                spGoiTap.isEnabled = true
-                spCTLoaiGT.isEnabled = true
-                val goiTaps: ArrayList<String> = getListTenGT(getIDByTenLoaiGT(selectLoaiGT))
-                val arrAdapterGT = ArrayAdapter(requireContext(), R.layout.dropdown_item, goiTaps)
-                spGoiTap.setAdapter(arrAdapterLoaiGT)
-                spGoiTap.setOnItemClickListener { parent, view, position, id ->
-                    selectGT = parent.getItemAtPosition(position).toString()
-                }
-            }*/
         }
     }
 
@@ -124,17 +119,17 @@ class DangKyFragment : FragmentNext() {
     //--------------------Loại gt----------------------
     fun getListTenLoaiGT(): ArrayList<String> {
         //Log.e("Error", "getListTenLoaiGT: ${listLoaiGT.size}", )
-        var loaiGTs: ArrayList<String> = arrayListOf()
+        var tenLoaiGTs: ArrayList<String> = arrayListOf()
         viewModel.getDSLoaiGT()
         lifecycleScope.launchWhenCreated {
             viewModel.loaiGTs.collect{
                 for (i in it.indices) {
-                    loaiGTs.add(it[i].tenLoaiGT)
+                    tenLoaiGTs.add(it[i].tenLoaiGT)
                 }
             }
         }
 
-        return loaiGTs
+        return tenLoaiGTs
     }
 
     fun getIDByTenLoaiGT(ten: String): Int {
@@ -156,34 +151,24 @@ class DangKyFragment : FragmentNext() {
     //--------------------------------------------
     //-------------------Gói Tập------------------
     fun getListTenGTByIDLoaiGT(id: Int): ArrayList<String>{
-        var list = ArrayList<String>()
-        viewModel.getDSGoiTapTheoLoaiGT(id)
+        var tenGTs = ArrayList<String>()
         lifecycleScope.launchWhenCreated {
+            viewModel.getDSGoiTapTheoLoaiGT(id)
             viewModel.goiTaps.collect{
-                Log.e("Errrororror", "check list: ${it.size}", )
+                Log.e("Error", "check tenGTs: ${it.size}", )
                 if(it.isNotEmpty()){
                     for(i in it.indices){
-                        list.add(it[i].tenGT)
+                        binding.spGoiTap.isEnabled = true
+                        tenGTs.add(it[i].tenGT)
                     }
+                }
+                else if(it.isEmpty()){
+                    binding.spGoiTap.isEnabled = false
+                    return@collect
                 }
             }
         }
-        Log.e("Error", "getListTenGTByIDLoaiGT: ${list.size}", )
-        return list
-    }
-    fun getListTenGT(idLoaiGT: Int): ArrayList<String> {
-        val goiTaps = ArrayList<String>()
-        viewModel.getDSGoiTap()
-        lifecycleScope.launchWhenCreated {
-            viewModel.goiTaps.collect{
-                for (i in it.indices) {
-                    if (idLoaiGT == it[i].idLoaiGT) {
-                        goiTaps.add(it[i].tenGT)
-                    }
-                }
-            }
-        }
-        return goiTaps
+        return tenGTs
     }
     fun getMaByTenGT(ten: String): String {
         var ma: String = ""

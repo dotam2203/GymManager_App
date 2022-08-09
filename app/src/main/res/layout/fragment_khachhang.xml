@@ -71,7 +71,7 @@
         app:layout_constraintTop_toBottomOf="@id/barList"
         tools:listitem="@layout/item_khachhang"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    <ImageButton
+   <!-- <ImageButton
         android:id="@+id/imbAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
     <ProgressBar
         android:id="@+id/pbLoad"
         android:layout_width="wrap_content"

@@ -139,16 +139,31 @@ class TheTapFragment : FragmentNext() {
         val btnHuy: Button = dialog.findViewById(R.id.btnHuyKH)
         val btnThem: Button = dialog.findViewById(R.id.btnThemKH)
         //-----------------------------------------------------
-        spLoai.inputType = InputType.TYPE_NULL
-        spPhai.inputType = InputType.TYPE_NULL
-        txtMaKH.inputType = InputType.TYPE_NULL
-        txtTenKH.inputType = InputType.TYPE_NULL
-        txtEmailKH.inputType = InputType.TYPE_NULL
-        txtSdtKH.inputType = InputType.TYPE_NULL
-        txtDiaChi.inputType = InputType.TYPE_NULL
+        spLoai.isEnabled = false
+        spPhai.isEnabled = false
+        txtMaKH.visibility = View.GONE
+        txtTenKH.isEnabled = false
+        txtEmailKH.isEnabled = false
+        txtSdtKH.isEnabled = false
+        txtDiaChi.isEnabled = false
         btnHuy.visibility = View.GONE
         btnThem.visibility = View.GONE
         //==============================================================
+        viewModel.getLoaiKH(khachHang.idLoaiKH)
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiKH.collect{
+                if(it != null){
+                    spLoai.setText(it.tenLoaiKH)
+                }
+                else
+                    return@collect
+            }
+        }
+        spPhai.setText(khachHang.phai)
+        txtTenKH.setText(khachHang.hoTen)
+        txtEmailKH.setText(khachHang.email)
+        txtSdtKH.setText(khachHang.sdt)
+        txtDiaChi.setText(khachHang.diaChi)
 
     }
 }

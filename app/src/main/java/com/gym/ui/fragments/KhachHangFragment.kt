@@ -83,10 +83,6 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
                 layoutManager = LinearLayoutManager(activity)
                 adapter = khachHangAdapter
             }
-            //loaiGtAdapter.updateData(loaiGTs)
-            imbAdd.setOnClickListener {
-                //dialogInsert()
-            }
         }
     }
 
