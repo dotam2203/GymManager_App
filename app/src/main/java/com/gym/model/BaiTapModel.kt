@@ -5,8 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class BaiTapModel(
-    var idBT: Int? = 0,
-    var tenBT: String? = "",
-    var moTa: String? = "",
-    var duongDan : String? = ""
+    var idBT: Int = 0,
+    var tenBT: String = "",
+    var moTa: String = "",
+    var duongDan : String = "",
+    var ctBaiTaps: List<CtBaiTapModel>? = null
 ) : Parcelable

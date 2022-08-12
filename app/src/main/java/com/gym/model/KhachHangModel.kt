@@ -13,5 +13,6 @@ data class KhachHangModel(
     var phai :  String = "",
     var diaChi :  String = "",
     var hinhAnh :  String = "",
-    var idLoaiKH : Int = 0
+    var idLoaiKH : Int = 0,
+    var theTaps: List<TheTapModel>? = null
 ) : Parcelable

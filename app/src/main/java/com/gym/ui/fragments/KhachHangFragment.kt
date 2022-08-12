@@ -5,10 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
+import android.widget.*
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
@@ -22,6 +19,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
     private lateinit var binding: FragmentKhachhangBinding
     var khachHangAdapter = KhachHangAdapter(this@KhachHangFragment)
     var khachHangs = ArrayList<KhachHangModel>()
+    var khachHang = KhachHangModel()
     var loaiKHs = ArrayList<LoaiKhModel>()
     var tenLoaiKHs = ArrayList<String>()
     var loaiKH = LoaiKhModel()
@@ -115,32 +113,10 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
             }
         }
     }
-    fun dialogInsert(){
-        val dialog = Dialog(activity!!)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_khachhang)
-
-        val window: Window? = dialog.window
-        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val windowAtrributes : WindowManager.LayoutParams = window!!.attributes
-        windowAtrributes.gravity = Gravity.CENTER
-        window.attributes = windowAtrributes
-        //click ra bên ngoài để tắt dialog
-        //false = no; true = yes
-        dialog.setCancelable(false)
-        dialog.show()
-        /*var btnHuy: Button = dialog.findViewById(R.id.btnHuy)
-        btnHuy.setOnClickListener {
-            dialog.dismiss()
-        }*/
-    }
 
     override fun itemClickEdit(khachHang: KhachHangModel) {
         dialogEdit(khachHang)
     }
-
     private fun dialogEdit(khachHang: KhachHangModel) {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -172,7 +148,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         var idLoaiKH: Int = 0
         //---------------------------------
         txtMaKH.visibility = View.GONE
-        btnUpdate.setText("Update")
+        btnUpdate.setText("Cập nhật")
         getLoaiKHByID(khachHang.idLoaiKH)
         spLoaiKH.setText(loaiKH.tenLoaiKH)
         txtTenKH.setText(khachHang.hoTen)
@@ -183,6 +159,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         txtTenKH.isEnabled = false
         txtPhaiKH.isEnabled = false
         //---------------------------------
+        spLoaiKH.setText(tenLoaiKHs[0])
         spLoaiKH.setAdapter(arrayAdapter)
         spLoaiKH.setOnItemClickListener { parent, view, position, id ->
             selectItem = parent.getItemAtPosition(position).toString()
@@ -201,10 +178,54 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
             dialog.dismiss()
         }
     }
+    private fun dialogDelete(maKH: String){
+        val dialog = Dialog(activity!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_message)
 
+        val window: Window? = dialog.window
+        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val windowAtrributes : WindowManager.LayoutParams = window!!.attributes
+        windowAtrributes.gravity = Gravity.CENTER
+        window.attributes = windowAtrributes
+        //click ra bên ngoài để tắt dialog
+        //false = no; true = yes
+        dialog.setCancelable(false)
+        dialog.show()
+        val title: TextView = dialog.findViewById(R.id.tvMessage)
+        val btnYes: Button = dialog.findViewById(R.id.btnYes)
+        val btnNo: Button = dialog.findViewById(R.id.btnNo)
+        //-------------------------------
+        khachHang = getKhachHangByMaKH(maKH)
+        //-------------------------------
+        title.text = "Bạn thật sự muốn xóa khách hàng ${khachHang.hoTen}?"
+        btnYes.setOnClickListener {
+            viewModel.deleteKhachHang(maKH)
+            Toast.makeText(requireContext(), "Xóa khách hàng ${khachHang.hoTen} thành công!", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+    fun getKhachHangByMaKH(maKH: String): KhachHangModel {
+        var khachHang = KhachHangModel()
+        viewModel.getKhachHang(maKH)
+        lifecycleScope.launchWhenCreated {
+            viewModel.khachHang.collect{
+                if(it != null){
+                    khachHang = it
+                }
+                else
+                    return@collect
+            }
+        }
+        return khachHang
+    }
     override fun itemClickDelete(maKH: String) {
-        viewModel.deleteKhachHang(maKH)
-        return
+        dialogDelete(maKH)
     }
 
     override fun itemLongClick(khachHangModel: KhachHangModel) {

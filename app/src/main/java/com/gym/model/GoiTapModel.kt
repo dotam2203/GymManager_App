@@ -12,5 +12,8 @@ data class GoiTapModel(
     var moTa: String = "",
     var trangThai: String = "",
     var idLoaiGT: Int = 0,
-    var goiTaps: List<GiaGtModel>? = null
+    var giaGoiTaps: List<GiaGtModel>? = null,
+    var ctTheTaps: List<CtTheTapModel>? = null,
+    var ctKhuyenMais: List<CtKhuyenMaiModel>? = null,
+    var ctBaiTaps: List<CtBaiTapModel>? = null
 ): Parcelable

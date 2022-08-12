@@ -43,7 +43,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/activity_test.xml" value="0.18671875" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/bar_home.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/dialog_goitap.xml" value="0.264" />
-        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/dialog_khachhang.xml" value="0.24929971988795518" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/dialog_khachhang.xml" value="0.4" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/dialog_loading.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/dialog_loaigt.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/dialog_message.xml" value="0.18795289855072464" />
@@ -64,6 +64,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_loaikh.xml" value="0.2359375" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_nguoidung.xml" value="0.17980072463768115" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_nhanvien.xml" value="0.20260416666666667" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_register.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_review1.xml" value="0.264" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_slide.xml" value="0.25" />
@@ -78,6 +79,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_khachhang.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_loaigt.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_loaikh.xml" value="0.25" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_nhanvien.xml" value="0.2015625" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/tab_layout_dichvu.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/tab_layout_nguoidung.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/tessss.xml" value="0.25" />

@@ -17,9 +17,6 @@ import com.gym.ui.viewmodel.ViewModel
 
 class TrangChuFragment : FragmentNext() {
     private lateinit var binding: FragmentTrangchuBinding
-    /*val viewModel: ViewModel by lazy {
-        ViewModelProvider(this).get(ViewModel::class.java)
-    }*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,13 +35,16 @@ class TrangChuFragment : FragmentNext() {
             llKhachHang.setOnClickListener {
                 getFragment(view, R.id.navHomeToNguoiDung)
             }
+            llNhanVien.setOnClickListener {
+                getFragment(view,R.id.navHomeToNhanVien)
+            }
         }
     }
     fun getDataLogin(){
         viewModel.getNhanVien(SingletonAccount.taiKhoan!!.maNV.toString())
         lifecycleScope.launchWhenCreated {
             viewModel.nhanVien.collect{ response ->
-                binding.tvUser.text = response?.hoTen
+                binding.tvUser.text = "Chào, ${response?.hoTen}"
             }
         }
     }

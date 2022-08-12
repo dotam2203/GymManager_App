@@ -5,8 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class HoaDonModel(
-    var maHD: String? = "",
-    var ngayLap: String? = "",
-    var maNV: String? = "",
-    var maThe: String? = ""
+    var maHD: String = "",
+    var ngayLap: String = "",
+    var maNV: String = "",
+    var maThe: String = "",
+    var ctTheTaps: List<CtTheTapModel>? = null
 ) : Parcelable

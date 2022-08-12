@@ -5,13 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemKhachhangBinding
 import com.gym.model.KhachHangModel
+import com.gym.model.LoaiKhModel
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  19/07/2022
- */
 class KhachHangAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapter<KhachHangAdapter.ViewHolder>() {
     var khachHangs = listOf<KhachHangModel>()
+    var loaiKHs = listOf<LoaiKhModel>()
     inner class ViewHolder(val binding: ItemKhachhangBinding): RecyclerView.ViewHolder(binding.root){
     }
 
@@ -32,6 +30,12 @@ class KhachHangAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapt
                 }
                 itemClickKH.setOnClickListener{
                     _itemClick.itemLongClick(khachHangs[position])
+                }
+                for(i in loaiKHs.indices){
+                    if(khachHangs[position].idLoaiKH == loaiKHs[i].idLoaiKH){
+                        tvLoaiKH.text = loaiKHs[i].tenLoaiKH
+                        break
+                    }
                 }
             }
         }

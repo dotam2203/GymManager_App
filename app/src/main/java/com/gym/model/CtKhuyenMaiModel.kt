@@ -5,8 +5,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CtKhuyenMaiModel(
-    var idCTKM: Int? = 0,
-    var phanTramGiam: Float,
-    var maGT: String? = "",
-    var idKM: Int? = 0
+    var idCTKM: Int = 0,
+    var phanTramGiam: Double = 0.0,
+    var maGT: String = "",
+    var idKM: Int = 0
 ) : Parcelable

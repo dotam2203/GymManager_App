@@ -21,10 +21,6 @@ import com.gym.ui.adapter.GoiTapAdapter
 import com.gym.ui.viewmodel.ViewModel
 import java.util.*
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  14/07/2022
- */
 class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     private lateinit var binding: FragmentGoitapBinding
     var goiTapAdapter = GoiTapAdapter(this@GoiTapFragment)
@@ -239,6 +235,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         var selectItem: String? = ""
         var idLoaiGT: Int = 0
         val maNV: String = SingletonAccount.taiKhoan?.maNV.toString()
+        spinner.setText(tenLoaiGTs[0])
         spinner.setAdapter(arrayAdapter)
         spinner.setOnItemClickListener { parent, view, position, id ->
             selectItem = parent.getItemAtPosition(position).toString()
@@ -334,7 +331,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
             txtNgayAD.setText(gia.ngayApDung)
         }
         txtMaGT.setText(goiTap.moTa)
-        btnThem.setText("Update")
+        btnThem.setText("Cập nhật")
         //============================
         spinner.setAdapter(arrayAdapter)
         spinner.setOnItemClickListener { parent, view, position, id ->

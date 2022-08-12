@@ -1,16 +1,20 @@
 package com.gym.ui.fragments
 
 import android.os.Bundle
+import android.provider.SyncStateContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import com.gym.R
 import com.gym.databinding.FragmentDangkyBinding
 import com.gym.model.GiaGtModel
 import com.gym.model.GoiTapModel
+import com.gym.model.KhachHangModel
 import com.gym.model.LoaiGtModel
 import com.gym.ui.FragmentNext
 import kotlinx.coroutines.delay
@@ -18,6 +22,7 @@ import java.util.Collections.addAll
 
 class DangKyFragment : FragmentNext() {
     private lateinit var binding: FragmentDangkyBinding
+    var khachHang = KhachHangModel()
     val loaiGTs = ArrayList<LoaiGtModel>()
     val goiTaps = ArrayList<GoiTapModel>()
     val gias = ArrayList<GiaGtModel>()
@@ -27,10 +32,22 @@ class DangKyFragment : FragmentNext() {
     ): View? {
         binding = FragmentDangkyBinding.inflate(layoutInflater)
         binding.txtNgayBD.setText(getCurrentDate())
+        reviceDataKH()
         //getInitViewModel()
         getEnvent()
         getInitCalendar()
+        Toast.makeText(requireActivity(), "Hello ${khachHang.hoTen}", Toast.LENGTH_SHORT).show()
+
         return binding.root
+    }
+
+    private fun reviceDataKH() {
+        parentFragmentManager.setFragmentResultListener("passData",this,object :FragmentResultListener{
+            override fun onFragmentResult(requestKey: String, result: Bundle) {
+                khachHang = result.getParcelable("dataKH")?: return
+                binding.txtGia.text = khachHang.hoTen
+            }
+        })
     }
 
     private fun getInitViewModel() {

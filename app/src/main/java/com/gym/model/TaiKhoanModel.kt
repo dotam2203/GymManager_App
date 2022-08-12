@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 @Entity
 @Parcelize
 data class TaiKhoanModel(
-    var maTK:  String? = null,
-    var matKhau:  String? = null,
-    var trangThai:  String? = null,
-    var maQuyen:  String? = null,
-    var maNV:  String? = null,
+    var maTK:  String = "",
+    var matKhau:  String = "",
+    var trangThai:  String = "",
+    var maQuyen:  String = "",
+    var maNV:  String = "",
 ) : Parcelable

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.NhanVienFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/barDichVu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@id/barList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tvTitleNV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quản Lý Nhân Viên"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical|center"
+            app:layout_constraintBottom_toBottomOf="@+id/barDichVu"
+            app:layout_constraintEnd_toEndOf="@id/barDichVu"
+            app:layout_constraintStart_toStartOf="@id/barDichVu"
+            app:layout_constraintTop_toTopOf="@id/barDichVu" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/barList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/barDichVu"
+        app:layout_constraintBottom_toTopOf="@id/refresh">
+        <TextView
+            android:id="@+id/tvTitleTenNV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/barList"
+            app:layout_constraintStart_toStartOf="@id/barList"
+            app:layout_constraintEnd_toEndOf="@id/barList"
+            app:layout_constraintTop_toTopOf="@id/barList"
+            android:textColor="@color/black"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:text="Danh sách nhân viên"
+            android:layout_marginStart="60dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barList">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvNhanVien"
+            android:layout_width="match_parent"
+            android:layout_height="630dp"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barList"
+            tools:listitem="@layout/item_nhanvien"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+     <ImageButton
+         android:id="@+id/imbAdd"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginEnd="16dp"
+         android:layout_marginBottom="16dp"
+         android:background="?android:selectableItemBackground"
+         android:src="@drawable/ic_add"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    <ProgressBar
+        android:id="@+id/pbLoad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

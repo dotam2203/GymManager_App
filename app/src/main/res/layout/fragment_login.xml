@@ -63,7 +63,7 @@
                 android:id="@+id/tvUserLogin"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:hint="user"
+                android:hint="tên đăng nhập"
                 app:startIconDrawable="@drawable/ic_user"
                 app:endIconMode="clear_text"
                 app:boxBackgroundColor="@color/white"
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="15dp"
-                android:hint="password"
+                android:hint="mật khẩu"
                 app:startIconDrawable="@drawable/ic_pass"
                 app:endIconMode="password_toggle"
                 app:boxBackgroundColor="@color/white"
@@ -103,13 +103,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="right|bottom"
-                android:text="Forgot password?" />
+                android:text="Quên mật khẩu?" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLogin"
             android:textColor="@color/white"
-            android:text="Login"
+            android:text="Đăng nhập"
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:background="@drawable/click_change"
@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Login"
+            android:text="Đăng nhập"
             android:textSize="20sp"
             android:textColor="@color/white"
             android:layout_marginStart="80dp"
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Sign Up"
+            android:text="Đăng ký"
             android:textSize="20sp"
             android:gravity="right"
             android:textColor="@color/black"
@@ -158,14 +158,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have an account?" />
+                android:text="Bạn chưa có tài khoản?" />
 
             <TextView
                 android:id="@+id/tvSignUp2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="SIGN UP"
+                android:text="Đăng ký"
                 android:textColor="@color/pink"
                 android:textSize="20sp"
                 android:textStyle="bold" />

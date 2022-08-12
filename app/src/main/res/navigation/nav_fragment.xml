@@ -81,6 +81,9 @@
         <action
             android:id="@+id/navHomeToDangKy"
             app:destination="@id/fragmentDangKy" />
+        <action
+            android:id="@+id/navHomeToNhanVien"
+            app:destination="@id/fragmentNhanVien" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDichvu"
@@ -155,4 +158,9 @@
         android:name="com.gym.ui.fragments.DSDangKyFragment"
         android:label="fragment_ds_dangky"
         tools:layout="@layout/fragment_ds_dangky" />
+    <fragment
+        android:id="@+id/fragmentNhanVien"
+        android:name="com.gym.ui.fragments.NhanVienFragment"
+        android:label="fragment_nhanvien"
+        tools:layout="@layout/fragment_nhanvien" />
 </navigation>

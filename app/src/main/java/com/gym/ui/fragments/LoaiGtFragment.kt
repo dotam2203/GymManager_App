@@ -8,23 +8,22 @@ import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
 import com.gym.databinding.FragmentLoaigtBinding
 import com.gym.model.LoaiGtModel
+import com.gym.model.LoaiKhModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.LoaiGtAdapter
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  14/07/2022
- */
 class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
     private lateinit var binding: FragmentLoaigtBinding
     var loaiGtAdapter = LoaiGtAdapter(this@LoaiGtFragment)
     var loaiGTs = ArrayList<LoaiGtModel>()
+    var loaiGT = LoaiGtModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -158,9 +157,10 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         var btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
         var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
         txtTenLoaiGT.setText(loaiGt.tenLoaiGT)
+        txtTenLoaiGT.requestFocus()
         txtTrangThai.setText(loaiGt.trangThai)
         txtTrangThai.isEnabled = true
-        btnThem.setText("Update")
+        btnThem.setText("Cập nhật")
         btnThem.setOnClickListener {
             val tenLoaiGT: String = txtTenLoaiGT.text.toString()
             val trangThai: String = txtTrangThai.text.toString()
@@ -183,6 +183,52 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         btnHuy.setOnClickListener {
             dialog.dismiss()
         }
+    }
+    private fun dialogDelete(idLoaiGT: Int){
+        val dialog = Dialog(activity!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_message)
+
+        val window: Window? = dialog.window
+        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val windowAtrributes : WindowManager.LayoutParams = window!!.attributes
+        windowAtrributes.gravity = Gravity.CENTER
+        window.attributes = windowAtrributes
+        //click ra bên ngoài để tắt dialog
+        //false = no; true = yes
+        dialog.setCancelable(false)
+        dialog.show()
+        val title: TextView = dialog.findViewById(R.id.tvMessage)
+        val btnYes: Button = dialog.findViewById(R.id.btnYes)
+        val btnNo: Button = dialog.findViewById(R.id.btnNo)
+        //-------------------------------
+        loaiGT = getLoaiGTByID(idLoaiGT)
+        //-------------------------------
+        title.text = "Bạn thật sự muốn xóa loại gói tập ${loaiGT.tenLoaiGT}?"
+        btnYes.setOnClickListener {
+            viewModel.deleteLoaiGT(idLoaiGT)
+            Toast.makeText(requireContext(), "Xóa loại gói tập ${loaiGT.tenLoaiGT} thành công!", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+    fun getLoaiGTByID(idLoaiGT: Int): LoaiGtModel {
+        var loaiGT = LoaiGtModel()
+        viewModel.getLoaiGT(idLoaiGT)
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiGT.collect{
+                if(it != null){
+                    loaiGT = it
+                }
+                else
+                    return@collect
+            }
+        }
+        return loaiGT
     }
 
     private fun getDataCoroutine(success: String, fail: String) {
@@ -208,9 +254,6 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
     }
 
     override fun itemClickDelete(id: Int) {
-        viewModel.deleteLoaiGT(id)
-        Toast.makeText(requireContext(), "Delete loaigt success!", Toast.LENGTH_SHORT).show()
-
-        return
+        dialogDelete(id)
     }
 }

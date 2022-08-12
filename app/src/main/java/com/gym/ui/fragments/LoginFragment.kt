@@ -21,9 +21,6 @@ import com.gym.ui.viewmodel.ViewModel
 class LoginFragment : FragmentNext() {
     private lateinit var binding: FragmentLoginBinding
     var dsTaiKhoan = ArrayList<TaiKhoanModel>()
-    /*val viewModel: ViewModel by lazy {
-        ViewModelProvider(this).get(ViewModel::class.java)
-    }*/
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,7 +62,7 @@ class LoginFragment : FragmentNext() {
                     dsTaiKhoan.addAll(response)
                 }
                 else{
-                    Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
                     return@collect
                 }
             }

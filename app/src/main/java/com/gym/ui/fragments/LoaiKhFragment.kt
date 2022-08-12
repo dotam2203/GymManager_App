@@ -15,18 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
 import com.gym.R
 import com.gym.databinding.FragmentLoaikhBinding
+import com.gym.model.KhachHangModel
 import com.gym.model.LoaiKhModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.LoaiKhAdapter
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  14/07/2022
- */
 class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
     private lateinit var binding: FragmentLoaikhBinding
     var loaiKhAdapter = LoaiKhAdapter(this@LoaiKhFragment)
     var loaiKHs = ArrayList<LoaiKhModel>()
+    var loaiKH = LoaiKhModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -160,7 +158,8 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         var btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
         var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
         txtTenLoaiKH.setText(loaiKh.tenLoaiKH)
-        btnThem.setText("Update")
+        txtTenLoaiKH.requestFocus()
+        btnThem.setText("Cập nhật")
         btnThem.setOnClickListener {
             if (txtTenLoaiKH.text.trim().isEmpty()) {
                 txtTenLoaiKH.error = "Vui lòng không để trống"
@@ -169,12 +168,6 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
                 //call api
                 viewModel.updateLoaiKH(LoaiKhModel(loaiKh.idLoaiKH, txtTenLoaiKH.text.toString()))
                 Toast.makeText(requireActivity(), "Cập nhật loại khách hàng thành công!", Toast.LENGTH_SHORT).show()
-                /*if(txtTenLoaiKH.text.toString() != loaiKh.tenLoaiKH){
-                    //Livedata observer
-                    getDataCoroutine("Update success","Update fail")
-                    initViewModel()
-                    Log.d("TAG", "size new: ${loaiKHs.size}")
-                }*/
                 dialog.show()
             }
             btnHuy.setOnClickListener {
@@ -182,7 +175,52 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
             }
         }
     }
+    private fun dialogDelete(idLoaiKH: Int){
+        val dialog = Dialog(activity!!)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_message)
 
+        val window: Window? = dialog.window
+        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val windowAtrributes : WindowManager.LayoutParams = window!!.attributes
+        windowAtrributes.gravity = Gravity.CENTER
+        window.attributes = windowAtrributes
+        //click ra bên ngoài để tắt dialog
+        //false = no; true = yes
+        dialog.setCancelable(false)
+        dialog.show()
+        val title: TextView = dialog.findViewById(R.id.tvMessage)
+        val btnYes: Button = dialog.findViewById(R.id.btnYes)
+        val btnNo: Button = dialog.findViewById(R.id.btnNo)
+        //-------------------------------
+        loaiKH = getLoaiKHByID(idLoaiKH)
+        //-------------------------------
+        title.text = "Bạn thật sự muốn xóa loại khách hàng ${loaiKH.tenLoaiKH}?"
+        btnYes.setOnClickListener {
+            viewModel.deleteLoaiKH(idLoaiKH)
+            Toast.makeText(requireContext(), "Xóa loại khách hàng ${loaiKH.tenLoaiKH} thành công!", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+    fun getLoaiKHByID(idLoaiKH: Int): LoaiKhModel {
+        var loaiKH = LoaiKhModel()
+        viewModel.getLoaiKH(idLoaiKH)
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiKH.collect{
+                if(it != null){
+                    loaiKH = it
+                }
+                else
+                    return@collect
+            }
+        }
+        return loaiKH
+    }
     private fun getDataCoroutine(success: String, fail: String) {
         //Livedata observer
         lifecycleScope.launchWhenCreated {
@@ -206,9 +244,6 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
     }
 
     override fun itemClickDelete(id: Int) {
-        viewModel.deleteLoaiKH(id)
-        getDataCoroutine("Delete successed!", "Delete failed!")
-        initViewModel()
-        return
+        dialogDelete(id)
     }
 }

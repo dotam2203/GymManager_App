@@ -4,28 +4,21 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.InputType
+import android.provider.SyncStateContract
 import android.view.*
 import android.widget.*
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
 import com.gym.R
 import com.gym.databinding.FragmentThetapBinding
-import com.gym.model.GoiTapModel
 import com.gym.model.KhachHangModel
 import com.gym.model.LoaiKhModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.DangKyViewPagerAdapter
-import com.gym.ui.viewmodel.ViewModel
 
 class TheTapFragment : FragmentNext() {
     private lateinit var binding: FragmentThetapBinding
-    /*val viewModel: ViewModel by lazy {
-        ViewModelProvider(this).get(ViewModel::class.java)
-    }*/
     var khachHang = KhachHangModel()
-    var receiveKH = KhachHangModel()
     var khachHangs = ArrayList<KhachHangModel>()
     var loaiKHs = ArrayList<LoaiKhModel>()
     var phones = ArrayList<String>()
@@ -38,13 +31,13 @@ class TheTapFragment : FragmentNext() {
         binding.btnInfoKH.visibility = View.GONE
         initVewModel()
         setControl()
-        receiveKH()
         return binding.root
     }
 
-    private fun receiveKH() {
-        /*val args = this.arguments
-        receiveKH = args!!.getParcelable("infoKH")!!*/
+    fun passDataKH(khachHang: KhachHangModel) {
+        val bundle = Bundle()
+        bundle.putParcelable("dataKH", khachHang)
+        childFragmentManager.setFragmentResult("passData", bundle)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,23 +74,24 @@ class TheTapFragment : FragmentNext() {
         window.attributes = windowAtrributes
         //click ra bên ngoài để tắt dialog
         //false = no; true = yes
-        dialog.setCancelable(true)
+        dialog.setCancelable(false)
         dialog.show()
         //==============================================================
-        var spLoai: AutoCompleteTextView = dialog.findViewById(R.id.spLoaiKH)
-        var spPhai: AutoCompleteTextView = dialog.findViewById(R.id.spPhaiKH)
-        var txtMaKH: EditText = dialog.findViewById(R.id.txtMaKH)
-        var txtTenKH: EditText = dialog.findViewById(R.id.txtTenKH)
-        var txtEmailKH: EditText = dialog.findViewById(R.id.txtEmailKH)
-        var txtSdtKH: EditText = dialog.findViewById(R.id.txtPhoneKH)
-        var txtDiaChi: EditText = dialog.findViewById(R.id.txtDiaChiKH)
+        val spLoai: AutoCompleteTextView = dialog.findViewById(R.id.spLoaiKH)
+        val spPhai: AutoCompleteTextView = dialog.findViewById(R.id.spPhaiKH)
+        val txtMaKH: EditText = dialog.findViewById(R.id.txtMaKH)
+        val txtTenKH: EditText = dialog.findViewById(R.id.txtTenKH)
+        val txtEmailKH: EditText = dialog.findViewById(R.id.txtEmailKH)
+        val txtSdtKH: EditText = dialog.findViewById(R.id.txtPhoneKH)
+        val txtDiaChi: EditText = dialog.findViewById(R.id.txtDiaChiKH)
         //-----------------------------------------------------
         val btnHuy: Button = dialog.findViewById(R.id.btnHuyKH)
         val btnThem: Button = dialog.findViewById(R.id.btnThemKH)
         txtMaKH.visibility = View.GONE
+        txtTenKH.requestFocus()
         //==============================================================
-        var tenLoaiKHs = ArrayList<String>()
-        var phais = listOf("Nam","Nữ")
+        val tenLoaiKHs = ArrayList<String>()
+        val phais = listOf("Nam","Nữ")
         for(i in loaiKHs.indices){
             tenLoaiKHs.add(loaiKHs[i].tenLoaiKH)
         }
@@ -189,23 +183,25 @@ class TheTapFragment : FragmentNext() {
                     val s2 = khachHangs[i].sdt.trim()
                     if(s1.compareTo(s2) == 0){
                         khachHang = khachHangs[i]
+                        //pass data customer between two fragment
+                        passDataKH(khachHang)
                         binding.apply {
                             btnInfoKH.visibility = View.VISIBLE
                             if(khachHang.phai.equals("Nam")){
-                                tvKhachHang.setText("Xin chào, ông ${khachHang.hoTen}")
+                                tvKhachHang.setText("Xin chào, anh ${khachHang.hoTen}")
                             }
                             else if(khachHang.phai.equals("Nữ")){
-                                tvKhachHang.setText("Xin chào, bà ${khachHang.hoTen}")
+                                tvKhachHang.setText("Xin chào, chị ${khachHang.hoTen}")
                             }
+                            btnInsertKH.visibility = View.GONE
                         }
                     }
                     else{
-                        Toast.makeText(requireContext(), "Không tìm thấy thông tin!", Toast.LENGTH_SHORT).show()
                         txtSearchKH.setText("")
+                        Toast.makeText(requireContext(), "Không tìm thấy thông tin!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-
         }
     }
     fun dialogInfoKH(khachHang: KhachHangModel){
@@ -225,13 +221,13 @@ class TheTapFragment : FragmentNext() {
         dialog.setCancelable(true)
         dialog.show()
         //==============================================================
-        var spLoai: AutoCompleteTextView = dialog.findViewById(R.id.spLoaiKH)
-        var spPhai: AutoCompleteTextView = dialog.findViewById(R.id.spPhaiKH)
-        var txtMaKH: EditText = dialog.findViewById(R.id.txtMaKH)
-        var txtTenKH: EditText = dialog.findViewById(R.id.txtTenKH)
-        var txtEmailKH: EditText = dialog.findViewById(R.id.txtEmailKH)
-        var txtSdtKH: EditText = dialog.findViewById(R.id.txtPhoneKH)
-        var txtDiaChi: EditText = dialog.findViewById(R.id.txtDiaChiKH)
+        val spLoai: AutoCompleteTextView = dialog.findViewById(R.id.spLoaiKH)
+        val spPhai: AutoCompleteTextView = dialog.findViewById(R.id.spPhaiKH)
+        val txtMaKH: EditText = dialog.findViewById(R.id.txtMaKH)
+        val txtTenKH: EditText = dialog.findViewById(R.id.txtTenKH)
+        val txtEmailKH: EditText = dialog.findViewById(R.id.txtEmailKH)
+        val txtSdtKH: EditText = dialog.findViewById(R.id.txtPhoneKH)
+        val txtDiaChi: EditText = dialog.findViewById(R.id.txtDiaChiKH)
         //-----------------------------------------------------
         val btnHuy: Button = dialog.findViewById(R.id.btnHuyKH)
         val btnThem: Button = dialog.findViewById(R.id.btnThemKH)
