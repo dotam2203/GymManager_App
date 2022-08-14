@@ -9,10 +9,6 @@ import androidx.fragment.app.setFragmentResult
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  27/07/2022
- */
 class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
     private val calendar = Calendar.getInstance()
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

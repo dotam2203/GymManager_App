@@ -10,7 +10,7 @@
         android:id="@+id/tvSearchKH"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Số điện thoại"
+        android:hint="Nhập số điện thoại"
         app:boxBackgroundMode="outline"
         app:endIconMode="clear_text"
         app:layout_constraintBottom_toBottomOf="parent"

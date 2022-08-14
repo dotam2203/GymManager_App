@@ -15,4 +15,17 @@
     <string name="ngayKT">Ngày kết thúc</string>
     <string name="ngayAD">Ngày áp dụng</string>
     <string name="dangKy">Đăng ký</string>
+
+    <string name="hoaDonSo">Hóa đơn số</string>
+    <string name="loaiDV">Loại dịch vụ</string>
+    <string name="donGia">Đơn giá</string>
+    <string name="thanhTien">Thành tiền</string>
+    <string name="tongThanhToan">Tổng tiền thanh toán</string>
+    <string name="soLuong">Số lượng</string>
+    <string name="nhanVienLap">Nhân viên</string>
+    <string name="ngayLap">Ngày lập</string>
+    <string name="khachHangDK">Khách hàng</string>
+    <string name="sdtKH">Số điện thoại</string>
+    <string name="khuyenMai">Khuyến mại</string>
+    <string name="giamTien">Số tiền được giảm</string>
 </resources>

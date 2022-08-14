@@ -35,7 +35,7 @@ class DSDangKyFragment : Fragment() {
             }
         }
     }
-    private fun reviceDataKH(){
+    fun reviceDataKH(){
         parentFragmentManager.setFragmentResultListener("passData",this,object : FragmentResultListener {
             override fun onFragmentResult(requestKey: String, result: Bundle) {
                 khachHang = result.getParcelable("dataKH")?: return

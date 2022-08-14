@@ -2,12 +2,9 @@ package com.gym
 
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
-
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  26/07/2022
- */
 
 /* fun replaceString(s: String): String {
      var sToiUu = s
@@ -49,14 +46,15 @@ fun currentDate(): String{
 }
 fun main() {
     //println("maNV: ${randomMaNV("gym", "G11")}")
-    /*val str: String = "597945794"
+    /*val str: String = "1234567"
     val numberFormat = NumberFormat.getCurrencyInstance()
     numberFormat.maximumFractionDigits = 0;
     val convert = numberFormat.format(str.toInt())
 
     println(convert.substring(1))*/
+
     //println("date: ${currentDate()}")
-    val date = "02/03/2022"
+    /*val date = "02/03/2022"
     val d: List<Any> = date.split("/")
     var year: String? = ""
     var month: String? = ""
@@ -65,5 +63,9 @@ fun main() {
     month = d[1].toString().trim()
     year = d[2].toString().trim()
     val dateFormat = "$year/$month/$day"
-    println("date format: $dateFormat")
+    println("date format: $dateFormat")*/
+    val current = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+    val formatted = current.format(formatter)
+    println("Current Date and Time is: $formatted")
 }

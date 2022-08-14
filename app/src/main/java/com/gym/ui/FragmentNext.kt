@@ -1,28 +1,32 @@
 package com.gym.ui
 
 import android.app.Dialog
-import android.text.Editable
-import android.text.TextUtils.substring
-import android.text.TextWatcher
-import android.util.Log
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.EditText
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.widget.addTextChangedListener
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.gym.R
-import com.gym.model.LoaiGtModel
 import com.gym.ui.viewmodel.ViewModel
+import kotlinx.coroutines.delay
+import pl.droidsonroids.gif.GifImageView
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
+import kotlin.concurrent.thread
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -45,6 +49,17 @@ abstract class FragmentNext : Fragment() {
         val currentDate = sdf.format(Date())
         return currentDate.toString().trim()
     }
+    fun getFormatDate(date: String): String {
+        val d: List<Any> = date.split("-")
+        var year: String? = ""
+        var month: String? = ""
+        var day: String? = ""
+        day = d[2].toString().trim()
+        month = d[1].toString().trim()
+        year = d[0].toString().trim()
+        val dateFormat = "$day/$month/$year"
+        return dateFormat
+    }
 
     fun getFormatDateApi(date: String): String {
         val d: List<Any> = date.split("/")
@@ -56,31 +71,6 @@ abstract class FragmentNext : Fragment() {
         year = d[2].toString().trim()
         val dateFormat = "$year-$month-$day"
         return dateFormat
-    }
-
-    fun setFormatCurrentMoney(money: EditText) {
-        money.addTextChangedListener(object : TextWatcher {
-            var setTxt: String = money.text.toString().trim()
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString() != setTxt) {
-                    money.removeTextChangedListener(this)
-                    val replace: String = s.toString().replace("", "")
-                    if (!replace.isEmpty()) {
-                        setTxt = formatCurrentMoney(replace.toDouble())
-                    } else {
-                        setTxt = ""
-                    }
-                    money.apply {
-                        setText(setTxt)
-                        setSelection(setTxt.length)
-                        //addTextChangedListener(this@FragmentNext)
-                    }
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
     }
 
     fun formatCurrentMoney(number: Double): String {
@@ -135,11 +125,20 @@ abstract class FragmentNext : Fragment() {
         }
         return str.trim()
     }
-    fun formatMoney(money: String): String{
+    fun getRandomMaHD(): String{
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+        return "HD${current.format(formatter)}"
+    }
+    fun getDateTime(): String{
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+        return current.format(formatter)
+    }
+    fun formatMoney(money: String): String {
         val numberFormat = NumberFormat.getCurrencyInstance()
         numberFormat.maximumFractionDigits = 0;
-        val convert = numberFormat.format(money.trim().toInt())
-        return convert.substring(1)
+        return numberFormat.format(money.toInt()).substring(1)
     }
     fun getSoLuongLoaiGT(tenLoaiGT: String): ArrayList<String>{
         val slDangKy = ArrayList<String>()
@@ -175,10 +174,10 @@ abstract class FragmentNext : Fragment() {
         return slDangKy
     }
     //--------------------------------------------
-    /*fun dialog(){
+    fun dialogPopMessage(msg: String, drawable: Int){
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_loaigt)
+        dialog.setContentView(R.layout.pop_message)
 
         val window: Window? = dialog.window
         window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
@@ -191,11 +190,16 @@ abstract class FragmentNext : Fragment() {
         //false = no; true = yes
         dialog.setCancelable(false)
         dialog.show()
-        var btnHuy: Button = dialog.findViewById(R.id.btnHuy)
-        btnHuy.setOnClickListener {
+        val imvGif: GifImageView = dialog.findViewById(R.id.imvGif)
+        val tvPopMessage: TextView = dialog.findViewById(R.id.tvPopMessage)
+        imvGif.setImageResource(drawable) //R.drawable.ic_done
+        tvPopMessage.text = msg
+        lifecycleScope.launchWhenCreated {
+            delay(3000L)
             dialog.dismiss()
         }
-    }*/
+
+    }
     fun getTenLoaiGT(id: Int): String{
         var tenLoaiGT: String  = ""
         viewModel.getDSLoaiGT()

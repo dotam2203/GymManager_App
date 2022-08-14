@@ -72,4 +72,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
     //refresh layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    //gif
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.24'
 }

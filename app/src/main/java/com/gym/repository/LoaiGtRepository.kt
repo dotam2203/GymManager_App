@@ -8,10 +8,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  13/07/2022
- */
 class LoaiGtRepository {
     suspend fun getDSLoaiGT(): Flow<Response<List<LoaiGtModel>>> = flow {
         val request = RetrofitInstance.loadApiLoaiGT.getDSLoaiGT()
