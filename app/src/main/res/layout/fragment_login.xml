@@ -170,14 +170,15 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
-        <androidx.core.widget.ContentLoadingProgressBar
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/pbLoad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_load11"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="visible"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

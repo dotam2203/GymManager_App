@@ -9,9 +9,11 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import com.gym.databinding.FragmentDsDangkyBinding
 import com.gym.model.KhachHangModel
+import com.gym.ui.FragmentNext
+import com.gym.ui.adapter.DsTheTapAdapter
 import kotlinx.coroutines.delay
 
-class DSDangKyFragment : Fragment() {
+class DSDangKyFragment : FragmentNext(){
     private lateinit var binding: FragmentDsDangkyBinding
     var khachHang = KhachHangModel()
     override fun onCreateView(
@@ -39,8 +41,20 @@ class DSDangKyFragment : Fragment() {
         parentFragmentManager.setFragmentResultListener("passData",this,object : FragmentResultListener {
             override fun onFragmentResult(requestKey: String, result: Bundle) {
                 khachHang = result.getParcelable("dataKH")?: return
-                binding.tvAbc.text = khachHang.hoTen
             }
         })
+    }
+    fun initViewModel(){
+        viewModel.getDSTheTap()
+        lifecycleScope.launchWhenCreated {
+            viewModel.theTaps.collect{
+
+            }
+        }
+    }
+    private fun initAdapter(){
+        binding.apply {
+
+        }
     }
 }

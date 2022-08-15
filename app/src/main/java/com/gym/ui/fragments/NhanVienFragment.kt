@@ -15,6 +15,7 @@ import com.gym.model.LoaiKhModel
 import com.gym.model.NhanVienModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.NhanVienAdapter
+import kotlinx.coroutines.delay
 
 class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
     private lateinit var binding: FragmentNhanvienBinding
@@ -28,7 +29,11 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
     ): View? {
         binding = FragmentNhanvienBinding.inflate(layoutInflater)
         refreshData()
-        initViewModel()
+        binding.pbLoad.visibility = View.VISIBLE
+        lifecycleScope.launchWhenCreated {
+            delay(2000L)
+            initViewModel()
+        }
         return binding.root
     }
 

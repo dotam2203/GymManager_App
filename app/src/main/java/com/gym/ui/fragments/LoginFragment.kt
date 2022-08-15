@@ -13,6 +13,7 @@ import com.gym.model.TaiKhoanModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
 import com.gym.ui.viewmodel.ViewModel
+import kotlinx.coroutines.delay
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -41,14 +42,20 @@ class LoginFragment : FragmentNext() {
                 getFragment(view,R.id.navLoginToRegister)
             }
             btnLogin.setOnClickListener {
-                if(checkLogin(dsTaiKhoan)){
-                    getFragment(view,R.id.navLoginToHome)
-                    Toast.makeText(activity, "Login success!", Toast.LENGTH_SHORT).show()
-                    //activity!!.finish()
-                }
-                else{
-                    Toast.makeText(activity, "Login failed!", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
+                //pbLoad.visibility = View.VISIBLE
+                dialogPopMessage("Logging...",R.drawable.ic_load11)
+                lifecycleScope.launchWhenCreated {
+                    delay(2000L)
+                    if(checkLogin(dsTaiKhoan)){
+                        getFragment(view,R.id.navLoginToHome)
+                        Toast.makeText(activity, "Login success!", Toast.LENGTH_SHORT).show()
+                        //activity!!.finish()
+                    }
+                    else{
+                        //pbLoad.visibility = View.GONE
+                        Toast.makeText(activity, "Login failed!", Toast.LENGTH_SHORT).show()
+                        return@launchWhenCreated
+                    }
                 }
             }
         }

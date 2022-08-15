@@ -18,6 +18,7 @@ import com.gym.model.LoaiGtModel
 import com.gym.model.LoaiKhModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.LoaiGtAdapter
+import kotlinx.coroutines.delay
 
 class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
     private lateinit var binding: FragmentLoaigtBinding
@@ -30,7 +31,12 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoaigtBinding.inflate(layoutInflater)
-        initViewModel()
+        binding.pbLoad.visibility = View.VISIBLE
+        lifecycleScope.launchWhenCreated {
+            delay(2000L)
+            initViewModel()
+        }
+
         return binding.root
     }
     private fun refreshData() {

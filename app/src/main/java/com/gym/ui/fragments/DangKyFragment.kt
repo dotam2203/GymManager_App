@@ -517,7 +517,7 @@ class DangKyFragment : FragmentNext() {
             viewModel.insertTheTap(theTapModel)
             //Toast.makeText(requireContext(), "Trả sau thành công!", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
-            dialogPopMessage("Bạn chưa thanh toán!",R.drawable.ic_warning)
+            dialogPopMessage("Vui lòng thanh toán trong thời gian sớm nhất!",R.drawable.ic_warning)
         }
         btnHuy.setOnClickListener {
             dialog.dismiss()

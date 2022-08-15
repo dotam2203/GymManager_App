@@ -19,6 +19,7 @@ import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
 import com.gym.ui.adapter.GoiTapAdapter
 import com.gym.ui.viewmodel.ViewModel
+import kotlinx.coroutines.delay
 import java.util.*
 
 class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
@@ -36,8 +37,13 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGoitapBinding.inflate(layoutInflater)
-        initViewModel()
-        getTenLoaiGT()
+        binding.pbLoad.visibility = View.VISIBLE
+        lifecycleScope.launchWhenCreated {
+            delay(2000L)
+            initViewModel()
+            getTenLoaiGT()
+        }
+
         return binding.root
     }
 

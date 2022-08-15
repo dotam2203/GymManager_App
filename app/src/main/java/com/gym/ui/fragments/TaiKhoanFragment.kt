@@ -16,12 +16,10 @@ import com.gym.model.TaiKhoanModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
 import com.gym.ui.viewmodel.ViewModel
+import kotlinx.coroutines.delay
 
 class TaiKhoanFragment : FragmentNext() {
     private lateinit var binding: FragmentTaikhoanBinding
-    /*val viewModel: ViewModel by lazy{
-        ViewModelProvider(this).get(ViewModel::class.java)
-    }*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -100,13 +98,17 @@ class TaiKhoanFragment : FragmentNext() {
         dialog.setCancelable(false)
         dialog.show()
 
-        var btnYes: Button = dialog.findViewById(R.id.btnYes)
-        var btnNo: Button = dialog.findViewById(R.id.btnNo)
+        val btnYes: Button = dialog.findViewById(R.id.btnYes)
+        val btnNo: Button = dialog.findViewById(R.id.btnNo)
         btnYes.setOnClickListener {
-            getFragment(requireView(),R.id.navHomeToLogin)
+            dialog.dismiss()
+            dialogPopMessage("Loading...", R.drawable.ic_load11)
+            lifecycleScope.launchWhenCreated {
+                delay(3000L)
+                getFragment(requireView(),R.id.navHomeToLogin)
+            }
             //replaceFragment(R.id.fragmentLogin, LoginFragment())
             //activity!!.finish()
-            dialog.dismiss()
         }
         btnNo.setOnClickListener {
             dialog.dismiss()

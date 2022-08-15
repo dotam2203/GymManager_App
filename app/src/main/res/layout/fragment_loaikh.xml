@@ -88,11 +88,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-    <ProgressBar
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/pbLoad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:src="@drawable/ic_load"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

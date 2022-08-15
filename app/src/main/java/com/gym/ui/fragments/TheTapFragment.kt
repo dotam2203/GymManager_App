@@ -195,10 +195,11 @@ class TheTapFragment : FragmentNext() {
                             }
                             btnInsertKH.visibility = View.GONE
                         }
+                        break
                     }
                     else{
                         txtSearchKH.setText("")
-                        Toast.makeText(requireContext(), "Không tìm thấy thông tin!", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(), "Không tìm thấy thông tin!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

@@ -14,6 +14,7 @@ import com.gym.model.KhachHangModel
 import com.gym.model.LoaiKhModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.KhachHangAdapter
+import kotlinx.coroutines.delay
 
 class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
     private lateinit var binding: FragmentKhachhangBinding
@@ -30,7 +31,11 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
     ): View? {
         binding = FragmentKhachhangBinding.inflate(layoutInflater)
         refreshData()
-        initViewModel()
+        binding.pbLoad.visibility = View.VISIBLE
+        lifecycleScope.launchWhenCreated {
+            delay(2000L)
+            initViewModel()
+        }
         getTenLoaiKH()
         return binding.root
     }
