@@ -425,17 +425,6 @@ class ViewModel : ViewModel() {
             }
         }
     }
-
-    fun getDSTaiKhoanTheoNhanVien(maNV: String) {
-        viewModelScope.launch {
-            taiKhoanRepository.getDSTaiKhoanTheoQuyen(maNV).collect {
-                if (it.isSuccessful) {
-                    _taiKhoans.value = it.body() ?: emptyList()
-                }
-            }
-        }
-    }
-
     fun getTaiKhoan(maTK: String) {
         viewModelScope.launch {
             taiKhoanRepository.getTaiKhoan(maTK).collect {
@@ -564,6 +553,15 @@ class ViewModel : ViewModel() {
     fun getDSHoaDon() {
         viewModelScope.launch {
             hoaDonRepository.getDSHoaDon().collect {
+                if (it.isSuccessful) {
+                    _hoaDons.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
+    fun getDSHoaDonTheoNgayGiam() {
+        viewModelScope.launch {
+            hoaDonRepository.getDSHoaDonTheoNgayGiam().collect {
                 if (it.isSuccessful) {
                     _hoaDons.value = it.body() ?: emptyList()
                 }

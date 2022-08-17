@@ -1,27 +1,30 @@
 package com.gym.ui.fragments
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.messaging.FirebaseMessagingService
 import com.gym.R
 import com.gym.databinding.FragmentLoginBinding
+import com.gym.firebase.NotificationHelper
+import com.gym.model.NhanVienModel
 import com.gym.model.TaiKhoanModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
-import com.gym.ui.viewmodel.ViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
-/**
- * Author: tamdt35@fpt.com.vn
- * Date:  06/07/2022
- */
-class LoginFragment : FragmentNext() {
+class LoginFragment : FragmentNext(){
     private lateinit var binding: FragmentLoginBinding
     var dsTaiKhoan = ArrayList<TaiKhoanModel>()
+    var nhanVien = NhanVienModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,6 +50,15 @@ class LoginFragment : FragmentNext() {
                 lifecycleScope.launchWhenCreated {
                     delay(2000L)
                     if(checkLogin(dsTaiKhoan)){
+                        if(SingletonAccount.taiKhoan != null)
+                            getNhanVienByMaNV(SingletonAccount.taiKhoan!!.maNV)
+                        //--show notificatio----
+                        //NotificationHelper(requireContext(),R.drawable.ic_hoadon,"Đăng nhập","Tài khoản ${binding.txtUserLogin.text} đăng nhập thành công").Notification()
+                        NotificationHelper(requireContext(),R.drawable.ic_hoadon,"Đăng nhập","Nhân viên ${nhanVien.hoTen} đăng nhập thành công!").Notification()
+                        val kh = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        kh.hideSoftInputFromWindow(activity?.currentFocus?.windowToken,0)
+                        //Toast.makeText(activity,"Tài khoản ${binding.txtUserLogin.text} đăng nhập thành công",Toast.LENGTH_SHORT).show()
+                        //---------------------
                         getFragment(view,R.id.navLoginToHome)
                         Toast.makeText(activity, "Login success!", Toast.LENGTH_SHORT).show()
                         //activity!!.finish()
@@ -126,5 +138,12 @@ class LoginFragment : FragmentNext() {
             }
         }
     }
-
+    fun getNhanVienByMaNV(maNV: String){
+        viewModel.getNhanVien(maNV)
+        lifecycleScope.launchWhenCreated {
+            viewModel.nhanVien.collect{
+                nhanVien = it?: return@collect
+            }
+        }
+    }
 }

@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-/* fun replaceString(s: String): String {
+ /*fun replaceString(s: String): String {
      var sToiUu = s
      sToiUu = sToiUu.trim()
      val arrWord = sToiUu.split(" ");
@@ -38,12 +38,12 @@ import java.util.*
          str = str.plus(_str + 1)
      }
      return str.trim()
- }*/
+ }
 fun currentDate(): String{
     val sdf = SimpleDateFormat("dd/M/yyyy")
     val currentDate = sdf.format(Date())
     return currentDate.toString().trim()
-}
+}*/
 fun main() {
     //println("maNV: ${randomMaNV("gym", "G11")}")
     /*val str: String = "1234567"
@@ -64,8 +64,17 @@ fun main() {
     year = d[2].toString().trim()
     val dateFormat = "$year/$month/$day"
     println("date format: $dateFormat")*/
-    val current = LocalDateTime.now()
+    /*val current = LocalDateTime.now()
     val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
     val formatted = current.format(formatter)
-    println("Current Date and Time is: $formatted")
+    println("Current Date and Time is: $formatted")*/
+    val sRandom = "Nhân Viên Thích Hát"
+    var str = ""
+    val wordArr = sRandom.split(" ")
+    for(word in wordArr){
+        if(word.isNotEmpty()){
+            str += word[0].toString()
+        }
+    }
+    println("abc: $str")
 }

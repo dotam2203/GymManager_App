@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.lifecycle.lifecycleScope
@@ -13,9 +14,11 @@ import com.gym.R
 import com.gym.databinding.FragmentNhanvienBinding
 import com.gym.model.LoaiKhModel
 import com.gym.model.NhanVienModel
+import com.gym.model.TaiKhoanModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.NhanVienAdapter
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
     private lateinit var binding: FragmentNhanvienBinding
@@ -69,6 +72,8 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
                     nhanViens.addAll(response)
                     initAdapter()
                     nhanVienAdapter.notifyDataSetChanged()
+                    for(i in nhanViens.indices){
+                    }
                     binding.pbLoad.visibility = View.GONE
                 }
             }
@@ -205,7 +210,14 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         }
         btnThem.setOnClickListener {
             Toast.makeText(requireContext(), "maNV: ${randomString("nhân viên", getMaNVMax(nhanViens))} \ntenKH: ${replaceString(txtTenKH.text.toString())} \nphai: $selectPhai \nSDT: ${txtSdtKH.text} \nemail:${txtEmailKH.text} \nDiaChi: ${txtDiaChi.text}", Toast.LENGTH_SHORT).show()
-            viewModel.insertNhanVien(NhanVienModel(randomString("nhân viên", getMaNVMax(nhanViens)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),""))
+            val insertNV = NhanVienModel(randomString("nhân viên", getMaNVMax(nhanViens)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"")
+            viewModel.insertNhanVien(insertNV)
+            lifecycleScope.launchWhenCreated {
+                delay(2000L)
+                viewModel.insertTaiKhoan(TaiKhoanModel(createAccountRandom(txtEmailKH.text.toString()),"123","Hoạt động","Q02",insertNV.maNV))
+                Log.e("TAG-CreateAccount", "user:${createAccountRandom(txtEmailKH.text.toString())}\npass:123\nTrạng thái: Hoạt động\nQuyền:Q02\nmaNV:${insertNV.maNV}")
+                Toast.makeText(requireContext(), "created account successful!!", Toast.LENGTH_SHORT).show()
+            }
             Toast.makeText(requireContext(), "insert staff successful!!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -284,5 +296,29 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         fragment.arguments = bundle
         childFragmentManager.beginTransaction().replace(R.id.nav_fragment,fragment).commit()
         replaceFragment(R.id.nav_fragment,fragment)
+    }
+    private fun createAccountRandom(email: String): String{
+        val msg = email.split("@")
+        return msg[0]
+    }
+    private fun checkTaiKhoanByMaNV(maNV: String): Boolean{
+        var status: Boolean = false
+        viewModel.getDSTaiKhoan()
+        lifecycleScope.launchWhenCreated {
+            viewModel.taiKhoans.collect{
+                if(it.isNotEmpty()){
+                    for(i in it.indices){
+                        if(maNV == it[i].maNV){
+                            status = true
+                            break
+                        }
+                    }
+                }
+                else{
+                    return@collect
+                }
+            }
+        }
+        return status
     }
 }

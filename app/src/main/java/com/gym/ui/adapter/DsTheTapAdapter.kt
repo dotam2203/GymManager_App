@@ -7,7 +7,7 @@ import com.gym.databinding.ItemThetapBinding
 import com.gym.model.TheTapModel
 
 class DsTheTapAdapter: RecyclerView.Adapter<DsTheTapAdapter.ViewHolder>() {
-    val theTaps = listOf<TheTapModel>()
+    var theTaps = listOf<TheTapModel>()
     inner class ViewHolder(val binding: ItemThetapBinding) : RecyclerView.ViewHolder(binding.root){}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

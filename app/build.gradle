@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -38,6 +39,7 @@ android {
     }
 }
 dependencies {
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.7'
     def nav_version = "2.5.0"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
@@ -74,4 +76,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     //gif
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.24'
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:30.3.2')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

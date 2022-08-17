@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import com.gym.R
 import com.gym.databinding.FragmentDangkyBinding
+import com.gym.firebase.NotificationHelper
 import com.gym.model.*
 import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
@@ -504,6 +505,8 @@ class DangKyFragment : FragmentNext() {
             }
             //Toast.makeText(requireContext(), "insert successful!", Toast.LENGTH_SHORT).show()
             dialogPopMessage("Thanh toán thành công",R.drawable.ic_ok)
+            //-------------------
+            NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí thành công dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}").Notification()
             //====================
             dialog.setCancelable(true)
             tvHDMess.text = "Chi Tiết Hóa Đơn"

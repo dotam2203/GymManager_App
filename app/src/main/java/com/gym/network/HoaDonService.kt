@@ -8,6 +8,9 @@ interface HoaDonService {
     @GET("hoadon/getds")
     suspend fun getDSHoaDon(): Response<List<HoaDonModel>>
 
+    @GET("hoadon/getngay")
+    suspend fun getDSHoaDonTheoNgayGiam(): Response<List<HoaDonModel>>
+
     @GET("hoadon/getnv")
     suspend fun getDSHoaDonTheoNV(@Query("maNV") maNV: String): Response<List<HoaDonModel>>
     @GET("hoadon/getthe")

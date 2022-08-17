@@ -15,9 +15,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTheTap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_thetap"
             android:orientation="horizontal"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/pbLoad"
+        android:src="@drawable/ic_load"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

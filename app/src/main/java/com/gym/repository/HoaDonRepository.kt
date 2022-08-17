@@ -14,6 +14,11 @@ class HoaDonRepository {
         if (request.isSuccessful)
             emit(request)
     }.flowOn(IO)
+    fun getDSHoaDonTheoNgayGiam(): Flow<Response<List<HoaDonModel>>> = flow{
+        val request = RetrofitInstance.loadApiHoaDon.getDSHoaDonTheoNgayGiam()
+        if (request.isSuccessful)
+            emit(request)
+    }.flowOn(IO)
     fun getDSHoaDonTheoNV(maNV: String): Flow<Response<List<HoaDonModel>>> = flow{
         val request = RetrofitInstance.loadApiHoaDon.getDSHoaDonTheoNV(maNV)
         if (request.isSuccessful)
