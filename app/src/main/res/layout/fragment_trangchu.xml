@@ -23,7 +23,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@color/gray_100"
+            android:src="@drawable/logo"
+            android:background="@color/white"
             app:layout_constraintStart_toStartOf="@id/lineV"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +37,7 @@
             android:text="Nick_name"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="italic"
+            android:textStyle="italic|bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/lineV"
             app:layout_constraintStart_toStartOf="parent"

@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.SyncStateContract
 import android.view.*
 import android.widget.*
 import androidx.lifecycle.lifecycleScope

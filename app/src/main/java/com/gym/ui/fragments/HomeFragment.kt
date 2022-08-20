@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.gym.R
 import com.gym.databinding.FragmentHomeBinding
 import com.gym.ui.FragmentNext
+import com.gym.ui.SingletonAccount
 
 class HomeFragment : FragmentNext() {
     private lateinit var binding: FragmentHomeBinding
@@ -28,15 +29,16 @@ class HomeFragment : FragmentNext() {
         super.onViewCreated(view, savedInstanceState)
         //setControl()
         replaceFragment(R.id.fragmentMain, TrangChuFragment())
-       binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
                 R.id.menuTrangChu -> replaceFragment(R.id.fragmentMain, TrangChuFragment())
                 R.id.menuThetap -> replaceFragment(R.id.fragmentMain, TheTapFragment())
                 R.id.menuHoadon -> replaceFragment(R.id.fragmentMain, HoaDonFragment())
-                R.id.menuThongke  -> replaceFragment(R.id.fragmentMain, ThongKeFragment())
+                R.id.menuThongke -> replaceFragment(R.id.fragmentMain, ThongKeFragment())
                 R.id.menuTaikhoan -> replaceFragment(R.id.fragmentMain, TaiKhoanFragment())
             }
             true
+
         }
     }
 }

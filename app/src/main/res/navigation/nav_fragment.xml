@@ -68,7 +68,8 @@
             app:destination="@id/fragmentTrangChu" />
         <action
             android:id="@+id/navHomeToLogin"
-            app:destination="@id/fragmentLogin" />
+            app:destination="@id/fragmentLogin"
+            app:popUpTo="@id/fragmentHome" />
         <action
             android:id="@+id/navHomeToLoaiGT"
             app:destination="@id/fragmentLoaiGT" />
@@ -103,6 +104,9 @@
         <action
             android:id="@+id/navTaikhoanToLogin"
             app:destination="@id/fragmentLogin" />
+        <action
+            android:id="@+id/navTaikhoanToHome"
+            app:destination="@id/fragmentHome" />
     </fragment>
     <fragment
         android:id="@+id/fragmentThetap"

@@ -64,7 +64,16 @@
             android:background="@drawable/logo"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/imvCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera"
+            app:layout_constraintStart_toEndOf="@id/imvAvatar"
+            app:layout_constraintBottom_toBottomOf="@id/imvAvatar"
+            android:background="?android:selectableItemBackground"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"/>
         <ImageButton
             android:id="@+id/imbEditAcc"
             android:layout_width="50dp"

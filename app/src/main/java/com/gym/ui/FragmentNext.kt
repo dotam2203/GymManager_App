@@ -12,10 +12,12 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.gym.R
 import com.gym.ui.viewmodel.ViewModel
 import kotlinx.coroutines.delay
@@ -35,6 +37,14 @@ import kotlin.concurrent.thread
 abstract class FragmentNext : Fragment() {
     val viewModel: ViewModel by lazy {
         ViewModelProvider(this)[ViewModel::class.java]
+    }
+    fun callBack(id: Int){
+        val callBack = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                findNavController().navigate(id)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callBack)
     }
     fun getFragment(view: View, id: Int) {
         Navigation.findNavController(view).navigate(id)
@@ -217,5 +227,18 @@ abstract class FragmentNext : Fragment() {
             }
         }
         return tenLoaiGT
+    }
+    fun getTenQuyenByMaQuyen(maQuyen: String): String{
+        var tenQ: String = ""
+        viewModel.getQuyen(maQuyen)
+        lifecycleScope.launchWhenCreated {
+            viewModel.quyen.collect{
+                if(it != null){
+                    tenQ = it.tenQuyen
+                }
+                else return@collect
+            }
+        }
+        return tenQ
     }
 }

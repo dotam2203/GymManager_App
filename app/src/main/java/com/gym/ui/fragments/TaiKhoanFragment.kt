@@ -4,31 +4,39 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide.init
 import com.gym.R
 import com.gym.databinding.FragmentTaikhoanBinding
 import com.gym.model.NhanVienModel
 import com.gym.model.TaiKhoanModel
 import com.gym.ui.FragmentNext
+import com.gym.ui.SharedPreferencesLogin
 import com.gym.ui.SingletonAccount
-import com.gym.ui.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 
 class TaiKhoanFragment : FragmentNext() {
     private lateinit var binding: FragmentTaikhoanBinding
+    private lateinit var sharedPreferencesLogin: SharedPreferencesLogin
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //callBack(R.id.navTaikhoanToHome)
         binding = FragmentTaikhoanBinding.inflate(layoutInflater)
+        init()
         refreshData()
         showDataUser()
         binding.imbSaveAcc.visibility = View.GONE
         return binding.root
+    }
+
+    private fun init() {
+        sharedPreferencesLogin = SharedPreferencesLogin(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,6 +111,8 @@ class TaiKhoanFragment : FragmentNext() {
         btnYes.setOnClickListener {
             dialog.dismiss()
             dialogPopMessage("Loading...", R.drawable.ic_load11)
+            //binding.pbLoad.visibility = View.VISIBLE
+            sharedPreferencesLogin.removeData()
             lifecycleScope.launchWhenCreated {
                 delay(3000L)
                 getFragment(requireView(),R.id.navHomeToLogin)

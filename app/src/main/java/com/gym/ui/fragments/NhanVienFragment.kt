@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
 import com.gym.R
@@ -30,6 +32,8 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //=====================
+        //=====================
         binding = FragmentNhanvienBinding.inflate(layoutInflater)
         refreshData()
         binding.pbLoad.visibility = View.VISIBLE

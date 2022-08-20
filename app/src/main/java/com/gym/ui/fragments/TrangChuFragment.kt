@@ -4,16 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.gym.R
 import com.gym.databinding.FragmentTrangchuBinding
 import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
-import com.gym.ui.viewmodel.ViewModel
 
 class TrangChuFragment : FragmentNext() {
     private lateinit var binding: FragmentTrangchuBinding
@@ -23,6 +18,12 @@ class TrangChuFragment : FragmentNext() {
     ): View? {
         binding = FragmentTrangchuBinding.inflate(layoutInflater)
         getDataLogin()
+        if(SingletonAccount.taiKhoan?.maQuyen == "Q01"){
+            binding.llNhanVien.visibility = View.VISIBLE
+        }
+        else if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+            binding.llNhanVien.visibility = View.GONE
+        }
         return binding.root
     }
 
@@ -41,10 +42,10 @@ class TrangChuFragment : FragmentNext() {
         }
     }
     fun getDataLogin(){
-        viewModel.getNhanVien(SingletonAccount.taiKhoan!!.maNV.toString())
+        viewModel.getNhanVien(SingletonAccount.taiKhoan!!.maNV)
         lifecycleScope.launchWhenCreated {
             viewModel.nhanVien.collect{ response ->
-                binding.tvUser.text = "Chào, ${response?.hoTen}"
+                binding.tvUser.text = "Xin chào, ${response?.hoTen}"
             }
         }
     }
