@@ -35,6 +35,9 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         //=====================
         //=====================
         binding = FragmentNhanvienBinding.inflate(layoutInflater)
+        binding.imbBack.setOnClickListener {
+            getFragment(requireView(),R.id.navNhanVienToHome)
+        }
         refreshData()
         binding.pbLoad.visibility = View.VISIBLE
         lifecycleScope.launchWhenCreated {

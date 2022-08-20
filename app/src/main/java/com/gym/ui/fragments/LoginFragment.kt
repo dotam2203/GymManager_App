@@ -201,8 +201,8 @@ class LoginFragment : FragmentNext() {
     }
 
     fun checkLogin(taiKhoans: ArrayList<TaiKhoanModel>): Boolean {
-        var user: String = binding.txtUserLogin.text.toString()
-        var pass: String = binding.txtPassLogin.text.toString()
+        val user: String = binding.txtUserLogin.text.toString()
+        val pass: String = binding.txtPassLogin.text.toString()
         for (i in taiKhoans.indices) {
             if (user.trim().isEmpty()) {
                 binding.txtUserLogin.apply {

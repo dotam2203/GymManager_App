@@ -1,23 +1,22 @@
 package com.gym.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
-import com.gym.R
-import com.gym.databinding.TabLayoutDichvuBinding
+import com.gym.databinding.TabLayoutHoadonBinding
 import com.gym.ui.adapter.HoaDonViewPagerAdapter
 
 class HoaDonFragment : Fragment() {
-    private lateinit var binding: TabLayoutDichvuBinding
+    private lateinit var binding: TabLayoutHoadonBinding
     val tabTitle = listOf("Chờ thanh toán","Đã thanh toán")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = TabLayoutDichvuBinding.inflate(layoutInflater)
+        binding = TabLayoutHoadonBinding.inflate(layoutInflater)
         return binding.root
     }
 

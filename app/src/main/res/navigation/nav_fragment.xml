@@ -90,7 +90,11 @@
         android:id="@+id/fragmentDichvu"
         android:name="com.gym.ui.fragments.DichVuFragment"
         android:label="FragmentDichvu"
-        tools:layout="@layout/fragment_loaigt" />
+        tools:layout="@layout/fragment_loaigt" >
+        <action
+            android:id="@+id/navDichvuToHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentHoadon"
         android:name="com.gym.ui.fragments.HoaDonFragment"
@@ -137,10 +141,13 @@
         android:id="@+id/fragmentNguoiDung"
         android:name="com.gym.ui.fragments.NguoiDungFragment"
         android:label="tab_layout_nguoidung"
-        tools:layout="@layout/tab_layout_nguoidung" >
+        tools:layout="@layout/tab_layout_hoadon" >
         <action
             android:id="@+id/navNguoiDungToThetap"
             app:destination="@id/fragmentThetap" />
+        <action
+            android:id="@+id/navNguoiDungToHome"
+            app:destination="@id/fragmentHome" />
     </fragment>
     <fragment
         android:id="@+id/fragmentKhachHang"
@@ -166,5 +173,9 @@
         android:id="@+id/fragmentNhanVien"
         android:name="com.gym.ui.fragments.NhanVienFragment"
         android:label="fragment_nhanvien"
-        tools:layout="@layout/fragment_nhanvien" />
+        tools:layout="@layout/fragment_nhanvien" >
+        <action
+            android:id="@+id/navNhanVienToHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
 </navigation>

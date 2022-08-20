@@ -12,4 +12,7 @@ class MainActivity : AppCompatActivity(){
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 }
