@@ -18,8 +18,7 @@
             android:id="@+id/rvTheTap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_thetap"
-            android:orientation="horizontal"/>
+            tools:listitem="@layout/item_thetap"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/pbLoad"

@@ -4,18 +4,21 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide.init
-import com.google.firebase.auth.FirebaseAuth
 import com.gym.R
 import com.gym.databinding.FragmentLoginBinding
 import com.gym.firebase.NotificationHelper
@@ -24,8 +27,21 @@ import com.gym.model.TaiKhoanModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.SharedPreferencesLogin
 import com.gym.ui.SingletonAccount
+import com.sun.mail.util.ASCIIUtility.getBytes
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.delay
+import java.security.InvalidKeyException
+import java.security.NoSuchAlgorithmException
+import java.util.*
+import javax.crypto.BadPaddingException
+import javax.crypto.Cipher
+import javax.crypto.IllegalBlockSizeException
+import javax.crypto.NoSuchPaddingException
+import javax.crypto.spec.SecretKeySpec
+import javax.mail.*
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
+import kotlin.collections.ArrayList
 
 class LoginFragment : FragmentNext() {
     private lateinit var binding: FragmentLoginBinding
@@ -130,7 +146,7 @@ class LoginFragment : FragmentNext() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if (android.util.Patterns.EMAIL_ADDRESS.matcher(txtForgotPass.text.toString()).matches())
+                if (Patterns.EMAIL_ADDRESS.matcher(txtForgotPass.text.toString()).matches())
                     btnForgot.isEnabled = true
                 else {
                     btnForgot.isEnabled = false
@@ -140,21 +156,47 @@ class LoginFragment : FragmentNext() {
 
         })
         btnForgot.setOnClickListener {
-            val email = txtForgotPass.text.toString()
-            FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(requireContext(), "Mật khẩu mới đã được gửi về Email của bạn!", Toast.LENGTH_LONG).show()
-                        dialog.dismiss()
-                        binding.txtPassLogin.setText("")
-                    } else {
-                        Toast.makeText(requireContext(), task.exception!!.message.toString(), Toast.LENGTH_LONG).show()
-                    }
-                }
+            resetPassByEmail(txtForgotPass.text.toString().trim(),createPassword())
         }
         imvClose.setOnClickListener {
             imvClose.setBackgroundColor(R.color.blue)
             dialog.dismiss()
+        }
+    }
+
+    private fun resetPassByEmail(email: String, newPass: String) {
+        //pass: zrvpdagswfzllgmr
+        val toMail = "dolethanhtam1022@gmail.com"
+        val toPass = "zrvpdagswfzllgmr"
+
+        val host = "smtp.gmail.com"
+        val properties = System.getProperties()
+        properties.apply {
+            put("mail.smtp.auth", "true")
+            put("mail.smtp.starttls.enable", "true")
+            put("mail.smtp.host", "smtp.gmail.com")
+            put("mail.smtp.port", "587")
+        }
+        //val session = Session
+        val session = Session.getInstance(properties, object : Authenticator() {
+            override fun getPasswordAuthentication(): PasswordAuthentication {
+                return PasswordAuthentication(toMail, toPass)
+            }
+        })
+        try {
+            val message: Message = MimeMessage(session)
+            val str = email.split("@")
+            val emaill = str[0].trim()
+            message.apply {
+                setFrom(InternetAddress(toMail))
+                addRecipient(Message.RecipientType.TO, InternetAddress(email))
+                subject = "VECTOR GYM - FORGOT PASSWORD"
+                setText("Chào $emaill\nMật khẩu mới của bạn là: $newPass")
+            }
+            sendMail().execute(message)
+            Toast.makeText(requireContext(), "Mật khẩu mới đã được gửi!", Toast.LENGTH_SHORT).show()
+        }catch (e: MessagingException){
+            e.printStackTrace()
         }
     }
 
@@ -229,8 +271,8 @@ class LoginFragment : FragmentNext() {
     }
 
     fun getCheckAccLogin(): Boolean {
-        var user: String = SingletonAccount.taiKhoan?.maTK.toString()
-        var pass: String = SingletonAccount.taiKhoan?.matKhau.toString()
+        val user: String = SingletonAccount.taiKhoan?.maTK.toString()
+        val pass: String = SingletonAccount.taiKhoan?.matKhau.toString()
         if (user.isEmpty() || pass.isEmpty()) {
             binding.apply {
                 pbLoad.visibility = View.GONE
@@ -272,5 +314,45 @@ class LoginFragment : FragmentNext() {
             }
         }
         return tk
+    }
+
+    fun createPassword(): String {
+        val generator = Random()
+        val value: Int = generator.nextInt((999999 - 100000) + 1) + 100000
+        return "$value"
+    }
+    private class sendMail : AsyncTask<Message, String, String>() {
+        override fun doInBackground(vararg params: Message?): String {
+            try {
+                Transport.send(params[0])
+                return "Success!"
+            }catch (e: MessagingException){
+                e.printStackTrace()
+                return "Fail!"
+            }
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public fun maHoa(original: String): String{
+        try {
+            val SECRET_KEY = "12345678"
+            val skeySpec = SecretKeySpec(SECRET_KEY.toByteArray(),"DES")
+            val cipher = Cipher.getInstance("DES/ECB/PKCS5PADDING")
+            cipher.init(Cipher.ENCRYPT_MODE,skeySpec)
+            val byteEncrypted: ByteArray? = cipher.doFinal(original.toByteArray())
+            var encrypted: String = ""
+            encrypted = Base64.getEncoder().encodeToString(byteEncrypted)
+            return encrypted
+        }catch (e: NoSuchAlgorithmException){
+           return "${e.printStackTrace()}"
+        }catch (e: NoSuchPaddingException){
+           return "${e.printStackTrace()}"
+        }catch (e: IllegalBlockSizeException){
+           return "${e.printStackTrace()}"
+        }catch (e: BadPaddingException){
+           return "${e.printStackTrace()}"
+        }catch (e: InvalidKeyException){
+           return "${e.printStackTrace()}"
+        }
     }
 }

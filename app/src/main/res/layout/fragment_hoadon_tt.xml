@@ -1,15 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
     tools:context=".ui.fragments.HoaDonTTFragment">
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/barList"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thanh toán"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/refresh">
+        <TextView
+            android:id="@+id/tvTitleHD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/barList"
+            app:layout_constraintStart_toStartOf="@id/barList"
+            app:layout_constraintEnd_toEndOf="@id/barList"
+            app:layout_constraintTop_toTopOf="@id/barList"
+            android:textColor="@color/black"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            android:text="Danh sách hóa đơn"
+            android:gravity="center"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barList">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHoaDonTT"
+            android:layout_width="match_parent"
+            android:layout_height="630dp"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barList"
+            tools:listitem="@layout/item_hoadon"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/pbLoad"
+        android:src="@drawable/ic_load"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:visibility="visible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

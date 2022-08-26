@@ -8,18 +8,20 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.databinding.FragmentDsDangkyBinding
+import com.gym.model.CtTheTapModel
 import com.gym.model.KhachHangModel
 import com.gym.model.TheTapModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.DsTheTapAdapter
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 
-class DSDangKyFragment : FragmentNext() {
+class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
     private lateinit var binding: FragmentDsDangkyBinding
     var khachHang = KhachHangModel()
-    var theTapAdapter = DsTheTapAdapter()
-    var theTaps = ArrayList<TheTapModel>()
-    var theTap = TheTapModel()
+    var ctTheTapAdapter = DsTheTapAdapter(this@DSDangKyFragment)
+    var ctTheTaps = ArrayList<CtTheTapModel>()
+    var ctTheTap = CtTheTapModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,26 +72,52 @@ class DSDangKyFragment : FragmentNext() {
             delay(2000L)
             viewModel.theTaps.collect {
                 if (it.isNotEmpty()) {
-                    theTapAdapter.theTaps = it
-                    theTaps.addAll(it)
-                    initAdapter()
-                    theTapAdapter.notifyDataSetChanged()
-                    binding.pbLoad.visibility = View.GONE
+                    for(i in it.indices){
+                        ctTheTaps.add(getCTTheByMaThe(it[i].maThe))
+                    }
+                    lifecycleScope.launchWhenCreated {
+                        delay(2000L)
+
+                        ctTheTapAdapter.ctTheTaps = ctTheTaps
+                        initAdapter()
+                        ctTheTapAdapter.notifyDataSetChanged()
+                        binding.pbLoad.visibility = View.GONE
+                    }
                 } else {
                     binding.pbLoad.visibility = View.GONE
-                    theTapAdapter.notifyDataSetChanged()
+                    ctTheTapAdapter.notifyDataSetChanged()
                     return@collect
                 }
             }
         }
     }
-
+    fun getCTTheByMaThe(maThe: String): CtTheTapModel{
+        var ctTheTap = CtTheTapModel()
+        viewModel.getDSCtTheTapTheoThe(maThe)
+        lifecycleScope.launchWhenCreated {
+            viewModel.ctTheTaps.collect{
+                if(it.isNotEmpty()){
+                    ctTheTap = it[0]
+                }
+                else return@collect
+            }
+        }
+        return ctTheTap
+    }
     private fun initAdapter() {
         binding.apply {
             pbLoad.visibility = View.VISIBLE
             rvTheTap.apply {
-                layoutManager = LinearLayoutManager(activity)
-                adapter = theTapAdapter
+                layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+                adapter = ctTheTapAdapter
+            }
+        }
+    }
+
+    override fun itemClickInfo(ctTheTap: CtTheTapModel) {
+        viewModel.getCtTheTap(ctTheTap.idCTThe)
+        lifecycleScope.launchWhenCreated {
+            viewModel.ctTheTap.collect {
             }
         }
     }

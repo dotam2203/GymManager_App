@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".ui.fragments.LoaiKhFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/barDichVu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/barList"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -68,7 +67,6 @@
             android:id="@+id/rvLoaiKH"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,8 +78,8 @@
         android:id="@+id/imbAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="?android:selectableItemBackground"
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"

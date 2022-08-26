@@ -652,9 +652,9 @@ class ViewModel : ViewModel() {
         }
     }
 
-    fun getTheTap(maKH: String) {
+    fun getTheTap(maThe: String) {
         viewModelScope.launch {
-            theTapRepository.getTheTap(maKH).collect {
+            theTapRepository.getTheTap(maThe).collect {
                 if (it.isSuccessful) {
                     _theTap.value = it.body()
                 }

@@ -18,11 +18,11 @@
             android:id="@+id/lineV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintGuide_percent="0.8"
+            app:layout_constraintGuide_percent="0.85"
             android:orientation="vertical"/>
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/logo"
             app:layout_constraintStart_toStartOf="@id/lineV"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="@id/lineV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"/>
+            app:layout_constraintHorizontal_bias="0.95"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/lineH"

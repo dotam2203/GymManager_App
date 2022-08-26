@@ -27,6 +27,7 @@ class DichVuFragment : FragmentNext() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewPager.adapter = DichVuViewPagerAdapter(childFragmentManager, activity!!.lifecycle)
+        binding.viewPager.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout,binding.viewPager){
             tab,position -> tab.text = tabTitle[position]
         }.attach()

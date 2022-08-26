@@ -30,6 +30,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions{
+        exclude 'META-INF/NOTICE.md'
+        exclude 'META-INF/LICENSE.md'
+    }
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -39,7 +43,11 @@ android {
     }
 }
 dependencies {
+    implementation fileTree(dir: "libs",includes: ['*.jar'])
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.7'
+    implementation files('libs/activation.jar')
+    implementation files('libs/additionnal.jar')
+    implementation files('libs/mail.jar')
     def nav_version = "2.5.0"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
@@ -81,4 +89,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-storage-ktx'
+    //payment
+    implementation 'com.razorpay:checkout:1.6.24'
+    //send email
+    /*implementation 'com.su.mail:android-mail:1.6.6'
+    implementation 'com.sun.mail:android-activation:1.6.7'*/
+
 }

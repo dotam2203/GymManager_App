@@ -2,6 +2,7 @@ package com.gym.ui.fragments
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -16,6 +17,8 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide.init
 import com.google.android.gms.tasks.OnFailureListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.gym.R
@@ -26,6 +29,7 @@ import com.gym.ui.FragmentNext
 import com.gym.ui.SharedPreferencesLogin
 import com.gym.ui.SingletonAccount
 import kotlinx.coroutines.delay
+import java.io.File
 
 class TaiKhoanFragment : FragmentNext() {
     private lateinit var binding: FragmentTaikhoanBinding
@@ -42,8 +46,8 @@ class TaiKhoanFragment : FragmentNext() {
         init()
         refreshData()
         showDataUser()
+        //=====================
         binding.imbSaveAcc.visibility = View.GONE
-        binding.imvUpload.visibility = View.GONE
         //==========upload image==========
         val getImage = registerForActivityResult(ActivityResultContracts.GetContent(), ActivityResultCallback {
             if (it != null) {
@@ -53,11 +57,21 @@ class TaiKhoanFragment : FragmentNext() {
         })
         binding.imvUpload.setOnClickListener {
             getImage.launch("image/*")
+            uploadImage()
         }
         //==============================
         return binding.root
     }
-
+    private fun retrieveImage(fileName: String){
+        val storageRef = FirebaseStorage.getInstance().reference.child("image/$fileName.jpg")
+        val localFile = File.createTempFile("image","jpg")
+        storageRef.getFile(localFile).addOnSuccessListener{
+            val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+            binding.imvAvatar.setImageBitmap(bitmap)
+        }.addOnFailureListener{
+            Toast.makeText(requireActivity(), "Retrieve image failed: $it!", Toast.LENGTH_SHORT).show()
+        }
+    }
     private fun uploadImage() {
         val msg = getRandomMaHD()
         fileName = "avt${msg.substring(2)}"
@@ -67,10 +81,14 @@ class TaiKhoanFragment : FragmentNext() {
             delay(2000L)
             storageReference.putFile(imageUri)
                 .addOnSuccessListener {
-                    binding.imvAvatar.setImageURI(imageUri)
+                    //binding.imvAvatar.setImageURI(imageUri)
+                    lifecycleScope.launchWhenCreated {
+                        delay(3000L)
+                        retrieveImage(fileName)
+                    }
                     Toast.makeText(requireContext(), "Upload avatar successful!", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener(OnFailureListener {
-                    Toast.makeText(requireContext(), "Upload avatar failed ${it}!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Upload avatar failed: $it!", Toast.LENGTH_SHORT).show()
                 })
         }
     }
@@ -94,17 +112,17 @@ class TaiKhoanFragment : FragmentNext() {
                 txtPhoneAcc.isEnabled = true
                 txtAdressAcc.isEnabled = true
 
-                binding.imvUpload.visibility = View.VISIBLE
                 imbEditAcc.visibility = View.GONE
                 imbSaveAcc.visibility = View.VISIBLE
 
             }
             imbSaveAcc.setOnClickListener {
+                txtUserAcc.setTextColor(R.color.black)
+                txtEmailAcc.setTextColor(R.color.black)
                 //update data
                 val maQuyen: String = SingletonAccount.taiKhoan?.maQuyen.toString()
                 val maNV: String = SingletonAccount.taiKhoan?.maNV.toString()
                 val user: String = SingletonAccount.taiKhoan?.maTK.toString()
-                uploadImage()
                 lifecycleScope.launchWhenCreated {
                     viewModel.updateNhanVien(NhanVienModel(maNV, txtNameAcc.text.toString(), txtEmailAcc.text.toString(), txtPhoneAcc.text.toString(), "Nữ", txtAdressAcc.text.toString()))
                     viewModel.nhanVien.collect {
@@ -125,11 +143,8 @@ class TaiKhoanFragment : FragmentNext() {
                             Toast.makeText(requireContext(), "update acc failed!", Toast.LENGTH_SHORT).show()
                     }
                 }
-                txtUserAcc.setTextColor(R.color.black)
-                txtEmailAcc.setTextColor(R.color.black)
                 imbEditAcc.visibility = View.VISIBLE
                 imbSaveAcc.visibility = View.GONE
-                binding.imvUpload.visibility = View.GONE
             }
         }
     }

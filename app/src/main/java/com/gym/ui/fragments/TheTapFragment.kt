@@ -42,6 +42,7 @@ class TheTapFragment : FragmentNext() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPager.adapter = DangKyViewPagerAdapter(childFragmentManager,activity!!.lifecycle)
+        binding.viewPager.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout, binding.viewPager){
             tab,position -> tab.text = tabTitle[position]
         }.attach()

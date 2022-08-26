@@ -1,5 +1,6 @@
 package com.gym.ui.fragments
 
+import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -15,12 +16,15 @@ import com.gym.firebase.NotificationHelper
 import com.gym.model.*
 import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
+import com.razorpay.Checkout
+import com.razorpay.PaymentResultListener
 import kotlinx.coroutines.delay
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class DangKyFragment : FragmentNext() {
+class DangKyFragment : FragmentNext(),PaymentResultListener {
     private lateinit var binding: FragmentDangkyBinding
     var khachHang = KhachHangModel()
     val loaiGTs = ArrayList<LoaiGtModel>()
@@ -440,6 +444,7 @@ class DangKyFragment : FragmentNext() {
     }
     fun dialogThanhToan(theTapModel: TheTapModel, hoaDonModel: HoaDonModel, goiTapModel: GoiTapModel,loaiGtModel: LoaiGtModel,select: String) {
         val dialog = Dialog(activity!!)
+        var ctTTModel = CtTheTapModel()
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_thanhtoan)
 
@@ -485,28 +490,30 @@ class DangKyFragment : FragmentNext() {
         tvDichVu.text = goiTapModel.tenGT
         tvLoaiDV.text = loaiGtModel.tenLoaiGT
         tvDonGia.text = "${formatMoney(price[0].gia)} đ"
-        tvSoLuong.text = select
+        tvSoLuong.text = select.substring(0,1)
         tvKhuyenMai.text = ""
         tvGiamTien.text = ""
         tvThanhTien.text = "${binding.txtGia.text} đ"
         //----------------------
         btnThanhToan.setOnClickListener {
             viewModel.insertTheTap(theTapModel)
-            Log.e("TTTTTT1", "1")
+            Log.e("STT1", "1")
             lifecycleScope.launchWhenCreated {
                 delay(3000L)
                 viewModel.insertHoaDon(hoaDonModel)
-                Log.e("TTTTTT2", "2")
+                Log.e("STT2", "2")
                 lifecycleScope.launchWhenCreated {
                     delay(3000L)
-                    viewModel.insertCtTheTap(CtTheTapModel(0,tvThanhTien.text.toString(),goiTapModel.maGT,hoaDonModel.maHD,theTapModel.maThe))
-                    Log.e("TTTTTT3", "3")
+                    ctTTModel = CtTheTapModel(0,tvThanhTien.text.toString(),goiTapModel.maGT,hoaDonModel.maHD,theTapModel.maThe)
+                    viewModel.insertCtTheTap(ctTTModel)
+                    Log.e("STT3", "3")
                 }
             }
+            passData(theTapModel,hoaDonModel,ctTTModel)
             //Toast.makeText(requireContext(), "insert successful!", Toast.LENGTH_SHORT).show()
             dialogPopMessage("Thanh toán thành công",R.drawable.ic_ok)
             //-------------------
-            NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí thành công dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}").Notification()
+            NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí thành công dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Đã thanh toán").Notification()
             //====================
             dialog.setCancelable(true)
             tvHDMess.text = "Chi Tiết Hóa Đơn"
@@ -517,13 +524,53 @@ class DangKyFragment : FragmentNext() {
 
         }
         btnThanhToanSau.setOnClickListener {
-            viewModel.insertTheTap(theTapModel)
+            /*viewModel.insertTheTap(theTapModel)
             //Toast.makeText(requireContext(), "Trả sau thành công!", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
-            dialogPopMessage("Vui lòng thanh toán trong thời gian sớm nhất!",R.drawable.ic_warning)
+            dialogPopMessage("Vui lòng thanh toán trong thời gian sớm nhất!",R.drawable.ic_warning)//-------------------
+            NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Thanh toán sau").Notification()
+            //====================*/
+            startPayment()
         }
         btnHuy.setOnClickListener {
             dialog.dismiss()
         }
+    }
+
+    private fun passData(theTap: TheTapModel, hoaDon: HoaDonModel, ctTT: CtTheTapModel) {
+
+    }
+    private fun startPayment() {
+        /*
+        *  You need to pass current activity in order to let Razorpay create CheckoutActivity
+        * */
+        val checkout = Checkout()
+
+        try {
+            val options = JSONObject()
+            options.put("name","Razorpay Corp")
+            options.put("description","Demoing Charges")
+            //You can omit the image option to fetch the image from dashboard
+            options.put("image","https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg")
+            options.put("theme.color", "#3399cc");
+            options.put("currency","INR");
+            options.put("order_id", "order_DBJOWzybf0sJbb");
+            options.put("amount","50000")//pass amount in currency subunits
+            options.put("prefill.email","gaurav.kumar@example.com")
+            options.put("prefill.contact","9876543210")
+            checkout.open(activity,options)
+        }catch (e: Exception){
+            Toast.makeText(requireActivity(), "Payment failed ${e.message}!", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
+    }
+
+
+    override fun onPaymentSuccess(p0: String?) {
+        Toast.makeText(requireActivity(), "Payment success!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onPaymentError(p0: Int, p1: String?) {
+        Toast.makeText(requireActivity(), "Payment failed!", Toast.LENGTH_SHORT).show()
     }
 }

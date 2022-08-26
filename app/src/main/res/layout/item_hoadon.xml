@@ -44,9 +44,9 @@
         android:textColor="@color/violet"
         android:textSize="16sp"
         android:textStyle="bold|italic"
-        app:layout_constraintStart_toEndOf="@+id/tvTG"
-        app:layout_constraintTop_toTopOf="@+id/tvTG"
-        app:layout_constraintBottom_toBottomOf="@+id/tvTG"/>
+        app:layout_constraintStart_toEndOf="@id/tvTG"
+        app:layout_constraintTop_toTopOf="@id/tvTG"
+        app:layout_constraintBottom_toBottomOf="@id/tvTG"/>
     <TextView
         android:id="@+id/tvHDKH"
         android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
         android:src="@drawable/ic_info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imbSelect"
-        app:layout_constraintStart_toStartOf="@+id/lineV"
+        app:layout_constraintStart_toStartOf="@id/lineV"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

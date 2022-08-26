@@ -1,58 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center"
-    android:layout_margin="20dp"
-    android:background="@drawable/round_border10">
-    <!--#ECAFAF-->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/itemTT"
+    <data>
+        <variable
+            name="ctThe"
+            type="com.gym.model.CtTheTapModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemEnable"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_thetap"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:padding="50dp"
+        android:background="@drawable/shape_center_panel">
+        <!--#ECAFAF-->
 
-    <TextView
-        android:id="@+id/tvTenDVDK"
-        android:text="Boxing"
-        android:textStyle="bold"
-        android:textSize="28sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/itemTT"
-        app:layout_constraintEnd_toEndOf="@id/itemTT"
-        app:layout_constraintTop_toTopOf="@id/itemTT"
-        app:layout_constraintBottom_toBottomOf="@id/itemTT"
-        app:layout_constraintVertical_bias="0.2"/>
-    <TextView
-        android:id="@+id/tvTenLDVDK"
-        android:text="Tháng"
-        android:textStyle="bold"
-        android:textSize="22sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/itemTT"
-        app:layout_constraintEnd_toEndOf="@id/itemTT"
-        app:layout_constraintTop_toBottomOf="@id/tvTenDVDK"
-        app:layout_constraintBottom_toTopOf="@id/tvChiTiet"
-        app:layout_constraintVertical_bias="0.25"/>
-    <TextView
-        android:id="@+id/tvChiTiet"
-        android:text="Chi tiết >>"
-        android:textStyle="bold|italic"
-        android:textColor="@color/gray_100"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/itemTT"
-        app:layout_constraintEnd_toEndOf="@id/itemTT"
-        app:layout_constraintTop_toBottomOf="@id/tvTenLDVDK"
-        app:layout_constraintBottom_toBottomOf="@id/itemTT"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--<pl.droidsonroids.gif.GifImageView
+            android:id="@+id/itemTT"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:src="@drawable/ic_thetap"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>-->
+
+        <TextView
+            android:id="@+id/tvTenDVDK"
+            android:text="@{ctThe.tenGT}"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvTenLDVDK"/>
+
+        <TextView
+            android:id="@+id/tvTenLDVDK"
+            android:text="@{ctThe.tenLoaiGT}"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTenDVDK"
+            app:layout_constraintBottom_toTopOf="@id/tvChiTiet"
+            app:layout_constraintVertical_bias="0.25" />
+
+        <TextView
+            android:id="@+id/tvChiTiet"
+            android:text="Chi tiết >>"
+            android:textStyle="bold|italic"
+            android:textColor="@color/gray_100"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTenLDVDK"
+            app:layout_constraintBottom_toTopOf="@id/ngayBDT" />
+
+        <TextView
+            android:id="@+id/ngayBDT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ngayBD"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvChiTiet"
+            app:layout_constraintBottom_toBottomOf="parent" />
+        <TextView
+            android:id="@+id/tvNgayBDT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{ctThe.ngayBD}"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ngayBDT"
+            app:layout_constraintBottom_toTopOf="@id/ngayKTT" />
+        <TextView
+            android:id="@+id/ngayKTT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ngayKT"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNgayBDT"
+            app:layout_constraintBottom_toTopOf="@id/tvNgayKTT" />
+        <TextView
+            android:id="@+id/tvNgayKTT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{ctThe.ngayKT}"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ngayKTT"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

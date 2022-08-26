@@ -23,6 +23,7 @@ class HoaDonFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPager.adapter = HoaDonViewPagerAdapter(childFragmentManager,activity!!.lifecycle)
+        binding.viewPager.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout,binding.viewPager){
             tab,position -> tab.text = tabTitle[position]
         }.attach()

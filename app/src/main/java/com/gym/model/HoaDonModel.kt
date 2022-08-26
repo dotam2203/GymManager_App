@@ -9,5 +9,6 @@ data class HoaDonModel(
     var ngayLap: String = "",
     var maNV: String = "",
     var maThe: String = "",
+    var tenKH: String = "",
     var ctTheTaps: List<CtTheTapModel>? = null
 ) : Parcelable
