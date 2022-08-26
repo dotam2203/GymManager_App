@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_fragment"
-    app:startDestination="@id/fragmentLogin">
+    app:startDestination="@id/fragmentSlide">
 
     <fragment
         android:id="@+id/fragmentLogin"
@@ -16,6 +16,9 @@
         <action
             android:id="@+id/navLoginToHome"
             app:destination="@id/fragmentHome" />
+        <action
+            android:id="@+id/navLoginToForgotFragment"
+            app:destination="@id/forgotPassFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentRegister"
@@ -177,5 +180,14 @@
         <action
             android:id="@+id/navNhanVienToHome"
             app:destination="@id/fragmentHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPassFragment"
+        android:name="com.gym.ui.fragments.ForgotPassFragment"
+        android:label="fragment_forgot_pass"
+        tools:layout="@layout/fragment_forgot_pass" >
+        <action
+            android:id="@+id/navForgotPassToLogin"
+            app:destination="@id/fragmentLogin" />
     </fragment>
 </navigation>

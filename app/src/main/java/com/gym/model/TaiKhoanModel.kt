@@ -12,4 +12,5 @@ data class TaiKhoanModel(
     var trangThai:  String = "",
     var maQuyen:  String = "",
     var maNV:  String = "",
+    var email:  String = ""
 ) : Parcelable

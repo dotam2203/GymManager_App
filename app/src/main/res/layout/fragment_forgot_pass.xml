@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/gray"
+    tools:context=".ui.fragments.ForgotPassFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imvClose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialog"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/shape_border_20"
+        android:layout_margin="25dp"
+        android:padding="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Vui lòng nhập Email!"
+            android:textColor="@color/red"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@id/txtForgotPass"
+            app:layout_constraintEnd_toEndOf="@id/dialog"
+            app:layout_constraintStart_toStartOf="@id/dialog"
+            app:layout_constraintTop_toTopOf="@id/dialog" />
+
+        <EditText
+            android:id="@+id/txtForgotPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:drawableEnd="@drawable/ic_email"
+            android:hint="ex@gmail.com"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/btnForgot"
+            app:layout_constraintEnd_toEndOf="@id/dialog"
+            app:layout_constraintStart_toStartOf="@id/dialog"
+            app:layout_constraintTop_toBottomOf="@id/tvMessage" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnForgot"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/click_change"
+            android:enabled="false"
+            android:text="Lấy mật khẩu"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/dialog"
+            app:layout_constraintEnd_toEndOf="@id/dialog"
+            app:layout_constraintStart_toStartOf="@id/dialog"
+            app:layout_constraintTop_toBottomOf="@id/txtForgotPass" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,14 +4,12 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.os.AsyncTask
 import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +25,9 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.mail.*
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
@@ -240,5 +241,53 @@ abstract class FragmentNext : Fragment() {
             }
         }
         return tenQ
+    }
+    fun sendMessageFromMail(email: String, title: String, message: String, text: String,) {
+        //pass: zrvpdagswfzllgmr
+        val toMail = "dolethanhtam1022@gmail.com"
+        val toPass = "zrvpdagswfzllgmr"
+
+        val host = "smtp.gmail.com"
+        val properties = System.getProperties()
+        properties.apply {
+            put("mail.smtp.auth", "true")
+            put("mail.smtp.starttls.enable", "true")
+            put("mail.smtp.host", "smtp.gmail.com")
+            put("mail.smtp.port", "587")
+        }
+        //val session = Session
+        val session = Session.getInstance(properties, object : Authenticator() {
+            override fun getPasswordAuthentication(): PasswordAuthentication {
+                return PasswordAuthentication(toMail, toPass)
+            }
+        })
+        try {
+            val mimeMessage: Message = MimeMessage(session)
+            mimeMessage.apply {
+                setFrom(InternetAddress(toMail))
+                addRecipient(Message.RecipientType.TO, InternetAddress(email))
+                subject = title
+                setText(message)
+            }
+            sendMail().execute(mimeMessage)
+            lifecycleScope.launchWhenCreated {
+                delay(2000L)
+                dialogPopMessage(text, R.drawable.ic_ok)
+            }
+            //Toast.makeText(requireContext(),text, Toast.LENGTH_LONG).show()
+        }catch (e: MessagingException){
+            e.printStackTrace()
+        }
+    }
+    class sendMail : AsyncTask<Message, String, String>() {
+        override fun doInBackground(vararg params: Message?): String {
+            try {
+                Transport.send(params[0])
+                return "Success!"
+            }catch (e: MessagingException){
+                e.printStackTrace()
+                return "Fail!"
+            }
+        }
     }
 }
