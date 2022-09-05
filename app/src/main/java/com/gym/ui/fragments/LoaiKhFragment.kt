@@ -18,6 +18,7 @@ import com.gym.databinding.FragmentLoaikhBinding
 import com.gym.model.KhachHangModel
 import com.gym.model.LoaiKhModel
 import com.gym.ui.FragmentNext
+import com.gym.ui.SingletonAccount
 import com.gym.ui.adapter.LoaiKhAdapter
 import kotlinx.coroutines.delay
 
@@ -32,6 +33,9 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoaikhBinding.inflate(layoutInflater)
+        if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+            binding.imbAdd.visibility = View.GONE
+        }
         binding.pbLoad.visibility = View.VISIBLE
         lifecycleScope.launchWhenCreated {
             delay(2000L)

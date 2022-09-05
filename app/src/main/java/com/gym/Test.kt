@@ -44,6 +44,17 @@ fun currentDate(): String{
     val currentDate = sdf.format(Date())
     return currentDate.toString().trim()
 }*/
+ private fun tongDanhThu(donGia: String): Int{
+     //don gia = 100,000 đ
+     val str1 = donGia.split(" ")
+     val str2 = str1[0].split(",")
+     var str = ""
+     for(i in str2.indices){
+         //str.plus(str2[i])
+         str += str2[i]
+     }
+     return str.trim().toInt()
+ }
 fun main() {
     //println("maNV: ${randomMaNV("gym", "G11")}")
     /*val str: String = "1234567"
@@ -68,7 +79,7 @@ fun main() {
     val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
     val formatted = current.format(formatter)
     println("Current Date and Time is: $formatted")*/
-    val sRandom = "Nhân Viên Thích Hát"
+    /*val sRandom = "Nhân Viên Thích Hát"
     var str = ""
     val wordArr = sRandom.split(" ")
     for(word in wordArr){
@@ -76,5 +87,6 @@ fun main() {
             str += word[0].toString()
         }
     }
-    println("abc: $str")
+    println("abc: $str")*/
+    println("tổng doanh thu: ${tongDanhThu("100,000,000 đ")}")
 }

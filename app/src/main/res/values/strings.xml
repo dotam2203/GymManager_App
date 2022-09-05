@@ -29,5 +29,9 @@
     <string name="sdtKH">Số điện thoại</string>
     <string name="khuyenMai">Khuyến mại</string>
     <string name="giamTien">Số tiền được giảm</string>
+    <string name="noiDung">Nội dung</string>
 
+    <string name="thang">Tháng</string>
+    <string name="doanhThu">Doanh Thu</string>
+    <string name="tongDT">Tổng Doanh Thu</string>
 </resources>

@@ -3,8 +3,8 @@ package com.gym.ui
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.AsyncTask
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -29,7 +29,6 @@ import javax.mail.*
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -71,7 +70,17 @@ abstract class FragmentNext : Fragment() {
         val dateFormat = "$day/$month/$year"
         return dateFormat
     }
-
+    /*fun getFormatSortDate(date: String): String {
+        val d: List<Any> = date.split("/")
+        var year: String? = ""
+        var month: String? = ""
+        var day: String? = ""
+        day = d[0].toString().trim()
+        month = d[1].toString().trim()
+        year = d[2].toString().trim()
+        return "$year-$month-$day"
+    }
+*/
     fun getFormatDateApi(date: String): String {
         val d: List<Any> = date.split("/")
         var year: String? = ""
@@ -80,8 +89,7 @@ abstract class FragmentNext : Fragment() {
         day = d[0].toString().trim()
         month = d[1].toString().trim()
         year = d[2].toString().trim()
-        val dateFormat = "$year-$month-$day"
-        return dateFormat
+        return "$year/$month/$day"
     }
 
     fun formatCurrentMoney(number: Double): String {
@@ -148,7 +156,7 @@ abstract class FragmentNext : Fragment() {
     }
     fun formatMoney(money: String): String {
         val numberFormat = NumberFormat.getCurrencyInstance()
-        numberFormat.maximumFractionDigits = 0;
+        numberFormat.maximumFractionDigits = 0
         return numberFormat.format(money.toInt()).substring(1)
     }
     fun getSoLuongLoaiGT(tenLoaiGT: String): ArrayList<String>{
@@ -183,6 +191,30 @@ abstract class FragmentNext : Fragment() {
 
         }
         return slDangKy
+    }
+    fun compareToDate(dateStart: String): Boolean {
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val currentDate = sdf.format(Date()).toString().trim()
+        val date2: Date = sdf.parse(currentDate) as Date
+        val date1: Date = sdf.parse(dateStart) as Date
+        if(date1.compareTo(date2) == 0)
+            return true
+        else if(date1 < date2)
+            return true
+        else if(date1 > date2)
+            return false
+        return false
+    }
+    fun tongDoanhThu(donGia: String): Long{
+        //don gia = 100,000 đ
+        val str1 = donGia.split(" ")
+        val str2 = str1[0].split(",")
+        var str = ""
+        for(i in str2.indices){
+            //str.plus(str2[i])
+            str += str2[i]
+        }
+        return str.trim().toLong()
     }
     //--------------------------------------------
     fun dialogPopMessage(msg: String, drawable: Int){
@@ -242,17 +274,18 @@ abstract class FragmentNext : Fragment() {
         }
         return tenQ
     }
-    fun sendMessageFromMail(email: String, title: String, message: String, text: String,) {
-        //pass: zrvpdagswfzllgmr
-        val toMail = "dolethanhtam1022@gmail.com"
-        val toPass = "zrvpdagswfzllgmr"
+    fun sendMessageFromMail(email: String, title: String, message: String, text: String) {
+
+        //pass: akyfsgnsbwqoxyta
+        val toMail ="vectorgym2203@gmail.com"
+        val toPass = "akyfsgnsbwqoxyta"
 
         val host = "smtp.gmail.com"
         val properties = System.getProperties()
         properties.apply {
             put("mail.smtp.auth", "true")
             put("mail.smtp.starttls.enable", "true")
-            put("mail.smtp.host", "smtp.gmail.com")
+            put("mail.smtp.host", host)
             put("mail.smtp.port", "587")
         }
         //val session = Session
@@ -277,16 +310,22 @@ abstract class FragmentNext : Fragment() {
             //Toast.makeText(requireContext(),text, Toast.LENGTH_LONG).show()
         }catch (e: MessagingException){
             e.printStackTrace()
+            Log.e("TAG", "sendMessageFromMail: ${e.message}", )
         }
+    }
+    fun createPassword(): String {
+        val generator = Random()
+        val value: Int = generator.nextInt((999999 - 100000) + 1) + 100000
+        return "$value"
     }
     class sendMail : AsyncTask<Message, String, String>() {
         override fun doInBackground(vararg params: Message?): String {
-            try {
+            return try {
                 Transport.send(params[0])
-                return "Success!"
+                "Success!"
             }catch (e: MessagingException){
                 e.printStackTrace()
-                return "Fail!"
+                "Fail!"
             }
         }
     }

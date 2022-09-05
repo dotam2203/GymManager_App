@@ -1,9 +1,11 @@
 package com.gym.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,18 +33,16 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
         refreshData()
         binding.pbLoad.visibility = View.VISIBLE
         lifecycleScope.launchWhenCreated {
-            delay(2000L)
+            delay(1000L)
             reviceDataKH()
             if(khachHang.maKH != ""){
-                binding.pbLoad.visibility = View.GONE
+                initViewModel(khachHang)
+                initAdapter()
+                //binding.pbLoad.visibility = View.GONE
             }
             else binding.pbLoad.visibility = View.GONE
         }
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun refreshData() {
@@ -56,7 +56,7 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
         }
     }
 
-    fun reviceDataKH() {
+    private fun reviceDataKH() {
         parentFragmentManager.setFragmentResultListener("passData", this, object : FragmentResultListener {
             override fun onFragmentResult(requestKey: String, result: Bundle) {
                 khachHang = result.getParcelable("dataKH") ?: return
@@ -67,42 +67,52 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
 
     fun initViewModel(khachHang: KhachHangModel) {
         binding.pbLoad.visibility = View.VISIBLE
-        viewModel.getDSTheTapTheoKH(khachHang.maKH)
         lifecycleScope.launchWhenCreated {
-            delay(2000L)
-            viewModel.theTaps.collect {
-                if (it.isNotEmpty()) {
-                    for(i in it.indices){
-                        ctTheTaps.add(getCTTheByMaThe(it[i].maThe))
-                    }
-                    lifecycleScope.launchWhenCreated {
-                        delay(2000L)
+            delay(1000L)
+            viewModel.getDSTheTapTheoKH(khachHang.maKH)
+            lifecycleScope.launchWhenCreated {
+                delay(1000L)
+                viewModel.theTaps.collect {
 
-                        ctTheTapAdapter.ctTheTaps = ctTheTaps
-                        initAdapter()
+                    if(it.isNotEmpty()){
+                        for(i in it.indices){
+                            if(compareToDate(it[i].ngayBD)){
+                                viewModel.updateTheTap(TheTapModel(it[i].maThe,it[i].ngayDK,it[i].ngayBD,it[i].ngayKT,"Hoạt động",it[i].maKH))
+                            }
+                            else if(!compareToDate(it[i].ngayBD)){
+                                viewModel.updateTheTap(TheTapModel(it[i].maThe,it[i].ngayDK,it[i].ngayBD,it[i].ngayKT,"Khóa",it[i].maKH))
+                            }
+                        }
+                        ctTheTapAdapter.ctTheTaps = getCTTheByMaThe(it as ArrayList<TheTapModel>)
+                        //initAdapter()
                         ctTheTapAdapter.notifyDataSetChanged()
+                        Log.e("TAG", "List ctthe = ${ctTheTapAdapter.ctTheTaps.size}")
+                        //Toast.makeText(requireActivity(), "List ctthe = ${ctTheTaps.size}", Toast.LENGTH_SHORT).show()
                         binding.pbLoad.visibility = View.GONE
                     }
-                } else {
-                    binding.pbLoad.visibility = View.GONE
-                    ctTheTapAdapter.notifyDataSetChanged()
-                    return@collect
+                    else{
+                        binding.pbLoad.visibility = View.GONE
+                        ctTheTapAdapter.notifyDataSetChanged()
+                        Toast.makeText(requireActivity(), "List null!", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
-    fun getCTTheByMaThe(maThe: String): CtTheTapModel{
-        var ctTheTap = CtTheTapModel()
-        viewModel.getDSCtTheTapTheoThe(maThe)
-        lifecycleScope.launchWhenCreated {
-            viewModel.ctTheTaps.collect{
-                if(it.isNotEmpty()){
-                    ctTheTap = it[0]
+    private fun getCTTheByMaThe(theTaps: ArrayList<TheTapModel>): ArrayList<CtTheTapModel>{
+        val ctts = ArrayList<CtTheTapModel>()
+        for(i in theTaps.indices){
+            viewModel.getCtTheTapTheoThe(theTaps[i].maThe)
+            lifecycleScope.launchWhenCreated {
+                viewModel.ctTheTap.collect{
+                    if(it != null){
+                        ctts.add(it)
+                    }
+                    else return@collect
                 }
-                else return@collect
             }
         }
-        return ctTheTap
+        return ctts
     }
     private fun initAdapter() {
         binding.apply {

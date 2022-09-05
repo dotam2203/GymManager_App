@@ -1,11 +1,13 @@
 package com.gym.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemKhachhangBinding
 import com.gym.databinding.ItemNhanvienBinding
 import com.gym.model.NhanVienModel
+import com.gym.ui.SingletonAccount
 
 class NhanVienAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapter<NhanVienAdapter.ViewHolder>() {
     var nhanViens = listOf<NhanVienModel>()
@@ -20,6 +22,10 @@ class NhanVienAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.apply {
+                if(SingletonAccount.taiKhoan?.maNV == nhanViens[position].maNV){
+                    imbDelete.visibility = View.GONE
+                    imbEdit.visibility = View.GONE
+                }
                 nhanVien = nhanViens[position]
                 imbEdit.setOnClickListener {
                     _itemClick.itemClickEdit(nhanViens[position])

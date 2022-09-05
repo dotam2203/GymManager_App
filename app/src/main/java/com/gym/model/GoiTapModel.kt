@@ -12,6 +12,7 @@ data class GoiTapModel(
     var moTa: String = "",
     var trangThai: String = "",
     var idLoaiGT: Int = 0,
+    var tenLoaiGT: String = "",
     var giaGoiTaps: List<GiaGtModel>? = null,
     var ctTheTaps: List<CtTheTapModel>? = null,
     var ctKhuyenMais: List<CtKhuyenMaiModel>? = null,

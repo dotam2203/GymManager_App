@@ -1,10 +1,12 @@
 package com.gym.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemLoaikhBinding
 import com.gym.model.LoaiKhModel
+import com.gym.ui.SingletonAccount
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -23,6 +25,14 @@ class LoaiKhAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiKhAda
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.apply {
+                if(loaiKHs[position].khachHangs != null){
+                    imbDelete.visibility = View.GONE
+                    imbEdit.isEnabled = false
+                }
+                if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+                    imbDelete.visibility = View.GONE
+                    imbEdit.visibility = View.GONE
+                }
                 loaiKH = loaiKHs[position]
                 imbEdit.setOnClickListener {
                     _itemClick.itemClickEdit(loaiKHs[position])

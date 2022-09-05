@@ -69,14 +69,10 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                 // khachHang = result.getParcelable("dataKH")?: return
                 khachHang = result.getParcelable("dataKH") ?: return
                 //===========================================================
-                getShow(khachHang)
                 binding.btnDangKy.visibility = View.VISIBLE
                 //===========================================================
             }
         })
-    }
-
-    private fun getShow(khachHang: KhachHangModel) {
     }
 
     private fun getTheTap(theTaps: ArrayList<TheTapModel>) {
@@ -166,6 +162,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                     for (i in goiTapss.indices) {
                         if (selectGT == goiTapss[i].tenGT) {
                             maGT = goiTapss[i].maGT
+                            tvMoTa.setText(goiTapss[i].moTa)
                             break
                         }
                     }
@@ -263,7 +260,13 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                 /*Toast.makeText(requireContext(), "theTap: ${randomString("thẻ tập", getMaTheMax(theTaps))} \nngaydk:${getFormatDateApi(getCurrentDate())} \nngaybd:${getFormatDateApi(txtNgayBD.text.toString())} \nngayKT:${getFormatDateApi(txtNgayKT.text.toString())} \ntrangthai:Hoạt động \nmaKH: ${khachHang.maKH}",
                     Toast.LENGTH_SHORT
                 ).show()*/
-                val saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateApi(getCurrentDate()),getFormatDateApi(txtNgayBD.text.toString()),getFormatDateApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH)
+                var saveTheTap = TheTapModel()
+                if(compareToDate(getFormatDateApi(txtNgayBD.text.toString()))){
+                    saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateApi(getCurrentDate()),getFormatDateApi(txtNgayBD.text.toString()),getFormatDateApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH)
+                }
+                else if(!compareToDate(getFormatDateApi(txtNgayBD.text.toString()))){
+                    saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateApi(getCurrentDate()),getFormatDateApi(txtNgayBD.text.toString()),getFormatDateApi(txtNgayKT.text.toString()),"Khóa",khachHang.maKH)
+                }
                 val saveHoaDon = HoaDonModel(getRandomMaHD(),getFormatDateApi(getCurrentDate()),maNV.toString(),randomString("thẻ tập", getMaTheMax(theTaps)))
                 //=======================================
                 dialogYN(saveTheTap, saveHoaDon, goiTap, loaiGT, selectSL)
@@ -475,6 +478,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         val tvKhuyenMai: TextView = dialog.findViewById(R.id.tvKhuyenMai)
         val tvGiamTien: TextView = dialog.findViewById(R.id.tvGiamTien)
         val tvThanhTien: TextView = dialog.findViewById(R.id.tvThanhTien)
+        val tvNoiDung: TextView = dialog.findViewById(R.id.tvNoiDung)
         //-----------------------------------------------------
         val btnThanhToan: Button = dialog.findViewById(R.id.btnThanhToan)
         val btnThanhToanSau: Button = dialog.findViewById(R.id.btnTTSau)
@@ -488,11 +492,12 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         tvHDSo.text = hoaDonModel.maHD
         tvNVLap.text = nhanVien.hoTen
         tvDichVu.text = goiTapModel.tenGT
+        tvNoiDung.text = goiTapModel.moTa
         tvLoaiDV.text = loaiGtModel.tenLoaiGT
         tvDonGia.text = "${formatMoney(price[0].gia)} đ"
         tvSoLuong.text = select.substring(0,1)
-        tvKhuyenMai.text = ""
-        tvGiamTien.text = ""
+        tvKhuyenMai.text = "0%"
+        tvGiamTien.text = "0"
         tvThanhTien.text = "${binding.txtGia.text} đ"
         //----------------------
         btnThanhToan.setOnClickListener {
@@ -511,9 +516,14 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
             }
             passData(theTapModel,hoaDonModel,ctTTModel)
             //Toast.makeText(requireContext(), "insert successful!", Toast.LENGTH_SHORT).show()
-            dialogPopMessage("Thanh toán thành công",R.drawable.ic_ok)
+            //dialogPopMessage("Thanh toán thành công",R.drawable.ic_ok)
             //-------------------
-            NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí thành công dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Đã thanh toán").Notification()
+            NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí thành công dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text} \nTrạng thái: Đã Thanh Toán").Notification()
+            //====================
+            val title = "VECTOR GYM - THANH TOÁN DỊCH VỤ THÀNH CÔNG!"
+            val message = "Khách hàng: ${khachHang.hoTen}\nSố điện thoại:${khachHang.sdt} \nĐăng kí thành công dịch vụ: ${goiTapModel.tenGT}\nLoại dịch vụ: ${tvLoaiDV.text}\nNgày đăng ký: ${tvNgayLap.text} \nNgày bắt đầu: ${tvNgayBD.text}\nNgày kết thúc: ${tvNgayKT.text}\nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Đã thanh toán \n\nCảm ơn quý khách hàng đã đồng hành cùng VECTOR GYM!"
+            val text = "Thanh toán thành công!"
+            sendMessageFromMail(khachHang.email,title,message,text)
             //====================
             dialog.setCancelable(true)
             tvHDMess.text = "Chi Tiết Hóa Đơn"
@@ -530,7 +540,12 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
             dialogPopMessage("Vui lòng thanh toán trong thời gian sớm nhất!",R.drawable.ic_warning)//-------------------
             NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Thanh toán sau").Notification()
             //====================*/
-            startPayment()
+            //====================
+            val title = "VECTOR GYM - CHỜ THANH TOÁN DỊCH VỤ!"
+            val message = "Khách hàng: ${khachHang.hoTen}\nSố điện thoại:${khachHang.sdt} \nĐăng kí thành công dịch vụ: ${goiTapModel.tenGT}\nLoại dịch vụ: ${tvLoaiDV.text}\nNgày đăng ký: ${tvNgayLap.text} \nNgày bắt đầu: ${tvNgayBD.text}\nNgày kết thúc: ${tvNgayKT.text}\nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Chưa thanh toán \nVUI LÒNG THANH TOÁN TRƯỚC NGÀY ${tvNgayBD.text}"
+            val text = "Thanh toán sau!"
+            sendMessageFromMail(khachHang.email,title,message,text)
+            //startPayment()
         }
         btnHuy.setOnClickListener {
             dialog.dismiss()

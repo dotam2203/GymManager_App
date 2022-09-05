@@ -1,11 +1,13 @@
 package com.gym.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemKhachhangBinding
 import com.gym.model.KhachHangModel
 import com.gym.model.LoaiKhModel
+import com.gym.ui.SingletonAccount
 
 class KhachHangAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapter<KhachHangAdapter.ViewHolder>() {
     var khachHangs = listOf<KhachHangModel>()
@@ -21,6 +23,9 @@ class KhachHangAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.apply {
+                if((khachHangs[position].theTaps) != null || (SingletonAccount.taiKhoan?.maQuyen == "Q02")){
+                    imbDelete.visibility = View.GONE
+                }
                 khachHang = khachHangs[position]
                 imbEdit.setOnClickListener {
                     _itemClick.itemClickEdit(khachHangs[position])

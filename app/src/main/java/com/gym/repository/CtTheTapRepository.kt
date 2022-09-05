@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
+import java.util.*
 
 class CtTheTapRepository {
     fun getDSCtTheTap(): Flow<Response<List<CtTheTapModel>>> = flow {
@@ -16,6 +17,14 @@ class CtTheTapRepository {
         }
     }.flowOn(Dispatchers.IO)
 
+    fun getLocDSCtTheTap(ngayBD: String, ngayKT: String): Flow<Response<List<CtTheTapModel>>> = flow {
+        val request = RetrofitInstance.loadApiCtTheTap.getLocDSCtTheTap(ngayBD,ngayKT)
+        if(request.isSuccessful){
+            emit(request)
+        }
+    }.flowOn(Dispatchers.IO)
+
+
     fun getDSCtTheTapTheoGT(maGT: String): Flow<Response<List<CtTheTapModel>>> = flow{
         val request = RetrofitInstance.loadApiCtTheTap.getDSCtTheTapTheoGT(maGT)
         if(request.isSuccessful){
@@ -23,8 +32,8 @@ class CtTheTapRepository {
         }
     }.flowOn(Dispatchers.IO)
 
-    fun getDSCtTheTapTheoThe(maThe: String): Flow<Response<List<CtTheTapModel>>> = flow{
-        val request = RetrofitInstance.loadApiCtTheTap.getDSCtTheTapTheoThe(maThe)
+    fun getCtTheTapTheoThe(maThe: String): Flow<Response<CtTheTapModel>> = flow{
+        val request = RetrofitInstance.loadApiCtTheTap.getCtTheTapTheoThe(maThe)
         if(request.isSuccessful){
             emit(request)
         }

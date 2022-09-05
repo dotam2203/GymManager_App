@@ -17,6 +17,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/ic_address.xml" value="0.1955" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/ic_email.xml" value="0.1955" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/ic_info.xml" value="0.184" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2265" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/ic_list.xml" value="0.184" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/ic_name.xml" value="0.1955" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/ic_pass.xml" value="0.1955" />
@@ -32,6 +33,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/round_onclick.xml" value="0.1495" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/shape_border_20.xml" value="0.139" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/shape_button_click.xml" value="0.1495" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/shape_center_panel.xml" value="0.2265" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/shape_center_panel_fail.xml" value="0.176" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/shape_center_penal.xml" value="0.171" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/drawable/shape_left_panel.xml" value="0.161" />
@@ -92,6 +94,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_nhanvien.xml" value="0.2015625" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_thetap.xml" value="0.17395833333333333" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_thetap1.xml" value="0.24895833333333334" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_thongke.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/notification.xml" value="0.264" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/pop_message.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/tab_layout_dichvu.xml" value="0.24895833333333334" />

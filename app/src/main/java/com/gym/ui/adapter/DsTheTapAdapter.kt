@@ -1,6 +1,7 @@
 package com.gym.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.R
@@ -21,39 +22,26 @@ class DsTheTapAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<DsTheTa
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.apply {
-                if(compareToDate(ctTheTaps[position].ngayBD)){
-                    tvTenDVDK.text = ctTheTaps[position].trangThai
+                if(position % 2 == 0){
                     ctThe = ctTheTaps[position]
+                    if(ctTheTaps[position].trangThai == "Khóa"){
+                        itemEnable.isEnabled = false
+                        runnn.visibility = View.GONE
+                        itemEnable.setBackgroundResource(R.drawable.shape_center_panel_fail)
+                    }
                     tvChiTiet.setOnClickListener {
                         _itemClick.itemClickInfo(ctTheTaps[position])
                     }
                 }
-                else{
-                    tvTenDVDK.text = "Khóa"
-                    ctThe = ctTheTaps[position]
-                    itemEnable.isEnabled = false
-                    itemEnable.setBackgroundResource(R.drawable.shape_center_panel_fail)
+                else if(position % 2 != 0){
+                    itemEnable.visibility = View.GONE
                 }
-                //ctThe = ctTheTaps[position]
             }
         }
     }
 
     override fun getItemCount(): Int {
         return ctTheTaps.size
-    }
-    fun compareToDate(dateStart: String): Boolean {
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
-        val currentDate = sdf.format(Date()).toString().trim()
-        val date1 = sdf.parse(currentDate)
-        val date2 = sdf.parse(dateStart)
-        if(date1.compareTo(date2) == 0)
-            return true
-        else if(date1 < date2)
-            return true
-        else if(date1 > date2)
-            return false
-        return false
     }
     interface OnItemClick{
         fun itemClickInfo(theTapModel: CtTheTapModel)

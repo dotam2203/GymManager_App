@@ -121,9 +121,26 @@ class TheTapFragment : FragmentNext() {
             dialog.dismiss()
         }
         btnThem.setOnClickListener {
-            Toast.makeText(requireContext(), "maKH: ${randomString("khách hàng", getMaKHMax(khachHangs))} \ntenKH: ${replaceString(txtTenKH.text.toString())} \nphai: $selectPhai \nSDT: ${txtSdtKH.text} \nemail:${txtEmailKH.text} \nDiaChi: ${txtDiaChi.text} \nloaiKH:$idLoaiKH", Toast.LENGTH_LONG).show()
-            viewModel.insertKhachHang(KhachHangModel(randomString("khách hàng", getMaKHMax(khachHangs)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"",idLoaiKH))
-            Toast.makeText(requireContext(), "insert customer successful!!", Toast.LENGTH_SHORT).show()
+            for(i in khachHangs.indices){
+                if((txtEmailKH.text.trim() == khachHangs[i].email.trim()) || (txtSdtKH.text.trim() == (khachHangs[i].sdt.trim()))){
+                    if(txtEmailKH.text.trim() == khachHangs[i].email.trim()){
+                        Toast.makeText(requireContext(), "Email này đã được đăng ký!", Toast.LENGTH_SHORT).show()
+                        txtEmailKH.setText("")
+                        txtEmailKH.requestFocus()
+                    }
+                    else if(txtSdtKH.text.trim() == (khachHangs[i].sdt.trim())){
+                        Toast.makeText(requireContext(), "Số điện thoại này đã được đăng ký!", Toast.LENGTH_SHORT).show()
+                        txtSdtKH.setText("")
+                        txtSdtKH.requestFocus()
+                    }
+                }
+            }
+            if(!txtEmailKH.text.equals("") || !txtSdtKH.text.equals("")){
+                viewModel.insertKhachHang(KhachHangModel(randomString("khách hàng", getMaKHMax(khachHangs)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"",idLoaiKH))
+                //Toast.makeText(requireContext(), "maKH: ${randomString("khách hàng", getMaKHMax(khachHangs))} \ntenKH: ${replaceString(txtTenKH.text.toString())} \nphai: $selectPhai \nSDT: ${txtSdtKH.text} \nemail:${txtEmailKH.text} \nDiaChi: ${txtDiaChi.text} \nloaiKH:$idLoaiKH", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Thêm khách hàng thành công!", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
         }
     }
     fun initVewModel(){

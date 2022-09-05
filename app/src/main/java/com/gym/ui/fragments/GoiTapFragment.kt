@@ -37,6 +37,9 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGoitapBinding.inflate(layoutInflater)
+        if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+            binding.imbAdd.visibility = View.GONE
+        }
         binding.pbLoad.visibility = View.VISIBLE
         lifecycleScope.launchWhenCreated {
             delay(2000L)
@@ -241,7 +244,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         var selectItem: String? = ""
         var idLoaiGT: Int = 0
         val maNV: String = SingletonAccount.taiKhoan?.maNV.toString()
-        spinner.setText(tenLoaiGTs[0])
+        //spinner.setText(tenLoaiGTs[0])
         spinner.setAdapter(arrayAdapter)
         spinner.setOnItemClickListener { parent, view, position, id ->
             selectItem = parent.getItemAtPosition(position).toString()

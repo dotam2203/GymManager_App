@@ -13,21 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_margin="20dp"
+        android:layout_margin="30dp"
         android:padding="50dp"
         android:background="@drawable/shape_center_panel">
-        <!--#ECAFAF-->
-
-        <!--<pl.droidsonroids.gif.GifImageView
-            android:id="@+id/itemTT"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:src="@drawable/ic_thetap"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/runnn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_notif_circle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>-->
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:id="@+id/tvTenDVDK"
@@ -81,9 +77,9 @@
             app:layout_constraintBottom_toBottomOf="parent" />
         <TextView
             android:id="@+id/tvNgayBDT"
+            android:text="@{ctThe.ngayBD}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ctThe.ngayBD}"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:layout_marginBottom="20dp"
@@ -103,9 +99,9 @@
             app:layout_constraintBottom_toTopOf="@id/tvNgayKTT" />
         <TextView
             android:id="@+id/tvNgayKTT"
+            android:text="@{ctThe.ngayKT}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{ctThe.ngayKT}"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:layout_marginBottom="20dp"

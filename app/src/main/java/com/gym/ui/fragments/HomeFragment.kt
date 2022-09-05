@@ -1,9 +1,7 @@
 package com.gym.ui.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -24,6 +22,14 @@ class HomeFragment : FragmentNext() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+            val menuTK: MenuItem = menu.findItem(R.id.menuThongke)
+            menuTK.isVisible = false
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //setControl()
@@ -37,7 +43,6 @@ class HomeFragment : FragmentNext() {
                 R.id.menuTaikhoan -> replaceFragment(R.id.fragmentMain, TaiKhoanFragment())
             }
             true
-
         }
     }
 }

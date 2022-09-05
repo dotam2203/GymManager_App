@@ -1,12 +1,14 @@
 package com.gym.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemGoitapBinding
 import com.gym.model.GoiTapModel
 import com.gym.model.LoaiGtModel
+import com.gym.ui.SingletonAccount
 import com.gym.ui.viewmodel.ViewModel
 
 class GoiTapAdapter(val _itemClick: OnItemClick) : RecyclerView.Adapter<GoiTapAdapter.ViewHolder>() {
@@ -24,6 +26,14 @@ class GoiTapAdapter(val _itemClick: OnItemClick) : RecyclerView.Adapter<GoiTapAd
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             binding.apply {
+                if(goiTaps[position].ctTheTaps != null){
+                    imbDelete.visibility = View.GONE
+                    imbEdit.visibility = View.GONE
+                }
+                if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+                    imbDelete.visibility = View.GONE
+                    imbEdit.visibility = View.GONE
+                }
                 goiTap = goiTaps[position]
                 for(i in loaiGTs.indices){
                     if(goiTaps[position].idLoaiGT == loaiGTs[i].idLoaiGT){

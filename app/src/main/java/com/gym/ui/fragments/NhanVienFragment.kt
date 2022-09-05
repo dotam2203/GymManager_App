@@ -79,8 +79,6 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
                     nhanViens.addAll(response)
                     initAdapter()
                     nhanVienAdapter.notifyDataSetChanged()
-                    for(i in nhanViens.indices){
-                    }
                     binding.pbLoad.visibility = View.GONE
                 }
             }
@@ -216,16 +214,24 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
             dialog.dismiss()
         }
         btnThem.setOnClickListener {
+            val randomPass: String = createPassword()
             Toast.makeText(requireContext(), "maNV: ${randomString("nhân viên", getMaNVMax(nhanViens))} \ntenKH: ${replaceString(txtTenKH.text.toString())} \nphai: $selectPhai \nSDT: ${txtSdtKH.text} \nemail:${txtEmailKH.text} \nDiaChi: ${txtDiaChi.text}", Toast.LENGTH_SHORT).show()
             val insertNV = NhanVienModel(randomString("nhân viên", getMaNVMax(nhanViens)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"")
+            val insertTK = TaiKhoanModel(createAccountRandom(txtEmailKH.text.toString()),randomPass,"Hoạt động","Q02",insertNV.maNV)
             viewModel.insertNhanVien(insertNV)
             lifecycleScope.launchWhenCreated {
                 delay(2000L)
-                viewModel.insertTaiKhoan(TaiKhoanModel(createAccountRandom(txtEmailKH.text.toString()),"123","Hoạt động","Q02",insertNV.maNV))
-                Log.e("TAG-CreateAccount", "user:${createAccountRandom(txtEmailKH.text.toString())}\npass:123\nTrạng thái: Hoạt động\nQuyền:Q02\nmaNV:${insertNV.maNV}")
+                viewModel.insertTaiKhoan(insertTK)
+                //=====================
+                val title = "VECTOR GYM - CẤP MỚI TÀI KHOẢN ĐĂNG NHẬP"
+                val message = "Nhân viên: ${insertNV.hoTen}\nSố điện thoại:${insertNV.sdt}\nEmail:${insertNV.email} \nTÀI KHOẢN ĐĂNG NHẬP: ${insertTK.maTK}\nMẬT KHẨU: ${insertTK.matKhau}\n\n\nCẢM ƠN bạn đã đồng hành cùng VECTOR GYM!"
+                val text = "Thêm nhân viên thành công!"
+                sendMessageFromMail(insertNV.email,title,message,text)
+                //=====================
+                Log.e("TAG-CreateAccount", "user:${createAccountRandom(txtEmailKH.text.toString())}\npass:$randomPass\nTrạng thái: Hoạt động\nQuyền:Q02\nmaNV:${insertNV.maNV}")
                 Toast.makeText(requireContext(), "created account successful!!", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
             }
-            Toast.makeText(requireContext(), "insert staff successful!!", Toast.LENGTH_SHORT).show()
         }
     }
     fun dialogDelete(maNV: String){

@@ -11,6 +11,5 @@ data class TheTapModel(
     var ngayKT: String = "",
     var trangThai: String = "",
     var maKH: String = "",
-    var ctTheTaps: List<CtTheTapModel>? = null,
     var hoaDons: List<HoaDonModel>? = null
 ) : Parcelable

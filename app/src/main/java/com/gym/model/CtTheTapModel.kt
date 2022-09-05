@@ -15,6 +15,7 @@ data class CtTheTapModel(
     var tenGT: String = "",
     var tenLoaiGT: String = "",
     var trangThai: String = "",
+    var ngayDK: String = "",
     var ngayBD: String = "",
     var ngayKT: String = ""
 ) : Parcelable

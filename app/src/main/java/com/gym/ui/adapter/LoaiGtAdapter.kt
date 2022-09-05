@@ -1,10 +1,12 @@
 package com.gym.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemLoaigtBinding
 import com.gym.model.LoaiGtModel
+import com.gym.ui.SingletonAccount
 
 /**
  * Author: tamdt35@fpt.com.vn
@@ -23,6 +25,14 @@ class LoaiGtAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiGtAda
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.apply {
+                if(loaiGTs[position].goiTaps != null){
+                    imbDelete.visibility = View.GONE
+                    imbEdit.isEnabled = false
+                }
+                if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+                    imbDelete.visibility = View.GONE
+                    imbEdit.visibility = View.GONE
+                }
                 loaiGT = loaiGTs[position]
                 imbEdit.setOnClickListener {
                     _itemClick.itemClickEdit(loaiGTs[position])

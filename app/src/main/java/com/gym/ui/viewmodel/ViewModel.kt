@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -985,6 +984,15 @@ class ViewModel : ViewModel() {
             }
         }
     }
+    fun getLocDSCtTheTap(ngayBD: String, ngayKT: String) {
+        viewModelScope.launch {
+            ctTheTapRepository.getLocDSCtTheTap(ngayBD, ngayKT).collect {
+                if (it.isSuccessful) {
+                    _ctTheTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
 
     fun getDSCtTheTapTheoGT(maGT: String) {
         viewModelScope.launch {
@@ -996,13 +1004,11 @@ class ViewModel : ViewModel() {
         }
     }
 
-    fun getDSCtTheTapTheoThe(maThe: String) {
+    fun getCtTheTapTheoThe(maThe: String) {
         viewModelScope.launch {
-            ctTheTapRepository.getDSCtTheTapTheoThe(maThe).collect {
-                // it.body()?.orEmpty()
-                it.body().orEmpty()
+            ctTheTapRepository.getCtTheTapTheoThe(maThe).collect {
                 if (it.isSuccessful) {
-                    _ctTheTaps.value = it.body() ?: emptyList()
+                    _ctTheTap.value = it.body()
                 }
             }
         }

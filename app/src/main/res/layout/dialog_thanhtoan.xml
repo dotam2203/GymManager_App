@@ -256,12 +256,36 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/ktTap"
             app:layout_constraintStart_toStartOf="@id/lineV"/>
+
+
+        <TextView
+            android:id="@+id/noiDung"
+            android:text="@string/noiDung"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/ktTap"
+            app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/tvNoiDung"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/noiDung"
+            app:layout_constraintStart_toStartOf="@id/lineV"/>
+
+
+
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#E91E63"
-            app:layout_constraintTop_toBottomOf="@id/ktTap"
+            app:layout_constraintTop_toBottomOf="@id/noiDung"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="10dp"/>
         <TextView
