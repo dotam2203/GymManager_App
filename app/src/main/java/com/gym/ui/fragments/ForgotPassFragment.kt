@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -85,7 +86,7 @@ class ForgotPassFragment : FragmentNext() {
                 if(checkEmail(email)){
                     getTaiKhoanByEmail(email)
                     getNhanVienByMaNV(taiKhoan.maNV)
-                    val taiKhoanModel = TaiKhoanModel(taiKhoan.maTK,newPass,taiKhoan.trangThai,taiKhoan.maQuyen,taiKhoan.maNV)
+                    val taiKhoanModel = TaiKhoanModel(taiKhoan.maTK,maHoaPassApi(newPass),taiKhoan.trangThai,taiKhoan.maQuyen,taiKhoan.maNV)
                     viewModel.updateTaiKhoan(taiKhoanModel)
                     if(SingletonAccount.taiKhoan != null){
                         SingletonAccount.taiKhoan = taiKhoanModel
@@ -104,6 +105,7 @@ class ForgotPassFragment : FragmentNext() {
                         getFragment(requireView(),R.id.navForgotPassToLogin)
                     }
                     //txtForgotPass.setText("")
+                    Log.e("TAGG", "Mật khẩu cấp mới tài khoản ${taiKhoan.maTK}: $newPass")
                 }
                 else{
                     Toast.makeText(requireContext(), "Tài khoản chưa được đăng ký.\nVui lòng đăng ký tài khoản!", Toast.LENGTH_LONG).show()
@@ -139,16 +141,5 @@ class ForgotPassFragment : FragmentNext() {
                 return true
         }
         return false
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, IllegalBlockSizeException::class, BadPaddingException::class, InvalidKeyException::class)
-    fun maHoa(original: String): String {
-        val SECRET_KEY = "12345678"
-        val skeySpec = SecretKeySpec(SECRET_KEY.toByteArray(), "DES")
-        val cipher = Cipher.getInstance("DES/ECB/PKCS5PADDING")
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec)
-        val byteEncrypted: ByteArray? = cipher.doFinal(original.toByteArray())
-        return Base64.getEncoder().encodeToString(byteEncrypted)
     }
 }

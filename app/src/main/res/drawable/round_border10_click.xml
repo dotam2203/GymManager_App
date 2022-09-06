@@ -6,5 +6,5 @@
     <solid android:color="@color/gray_200"/>
     <gradient android:gradientRadius="150dp"
         android:startColor="@color/purple_200"
-        android:endColor="@color/blue"/>
+        android:endColor="#5897CF"/>
 </shape>

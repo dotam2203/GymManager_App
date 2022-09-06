@@ -10,8 +10,8 @@ import com.gym.model.CtTheTapModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DsTheTapAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<DsTheTapAdapter.ViewHolder>() {
-    var ctTheTaps = listOf<CtTheTapModel>()
+class DsTheTapAdapter(private val _itemClick: OnItemClick): RecyclerView.Adapter<DsTheTapAdapter.ViewHolder>() {
+    var ctTheTaps = mutableListOf<CtTheTapModel>()
     inner class ViewHolder(val binding: ItemThetapBinding) : RecyclerView.ViewHolder(binding.root){}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,7 +39,6 @@ class DsTheTapAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<DsTheTa
             }
         }
     }
-
     override fun getItemCount(): Int {
         return ctTheTaps.size
     }

@@ -1,13 +1,15 @@
 package com.gym.ui.fragments
 
-import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import com.gym.R
@@ -22,7 +24,6 @@ import kotlinx.coroutines.delay
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class DangKyFragment : FragmentNext(),PaymentResultListener {
     private lateinit var binding: FragmentDangkyBinding
@@ -257,9 +258,6 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
             }
             //=================================================
             btnDangKy.setOnClickListener {
-                /*Toast.makeText(requireContext(), "theTap: ${randomString("thẻ tập", getMaTheMax(theTaps))} \nngaydk:${getFormatDateApi(getCurrentDate())} \nngaybd:${getFormatDateApi(txtNgayBD.text.toString())} \nngayKT:${getFormatDateApi(txtNgayKT.text.toString())} \ntrangthai:Hoạt động \nmaKH: ${khachHang.maKH}",
-                    Toast.LENGTH_SHORT
-                ).show()*/
                 var saveTheTap = TheTapModel()
                 if(compareToDate(getFormatDateApi(txtNgayBD.text.toString()))){
                     saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateApi(getCurrentDate()),getFormatDateApi(txtNgayBD.text.toString()),getFormatDateApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH)
@@ -274,7 +272,6 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                 //viewModel.insertTheTap(TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateApi(getCurrentDate()),getFormatDateApi(txtNgayBD.text.toString()),getFormatDateApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH))
                 //Toast.makeText(requireContext(), "Lưu thẻ tập thành công!", Toast.LENGTH_SHORT).show()
             }
-            //=================================================
         }
     }
 
@@ -302,23 +299,19 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                     return@collect
             }
         }
-        //Toast.makeText(requireContext(), "it price: ${price.size}", Toast.LENGTH_SHORT).show()
         return price
     }
 
     private fun getInitCalendar() {
         binding.apply {
             imbCalendar.setOnClickListener {
-                val datePickerFragment = DatePickerFragment()
+                val datePickerFragment = DatePickerFagment()
                 val support = requireActivity().supportFragmentManager
                 //receive date
                 support.setFragmentResultListener("REQUEST_KEY", viewLifecycleOwner) { resultKey, bundle ->
                     if (resultKey == "REQUEST_KEY") {
                         val date = bundle.getString("PASS_DATE")
                         txtNgayBD.setText(date)
-                        /*if (date != null) {
-                            getEnvent(date)
-                        }*/
                     }
                 }
                 //show dialog
@@ -380,22 +373,6 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         return tenGTs
     }
 
-    fun getMaByTenGT(ten: String): String {
-        var ma: String = ""
-        viewModel.getDSGoiTap()
-        lifecycleScope.launchWhenCreated {
-            viewModel.goiTaps.collect {
-                for (i in it.indices) {
-                    if (ten == it[i].tenGT) {
-                        ma = it[i].maGT
-                        break
-                    }
-                }
-            }
-        }
-        return ma
-    }
-
     fun getMaTheMax(theTaps: ArrayList<TheTapModel>): String {
         if (theTaps.isNotEmpty()) {
             var max: Int = theTaps[0].maThe.substring(2).toInt()
@@ -433,11 +410,6 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         val btnN: Button = dialog.findViewById(R.id.btnNo)
         title.text = "Vui lòng THANH TOÁN để hoàn tất đăng ký!"
         btnY.setOnClickListener {
-           // viewModel.insertTheTap(theTapModel)
-//            Toast.makeText(requireContext(), "$theTapModel", Toast.LENGTH_SHORT).show()
-//            Toast.makeText(requireContext(), "$hoaDonModel", Toast.LENGTH_SHORT).show()
-//            Toast.makeText(requireContext(), "$goiTapModel", Toast.LENGTH_SHORT).show()
-//            Toast.makeText(requireContext(), "$loaiGtModel", Toast.LENGTH_SHORT).show()
             dialogThanhToan(theTapModel,hoaDonModel,goiTapModel,loaiGtModel, select)
             dialog.dismiss()
         }
@@ -515,8 +487,6 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                 }
             }
             passData(theTapModel,hoaDonModel,ctTTModel)
-            //Toast.makeText(requireContext(), "insert successful!", Toast.LENGTH_SHORT).show()
-            //dialogPopMessage("Thanh toán thành công",R.drawable.ic_ok)
             //-------------------
             NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí thành công dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text} \nTrạng thái: Đã Thanh Toán").Notification()
             //====================

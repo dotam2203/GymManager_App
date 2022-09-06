@@ -56,7 +56,7 @@ class HoaDonTTFragment : FragmentNext(),HoaDonTTAdapter.OnItemClick {
                     return@collect
                 }
                 else{
-                    hoaDonTTAdapter.hoaDons = response
+                    hoaDonTTAdapter.hoaDons.addAll(response)
                     hoaDons.addAll(response)
                     initAdapter()
                     hoaDonTTAdapter.notifyDataSetChanged()

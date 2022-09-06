@@ -12,8 +12,8 @@ import com.gym.ui.SingletonAccount
  * Author: tamdt35@fpt.com.vn
  * Date:  08/07/2022
  */
-class LoaiGtAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
-    var loaiGTs = listOf<LoaiGtModel>()
+class LoaiGtAdapter(private val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
+    var loaiGTs = mutableListOf<LoaiGtModel>()
     inner class ViewHolder(val binding: ItemLoaigtBinding): RecyclerView.ViewHolder(binding.root) {
     }
 
@@ -45,10 +45,6 @@ class LoaiGtAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiGtAda
     }
     override fun getItemCount(): Int {
         return loaiGTs.size
-    }
-    fun updateData(loaiGTs: List<LoaiGtModel>){
-        this.loaiGTs = loaiGTs
-        notifyDataSetChanged()
     }
     interface OnItemClick{
         fun itemClickEdit(loaiGtModel: LoaiGtModel)

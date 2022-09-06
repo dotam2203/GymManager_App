@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/home_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.ThongKeFragment">
     <com.google.android.material.textfield.TextInputLayout
@@ -27,7 +28,7 @@
             android:id="@+id/txtNgBD"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="none"
+            android:inputType="datetime"
             android:textColor="@color/black"/>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -48,7 +49,7 @@
             android:id="@+id/txtNgKT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="none"
+            android:inputType="datetime"
             android:textColor="@color/black"/>
     </com.google.android.material.textfield.TextInputLayout>
     <androidx.appcompat.widget.AppCompatButton
@@ -57,25 +58,28 @@
         android:layout_height="wrap_content"
         android:text="Lọc"
         android:background="@drawable/click_change"
-        app:layout_constraintTop_toBottomOf="@id/tvNgBD"
+        app:layout_constraintTop_toBottomOf="@id/tvSpDV"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="10dp"/>
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/tvSpDV"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="20dp"
         android:hint="Loại thống kê"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnLoc"
-        android:layout_marginTop="5dp">
+        app:layout_constraintTop_toBottomOf="@id/tvNgBD">
         <AutoCompleteTextView
             android:id="@+id/spDV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:inputType="none"
+            android:text="Doanh thu theo tháng"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
     <androidx.constraintlayout.widget.ConstraintLayout

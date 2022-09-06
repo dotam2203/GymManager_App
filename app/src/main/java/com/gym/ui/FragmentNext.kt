@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.AsyncTask
+import android.os.Build
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -11,6 +12,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -20,11 +22,18 @@ import com.gym.R
 import com.gym.ui.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 import pl.droidsonroids.gif.GifImageView
+import java.security.InvalidKeyException
+import java.security.NoSuchAlgorithmException
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.crypto.BadPaddingException
+import javax.crypto.Cipher
+import javax.crypto.IllegalBlockSizeException
+import javax.crypto.NoSuchPaddingException
+import javax.crypto.spec.SecretKeySpec
 import javax.mail.*
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
@@ -37,14 +46,6 @@ import kotlin.collections.ArrayList
 abstract class FragmentNext : Fragment() {
     val viewModel: ViewModel by lazy {
         ViewModelProvider(this)[ViewModel::class.java]
-    }
-    fun callBack(id: Int){
-        val callBack = object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                findNavController().navigate(id)
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callBack)
     }
     fun getFragment(view: View, id: Int) {
         Navigation.findNavController(view).navigate(id)
@@ -70,17 +71,6 @@ abstract class FragmentNext : Fragment() {
         val dateFormat = "$day/$month/$year"
         return dateFormat
     }
-    /*fun getFormatSortDate(date: String): String {
-        val d: List<Any> = date.split("/")
-        var year: String? = ""
-        var month: String? = ""
-        var day: String? = ""
-        day = d[0].toString().trim()
-        month = d[1].toString().trim()
-        year = d[2].toString().trim()
-        return "$year-$month-$day"
-    }
-*/
     fun getFormatDateApi(date: String): String {
         val d: List<Any> = date.split("/")
         var year: String? = ""
@@ -99,16 +89,6 @@ abstract class FragmentNext : Fragment() {
         val split: List<String> = formatCurrent.split(",")
         val length: Int = split[0].length
         return "${split[0].substring(0, 2)}.${split[0].substring(2, length)}"
-    }
-
-    fun getDataSpinner(spinner: AutoCompleteTextView, listSP: List<Any>): String {
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, listSP)
-        var selectItem: String = ""
-        spinner.setAdapter(arrayAdapter)
-        spinner.setOnItemClickListener { parent, view, position, id ->
-            selectItem = parent.getItemAtPosition(position).toString()
-        }
-        return selectItem
     }
     fun replaceString(s: String): String {
         var sToiUu = s
@@ -192,6 +172,16 @@ abstract class FragmentNext : Fragment() {
         }
         return slDangKy
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class, IllegalBlockSizeException::class, BadPaddingException::class, InvalidKeyException::class)
+    fun maHoaPassApi(original: String): String {
+        val SECRET_KEY = "12345678"
+        val skeySpec = SecretKeySpec(SECRET_KEY.toByteArray(), "DES")
+        val cipher = Cipher.getInstance("DES/ECB/PKCS5PADDING")
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec)
+        val byteEncrypted: ByteArray? = cipher.doFinal(original.toByteArray())
+        return Base64.getEncoder().encodeToString(byteEncrypted)
+    }
     fun compareToDate(dateStart: String): Boolean {
         val sdf = SimpleDateFormat("yyyy-MM-dd")
         val currentDate = sdf.format(Date()).toString().trim()
@@ -242,37 +232,6 @@ abstract class FragmentNext : Fragment() {
             dialog.dismiss()
         }
 
-    }
-    fun getTenLoaiGT(id: Int): String{
-        var tenLoaiGT: String  = ""
-        viewModel.getDSLoaiGT()
-        lifecycleScope.launchWhenCreated {
-            viewModel.loaiGTs.collect{
-                if(it.isNotEmpty()){
-                    for(i in it.indices){
-                        if( id == it[i].idLoaiGT){
-                            tenLoaiGT = it[i].tenLoaiGT
-                        }
-                    }
-                }
-                else
-                    return@collect
-            }
-        }
-        return tenLoaiGT
-    }
-    fun getTenQuyenByMaQuyen(maQuyen: String): String{
-        var tenQ: String = ""
-        viewModel.getQuyen(maQuyen)
-        lifecycleScope.launchWhenCreated {
-            viewModel.quyen.collect{
-                if(it != null){
-                    tenQ = it.tenQuyen
-                }
-                else return@collect
-            }
-        }
-        return tenQ
     }
     fun sendMessageFromMail(email: String, title: String, message: String, text: String) {
 

@@ -984,16 +984,24 @@ class ViewModel : ViewModel() {
             }
         }
     }
-    fun getLocDSCtTheTap(ngayBD: String, ngayKT: String) {
+    fun getDSCtTheTapThang(ngayBD: String, ngayKT: String) {
         viewModelScope.launch {
-            ctTheTapRepository.getLocDSCtTheTap(ngayBD, ngayKT).collect {
+            ctTheTapRepository.getDSCtTheTapThang(ngayBD, ngayKT).collect {
                 if (it.isSuccessful) {
                     _ctTheTaps.value = it.body() ?: emptyList()
                 }
             }
         }
     }
-
+    fun getDSCtTheTapTheoDV(ngayBD: String, ngayKT: String) {
+        viewModelScope.launch {
+            ctTheTapRepository.getDSCtTheTapTheoDV(ngayBD, ngayKT).collect {
+                if (it.isSuccessful) {
+                    _ctTheTaps.value = it.body() ?: emptyList()
+                }
+            }
+        }
+    }
     fun getDSCtTheTapTheoGT(maGT: String) {
         viewModelScope.launch {
             ctTheTapRepository.getDSCtTheTapTheoGT(maGT).collect {

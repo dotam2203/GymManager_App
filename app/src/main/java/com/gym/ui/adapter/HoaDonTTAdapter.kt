@@ -7,7 +7,7 @@ import com.gym.databinding.ItemHoadonBinding
 import com.gym.model.HoaDonModel
 
 class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapter<HoaDonTTAdapter.ViewHolder>() {
-    var hoaDons = listOf<HoaDonModel>()
+    var hoaDons = mutableListOf<HoaDonModel>()
     inner class ViewHolder(val binding: ItemHoadonBinding): RecyclerView.ViewHolder(binding.root){
     }
 
@@ -33,10 +33,6 @@ class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapt
     }
     override fun getItemCount(): Int {
         return hoaDons.size
-    }
-    fun updateData(hoaDons: List<HoaDonModel>){
-        this.hoaDons = hoaDons
-        notifyDataSetChanged()
     }
     interface OnItemClick{
         fun itemClickInfo(hoaDonModel: HoaDonModel)

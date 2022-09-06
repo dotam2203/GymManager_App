@@ -9,7 +9,11 @@ import androidx.fragment.app.setFragmentResult
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
+/**
+ * Author: tamdt35@fpt.com.vn
+ * Date:  06/09/2022
+ */
+class DatePickerFagment : DialogFragment(), DatePickerDialog.OnDateSetListener {
     private val calendar = Calendar.getInstance()
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //dafault date

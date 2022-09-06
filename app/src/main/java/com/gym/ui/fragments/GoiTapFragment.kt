@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
@@ -18,9 +17,7 @@ import com.gym.model.LoaiGtModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
 import com.gym.ui.adapter.GoiTapAdapter
-import com.gym.ui.viewmodel.ViewModel
 import kotlinx.coroutines.delay
-import java.util.*
 
 class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     private lateinit var binding: FragmentGoitapBinding
@@ -126,7 +123,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
             viewModel.goiTaps.collect { response ->
                 if (response.isNotEmpty()) {
                     initAdapter()
-                    goiTapAdapter.goiTaps = response
+                    goiTapAdapter.goiTaps.addAll(response)
                     goiTaps.addAll(response)
                     goiTapAdapter.notifyDataSetChanged()
                     binding.pbLoad.visibility = View.GONE
@@ -164,7 +161,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         lifecycleScope.launchWhenCreated {
             viewModel.goiTaps.collect { response ->
                 if (response.isNotEmpty()) {
-                    goiTapAdapter.goiTaps = response
+                    goiTapAdapter.goiTaps.addAll(response)
                     goiTapAdapter.notifyDataSetChanged()
                     Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
                 } else {
@@ -387,7 +384,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     private fun getControl(imbCalendar: ImageButton, txtNgayAD: EditText) {
         txtNgayAD.setText(getCurrentDate())
         imbCalendar.setOnClickListener {
-            val datePickerFragment = DatePickerFragment()
+            val datePickerFragment = DatePickerFagment()
             val support = requireActivity().supportFragmentManager
             //receive date
             support.setFragmentResultListener("REQUEST_KEY", viewLifecycleOwner) { resultKey, bundle ->

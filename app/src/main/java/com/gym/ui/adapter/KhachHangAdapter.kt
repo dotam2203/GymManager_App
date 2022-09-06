@@ -10,8 +10,8 @@ import com.gym.model.LoaiKhModel
 import com.gym.ui.SingletonAccount
 
 class KhachHangAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapter<KhachHangAdapter.ViewHolder>() {
-    var khachHangs = listOf<KhachHangModel>()
-    var loaiKHs = listOf<LoaiKhModel>()
+    var khachHangs = mutableListOf<KhachHangModel>()
+    var loaiKHs = mutableListOf<LoaiKhModel>()
     inner class ViewHolder(val binding: ItemKhachhangBinding): RecyclerView.ViewHolder(binding.root){
     }
 
@@ -47,10 +47,6 @@ class KhachHangAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapt
     }
     override fun getItemCount(): Int {
         return khachHangs.size
-    }
-    fun updateData(khachHangs: List<KhachHangModel>){
-        this.khachHangs = khachHangs
-        notifyDataSetChanged()
     }
     interface OnItemClick{
         fun itemClickEdit(khachHangModel: KhachHangModel)

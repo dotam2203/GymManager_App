@@ -86,14 +86,14 @@ class TaiKhoanFragment : FragmentNext() {
                         delay(3000L)
                         retrieveImage(fileName)
                     }
-                    Toast.makeText(requireContext(), "Upload avatar successful!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Cập nhật ảnh đại diện thành công!", Toast.LENGTH_SHORT).show()
                 }.addOnFailureListener(OnFailureListener {
-                    Toast.makeText(requireContext(), "Upload avatar failed: $it!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Cập nhật ảnh đại diện thất bại!: $it!", Toast.LENGTH_SHORT).show()
                 })
         }
     }
-
     private fun init() {
+        imageUri = Uri.EMPTY
         sharedPreferencesLogin = SharedPreferencesLogin(requireContext())
     }
 
@@ -125,23 +125,11 @@ class TaiKhoanFragment : FragmentNext() {
                 val user: String = SingletonAccount.taiKhoan?.maTK.toString()
                 lifecycleScope.launchWhenCreated {
                     viewModel.updateNhanVien(NhanVienModel(maNV, txtNameAcc.text.toString(), txtEmailAcc.text.toString(), txtPhoneAcc.text.toString(), "Nữ", txtAdressAcc.text.toString()))
-                    viewModel.nhanVien.collect {
-                        if (it != null) {
-                            Toast.makeText(requireContext(), "update staff successful!", Toast.LENGTH_SHORT).show()
-                        } else
-                            Toast.makeText(requireContext(), "update staff failed!", Toast.LENGTH_SHORT).show()
-                    }
                 }
                 lifecycleScope.launchWhenCreated {
-                    viewModel.updateTaiKhoan(TaiKhoanModel(user, txtPassAcc.text.toString(), "Hoạt động", maQuyen, maNV))
-                    viewModel.taiKhoan.collect {
-                        if (it != null) {
-                            Toast.makeText(requireContext(), "update acc successful!", Toast.LENGTH_SHORT).show()
-                            SingletonAccount.taiKhoan = TaiKhoanModel(user, txtPassAcc.text.toString(), "Hoạt động", maQuyen, maNV)
-                            showDataUser()
-                        } else
-                            Toast.makeText(requireContext(), "update acc failed!", Toast.LENGTH_SHORT).show()
-                    }
+                    viewModel.updateTaiKhoan(TaiKhoanModel(user, maHoaPassApi(txtPassAcc.text.toString()), "Hoạt động", maQuyen, maNV))
+                    delay(1000L)
+                    dialogPopMessage("Cập nhật thông tin thành công!",R.drawable.ic_ok)
                 }
                 imbEditAcc.visibility = View.VISIBLE
                 imbSaveAcc.visibility = View.GONE
@@ -201,7 +189,7 @@ class TaiKhoanFragment : FragmentNext() {
                         isEnabled = false
                     }
                     txtPassAcc.apply {
-                        setText(SingletonAccount.taiKhoan?.matKhau)
+                        setText(sharedPreferencesLogin.getPass())
                         isEnabled = false
                     }
                     txtNameAcc.apply {

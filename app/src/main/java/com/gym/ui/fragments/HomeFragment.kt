@@ -28,6 +28,7 @@ class HomeFragment : FragmentNext() {
         if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
             val menuTK: MenuItem = menu.findItem(R.id.menuThongke)
             menuTK.isVisible = false
+
         }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

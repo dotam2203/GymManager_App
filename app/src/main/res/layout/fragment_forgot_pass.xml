@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:background="@color/gray"
+    android:background="@drawable/home_background"
     tools:context=".ui.fragments.ForgotPassFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView

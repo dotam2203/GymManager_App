@@ -3,12 +3,14 @@
     <string name="key_id">Your razorpay id</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="trangChu">Trang chủ</string>
-    <string name="dichVu">Dịch vụ</string>
-    <string name="theKH">Đăng kí</string>
-    <string name="thongKe">Thống kê</string>
-    <string name="taiKhoan">Tài khoản</string>
-    <string name="hoaDon">Hóa đơn</string>
+    <string name="trangChu">TRANG CHỦ</string>
+    <string name="dichVu">DỊCH VỤ</string>
+    <string name="theKH">ĐĂNG KÝ</string>
+    <string name="thongKe">THỐNG KÊ</string>
+    <string name="taiKhoan">TÀI KHOẢN</string>
+    <string name="hoaDon">HÓA ĐƠN</string>
+    <string name="khachHang">KHÁCH HÀNG</string>
+    <string name="nhanVien">NHÂN VIÊN</string>
 
     <string name="search">Tìm kiếm</string>
     <string name="gia">Giá</string>

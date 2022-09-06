@@ -10,9 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
 import com.gym.databinding.FragmentThongkeBinding
-import com.gym.model.CtTheTapModel
-import com.gym.model.GoiTapModel
-import com.gym.model.ThongKeModel
+import com.gym.model.*
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.ThongKeAdapter
 import kotlinx.coroutines.delay
@@ -20,11 +18,12 @@ import kotlinx.coroutines.delay
 class ThongKeFragment : FragmentNext() {
     private lateinit var binding: FragmentThongkeBinding
     var thongKeAdapter = ThongKeAdapter()
-    var ctThes = ArrayList<CtTheTapModel>()
     var goiTaps = ArrayList<GoiTapModel>()
     var thongKes = ArrayList<ThongKeModel>()
+    var khachHangs = ArrayList<KhachHangModel>()
+    var thes = ArrayList<TheTapModel>()
     var ctThe = CtTheTapModel()
-    var thongKe = ThongKeModel()
+    var item = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,9 +31,7 @@ class ThongKeFragment : FragmentNext() {
     ): View? {
         binding = FragmentThongkeBinding.inflate(layoutInflater)
         getDSGoiTap()
-        //binding.pbLoad.visibility = View.VISIBLE
         binding.apply {
-            spDV.setText("Dịch vụ")
             txtNgBD.setText(getCurrentDate())
             txtNgKT.setText(getCurrentDate())
             constraint.visibility = View.GONE
@@ -43,6 +40,26 @@ class ThongKeFragment : FragmentNext() {
         initAdapter()
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getDSKhachHang()
+        setControl()
+    }
+
+    private fun setControl() {
+        val options = arrayListOf("Doanh thu theo tháng", "Doanh thu theo dịch vụ", "Top 10 khách hàng tiềm năng")
+        Log.e("option", "setControl: $options", )
+        binding.apply {
+            item = 0
+            val arrayAdapter = ArrayAdapter(requireContext(),R.layout.dropdown_item, options)
+            spDV.setAdapter(arrayAdapter)
+            spDV.setOnItemClickListener { parent, view, position, id ->
+                item = position
+            }
+        }
+    }
+
     private fun getDSGoiTap(){
         viewModel.getDSGoiTap()
         lifecycleScope.launchWhenCreated {
@@ -85,34 +102,46 @@ class ThongKeFragment : FragmentNext() {
                 constraint.visibility = View.GONE
             }
             btnLoc.setOnClickListener {
-                pbLoad.visibility = View.VISIBLE
-                thongKes.clear()
-                Log.e("NgayBD", "NgayBD: ${getFormatDateApi(txtNgBD.text.toString().trim())} ")
-                Log.e("NgayKT", "NgayKT: ${getFormatDateApi(txtNgKT.text.toString().trim())}")
-                lifecycleScope.launchWhenCreated {
-                    initViewModel(getFormatDateApi(txtNgBD.text.toString().trim()),getFormatDateApi(txtNgKT.text.toString().trim()))
-                    delay(1000L)
-                    pbLoad.visibility = View.GONE
-                    constraint.visibility = View.VISIBLE
+                if(item == 0){
+                    pbLoad.visibility = View.VISIBLE
+                    thongKes.clear()
+                    Log.e("NgayBD", "NgayBD: ${getFormatDateApi(txtNgBD.text.toString().trim())} ")
+                    Log.e("NgayKT", "NgayKT: ${getFormatDateApi(txtNgKT.text.toString().trim())}")
+                    lifecycleScope.launchWhenCreated {
+                        thongKeTheoThang(getFormatDateApi(txtNgBD.text.toString().trim()),getFormatDateApi(txtNgKT.text.toString().trim()))
+                        delay(1000L)
+                        pbLoad.visibility = View.GONE
+                        constraint.visibility = View.VISIBLE
+                    }
                 }
-            }
-            val loaiTKs = ArrayList<String>()
-            var selectDV = ""
-            for(i in goiTaps.indices){
-                loaiTKs.add(goiTaps[i].tenGT)
-            }
-            val arrAdapterLoaiTK = ArrayAdapter(requireContext(), R.layout.dropdown_item,loaiTKs)
-            spDV.setAdapter(arrAdapterLoaiTK)
-            spDV.setOnItemClickListener { parent, view, position, id ->
-                selectDV = parent.getItemAtPosition(position).toString()
+                else if(item == 1){
+                    pbLoad.visibility = View.VISIBLE
+                    thongKes.clear()
+                    Log.e("NgayBD", "NgayBD: ${getFormatDateApi(txtNgBD.text.toString().trim())} ")
+                    Log.e("NgayKT", "NgayKT: ${getFormatDateApi(txtNgKT.text.toString().trim())}")
+                    lifecycleScope.launchWhenCreated {
+                        thongKeTheoDichVu(getFormatDateApi(txtNgBD.text.toString().trim()),getFormatDateApi(txtNgKT.text.toString().trim()))
+                        delay(1000L)
+                        pbLoad.visibility = View.GONE
+                        constraint.visibility = View.VISIBLE
+                    }
+                }
+                else if(item == 2){
+                    pbLoad.visibility = View.VISIBLE
+                    thongKes.clear()
+                    lifecycleScope.launchWhenCreated {
+                        top10KHTiemNang(getFormatDateApi(txtNgBD.text.toString().trim()),getFormatDateApi(txtNgKT.text.toString().trim()))
+                        delay(1000L)
+                        pbLoad.visibility = View.GONE
+                        constraint.visibility = View.VISIBLE
+                    }
+                }
             }
         }
     }
 
-    fun initViewModel(ngayBD: String, ngayKT: String){
-
-
-        viewModel.getLocDSCtTheTap(ngayBD, ngayKT)
+    fun thongKeTheoThang(ngayBD: String, ngayKT: String){
+        viewModel.getDSCtTheTapThang(ngayBD, ngayKT)
         lifecycleScope.launchWhenCreated {
             viewModel.ctTheTaps.collect{
                 if(it.isNotEmpty()){
@@ -133,7 +162,71 @@ class ThongKeFragment : FragmentNext() {
             }
         }
     }
-
+    fun thongKeTheoDichVu(ngayBD: String, ngayKT: String){
+        viewModel.getDSCtTheTapTheoDV(ngayBD, ngayKT)
+        lifecycleScope.launchWhenCreated {
+            viewModel.ctTheTaps.collect{
+                if(it.isNotEmpty()){
+                    thongKes.clear()
+                    var sum: Long = 0
+                    thongKeAdapter.thongKes.clear()
+                    for(i in it.indices){
+                        thongKes.add(ThongKeModel(it[i].donGia,it[i].maGT,it[i].tenGT,it[i].ngayDK))
+                        sum += tongDoanhThu(it[i].donGia)
+                    }
+                    thongKeAdapter.thongKes.addAll(thongKes)
+                    thongKeAdapter.notifyDataSetChanged()
+                    binding.tvTongDT.text = "${formatMoney(sum.toString().trim())} đ"
+                }
+                else {
+                    return@collect
+                }
+            }
+        }
+    }
+    fun getDSKhachHang(){
+        viewModel.getDSKhachHang()
+        lifecycleScope.launchWhenCreated {
+            viewModel.khachHangs.collect{
+                if(it.isNotEmpty()){
+                    khachHangs.addAll(it)
+                }
+                else return@collect
+            }
+        }
+    }
+    fun getDSTheTheoKH(maKH: String){
+        viewModel.getDSTheTapTheoKH(maKH)
+        lifecycleScope.launchWhenCreated {
+            viewModel.theTaps.collect{
+                if(it.isNotEmpty()){
+                    thes.addAll(it)
+                }
+                else return@collect
+            }
+        }
+    }
+    fun getCtTheTheoTheTap(maThe: String){
+        viewModel.getCtTheTapTheoThe(maThe)
+        lifecycleScope.launchWhenCreated {
+            viewModel.ctTheTap.collect{
+                if(it != null){
+                    ctThe = it
+                }
+                else return@collect
+            }
+        }
+    }
+    fun top10KHTiemNang(ngayBD: String, ngayKT: String){
+        var sum: Long = 0
+        for(i in khachHangs.indices){
+            getDSTheTheoKH(khachHangs[i].maKH)
+            for(j in thes.indices){
+                getCtTheTheoTheTap(thes[i].maThe)
+                sum += tongDoanhThu(ctThe.donGia)
+            }
+        }
+    }
     private fun initAdapter() {
         binding.apply {
             rvThongKe.apply {

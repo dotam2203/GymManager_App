@@ -69,7 +69,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
                     return@collect
                 }
                 else{
-                    khachHangAdapter.khachHangs = response
+                    khachHangAdapter.khachHangs.addAll(response)
                     khachHangs.addAll(response)
                     initAdapter()
                     khachHangAdapter.notifyDataSetChanged()

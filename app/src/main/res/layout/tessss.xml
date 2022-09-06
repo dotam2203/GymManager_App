@@ -1,111 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="ctThe"
-            type="com.gym.model.CtTheTapModel" />
-    </data>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemEnable"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_200">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/itemEnable"
+        android:id="@+id/nickName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:padding="50dp"
-        android:background="@drawable/shape_center_panel_fail">
-        <!--#ECAFAF-->
+        android:layout_height="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/clItem">
 
-        <!--<pl.droidsonroids.gif.GifImageView
-            android:id="@+id/itemTT"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:src="@drawable/ic_thetap"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/lineV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/logo"
+            app:civ_border_color="@color/purple_200"
+            app:civ_border_width="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>-->
+            app:layout_constraintStart_toStartOf="@id/lineV"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvTenDVDK"
-            android:text="Fitness"
-            android:textStyle="bold"
-            android:textSize="28sp"
+            android:id="@+id/tvUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvTenLDVDK"/>
-
-        <TextView
-            android:id="@+id/tvTenLDVDK"
-            android:text="Tuần"
-            android:textStyle="bold"
-            android:textSize="22sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTenDVDK"
-            app:layout_constraintBottom_toTopOf="@id/tvChiTiet"
-            app:layout_constraintVertical_bias="0.25" />
-
-        <TextView
-            android:id="@+id/tvChiTiet"
-            android:text="Chi tiết >>"
-            android:textStyle="bold|italic"
-            android:textColor="@color/gray_100"
+            android:textColor="@color/black"
             android:textSize="20sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textStyle="italic|bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/lineV"
+            app:layout_constraintHorizontal_bias="0.95"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTenLDVDK"
-            app:layout_constraintBottom_toTopOf="@id/ngayBDT" />
-
-        <TextView
-            android:id="@+id/ngayBDT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ngayBD"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvChiTiet"
-            app:layout_constraintBottom_toBottomOf="parent" />
-        <TextView
-            android:id="@+id/tvNgayBDT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="28/08/2022"
-            android:textSize="24sp"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ngayBDT"
-            app:layout_constraintBottom_toTopOf="@id/ngayKTT" />
-        <TextView
-            android:id="@+id/ngayKTT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ngayKT"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNgayBDT"
-            app:layout_constraintBottom_toTopOf="@id/tvNgayKTT" />
-        <TextView
-            android:id="@+id/tvNgayKTT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="11/09/2022"
-            android:textSize="24sp"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ngayKTT"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clItem"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/nickName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/clSlide">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/llDichVu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_change1"
+            android:src="@drawable/ic_goitap"
+            app:layout_constraintTop_toTopOf="@id/clItem"
+            app:layout_constraintStart_toStartOf="@id/clItem"
+            app:layout_constraintEnd_toStartOf="@id/llKhachHang"/>
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QL Dịch Vụ"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/llDichVu"
+            app:layout_constraintEnd_toEndOf="@id/llDichVu"
+            app:layout_constraintTop_toBottomOf="@id/llDichVu"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/llKhachHang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_change1"
+            android:src="@drawable/ic_kh"
+            app:layout_constraintTop_toTopOf="@id/clItem"
+            app:layout_constraintStart_toEndOf="@id/llDichVu"
+            app:layout_constraintEnd_toStartOf="@id/llNhanVien"/>
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QL Khách Hàng"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/llKhachHang"
+            app:layout_constraintEnd_toEndOf="@id/llKhachHang"
+            app:layout_constraintTop_toBottomOf="@id/llKhachHang"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/llNhanVien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/click_change1"
+            android:src="@drawable/ic_staff"
+            app:layout_constraintTop_toTopOf="@id/clItem"
+            app:layout_constraintStart_toEndOf="@id/llKhachHang"
+            app:layout_constraintEnd_toEndOf="@id/clItem"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QL Nhân viên"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/llNhanVien"
+            app:layout_constraintEnd_toEndOf="@id/llNhanVien"
+            app:layout_constraintTop_toBottomOf="@id/llNhanVien"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clSlide"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/clItem"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:layout_constraintStart_toStartOf="@id/clSlide"
+            app:layout_constraintEnd_toEndOf="@id/clSlide"
+            app:layout_constraintTop_toTopOf="@id/clSlide"
+            app:layout_constraintBottom_toBottomOf="@id/clSlide">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.denzcoskun.imageslider.ImageSlider
+                    android:id="@+id/imgSlide"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:iss_corner_radius="10"
+                    app:iss_period="2000"
+                    app:iss_auto_cycle="true"
+                    app:iss_delay="3000"
+                    app:iss_title_background="@drawable/gradient"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.fragments.TaiKhoanFragment"
-    android:background="@color/gray_200">
+    android:background="@drawable/home_background">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tb_label"

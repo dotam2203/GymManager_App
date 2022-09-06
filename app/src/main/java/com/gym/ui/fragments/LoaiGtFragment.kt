@@ -73,7 +73,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
                 }
                 else{
                     initAdapter()
-                    loaiGtAdapter.loaiGTs = response
+                    loaiGtAdapter.loaiGTs.addAll(response)
                     loaiGTs.addAll(response)
                     loaiGtAdapter.notifyDataSetChanged()
                     binding.pbLoad.visibility = View.GONE
@@ -250,7 +250,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
                     return@collect
                 }
                 else{
-                    loaiGtAdapter.loaiGTs = response
+                    loaiGtAdapter.loaiGTs.addAll(response)
                     initAdapter()
                     loaiGtAdapter.notifyDataSetChanged()
                     Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()

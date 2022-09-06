@@ -10,7 +10,7 @@ import com.gym.model.NhanVienModel
 import com.gym.ui.SingletonAccount
 
 class NhanVienAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapter<NhanVienAdapter.ViewHolder>() {
-    var nhanViens = listOf<NhanVienModel>()
+    var nhanViens = mutableListOf<NhanVienModel>()
     inner class ViewHolder(val binding: ItemNhanvienBinding): RecyclerView.ViewHolder(binding.root){
     }
 
@@ -41,10 +41,6 @@ class NhanVienAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapte
     }
     override fun getItemCount(): Int {
         return nhanViens.size
-    }
-    fun updateData(nhanViens: List<NhanVienModel>){
-        this.nhanViens = nhanViens
-        notifyDataSetChanged()
     }
     interface OnItemClick{
         fun itemClickEdit(nhanVienModel: NhanVienModel)

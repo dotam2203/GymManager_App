@@ -103,9 +103,7 @@ class LoginFragment : FragmentNext() {
                         //---------------------
                         getFragment(view, R.id.navLoginToHome)
                         Toast.makeText(activity, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
-                        //activity?.finish()
                     } else {
-                        //pbLoad.visibility = View.GONE
                         Toast.makeText(activity, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show()
                         txtPassLogin.setText("")
                     }
@@ -125,7 +123,6 @@ class LoginFragment : FragmentNext() {
                 if (response.isNotEmpty()) {
                     dsTaiKhoan.addAll(response)
                 } else {
-                    //Toast.makeText(activity, "Load api failed!", Toast.LENGTH_SHORT).show()
                     return@collect
                 }
             }
@@ -153,15 +150,16 @@ class LoginFragment : FragmentNext() {
                         break
                     }
                 }
+                Log.e("PassSavePrefe", "checkAutoLogin: ${sharedPreferencesLogin.getPass()}")
+                Log.e("PassSaveSingleton", "checkAutoLogin: ${SingletonAccount.taiKhoan?.matKhau}")
                 getFragment(requireView(), R.id.navLoginToHome)
             }
-            //activity?.finish()
         }
     }
 
     fun checkLogin(taiKhoans: ArrayList<TaiKhoanModel>): Boolean {
         val user: String = binding.txtUserLogin.text.toString()
-        val pass: String = binding.txtPassLogin.text.toString()
+        val pass: String = maHoaPassApi(binding.txtPassLogin.text.toString())
         for (i in taiKhoans.indices) {
             if (user.trim().isEmpty()) {
                 binding.txtUserLogin.apply {
@@ -179,7 +177,7 @@ class LoginFragment : FragmentNext() {
                 SingletonAccount.taiKhoan = taiKhoans[i]
                 sharedPreferencesLogin.apply {
                     setUser(user)
-                    setPass(pass)
+                    setPass(binding.txtPassLogin.text.toString())
                 }
                 return true
             }
@@ -220,16 +218,5 @@ class LoginFragment : FragmentNext() {
                 nhanVien = it ?: return@collect
             }
         }
-    }
-
-    fun getTaiKhoanByMaTK(maTK: String): TaiKhoanModel {
-        var tk = TaiKhoanModel()
-        viewModel.getTaiKhoan(maTK)
-        lifecycleScope.launchWhenCreated {
-            viewModel.taiKhoan.collect {
-                tk = it ?: return@collect
-            }
-        }
-        return tk
     }
 }

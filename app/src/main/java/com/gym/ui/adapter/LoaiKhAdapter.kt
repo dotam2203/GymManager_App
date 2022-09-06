@@ -12,8 +12,8 @@ import com.gym.ui.SingletonAccount
  * Author: tamdt35@fpt.com.vn
  * Date:  08/07/2022
  */
-class LoaiKhAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiKhAdapter.ViewHolder>(){
-    var loaiKHs = listOf<LoaiKhModel>()
+class LoaiKhAdapter(private val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiKhAdapter.ViewHolder>(){
+    var loaiKHs = mutableListOf<LoaiKhModel>()
     inner class ViewHolder(val binding: ItemLoaikhBinding): RecyclerView.ViewHolder(binding.root) {
     }
 
@@ -47,10 +47,7 @@ class LoaiKhAdapter(val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiKhAda
     override fun getItemCount(): Int {
         return loaiKHs.size
     }
-    fun updateData(loaiKHs: List<LoaiKhModel>){
-        this.loaiKHs = loaiKHs
-        notifyDataSetChanged()
-    }
+
     interface OnItemClick{
         fun itemClickEdit(loaiKhModel: LoaiKhModel)
         fun itemClickDelete(id: Int)

@@ -75,7 +75,7 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
                     return@collect
                 }
                 else{
-                    nhanVienAdapter.nhanViens = response
+                    nhanVienAdapter.nhanViens.addAll(response)
                     nhanViens.addAll(response)
                     initAdapter()
                     nhanVienAdapter.notifyDataSetChanged()

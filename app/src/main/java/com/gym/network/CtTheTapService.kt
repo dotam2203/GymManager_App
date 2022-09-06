@@ -9,8 +9,11 @@ interface CtTheTapService {
     @GET("ctthe/getds")
     suspend fun getDSCtTheTap(): Response<List<CtTheTapModel>>
 
-    @GET("ctthe/sort")
-    suspend fun getLocDSCtTheTap(@Query("ngayBD") ngayBD: String, @Query("ngayKT") ngayKT: String): Response<List<CtTheTapModel>>
+    @GET("ctthe/sort_thang")
+    suspend fun getDSCtTheTapThang(@Query("ngayBD") ngayBD: String, @Query("ngayKT") ngayKT: String): Response<List<CtTheTapModel>>
+
+    @GET("ctthe/sort_dv")
+    suspend fun getDSCtTheTapTheoDV(@Query("ngayBD") ngayBD: String, @Query("ngayKT") ngayKT: String): Response<List<CtTheTapModel>>
 
     @GET("ctthe/getgt")
     suspend fun getDSCtTheTapTheoGT(@Query("maGT") maGT: String): Response<List<CtTheTapModel>>

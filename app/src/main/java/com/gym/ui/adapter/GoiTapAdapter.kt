@@ -11,9 +11,9 @@ import com.gym.model.LoaiGtModel
 import com.gym.ui.SingletonAccount
 import com.gym.ui.viewmodel.ViewModel
 
-class GoiTapAdapter(val _itemClick: OnItemClick) : RecyclerView.Adapter<GoiTapAdapter.ViewHolder>() {
-    var goiTaps = listOf<GoiTapModel>()
-    var loaiGTs = listOf<LoaiGtModel>()
+class GoiTapAdapter(private val _itemClick: OnItemClick) : RecyclerView.Adapter<GoiTapAdapter.ViewHolder>() {
+    var goiTaps = mutableListOf<GoiTapModel>()
+    var loaiGTs = mutableListOf<LoaiGtModel>()
 
     inner class ViewHolder(val binding: ItemGoitapBinding) : RecyclerView.ViewHolder(binding.root) {
     }
@@ -53,11 +53,6 @@ class GoiTapAdapter(val _itemClick: OnItemClick) : RecyclerView.Adapter<GoiTapAd
 
     override fun getItemCount(): Int {
         return goiTaps.size
-    }
-
-    fun updateData(goiTaps: List<GoiTapModel>) {
-        this.goiTaps = goiTaps
-        notifyDataSetChanged()
     }
 
     interface OnItemClick {

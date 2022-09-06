@@ -17,8 +17,15 @@ class CtTheTapRepository {
         }
     }.flowOn(Dispatchers.IO)
 
-    fun getLocDSCtTheTap(ngayBD: String, ngayKT: String): Flow<Response<List<CtTheTapModel>>> = flow {
-        val request = RetrofitInstance.loadApiCtTheTap.getLocDSCtTheTap(ngayBD,ngayKT)
+    fun getDSCtTheTapThang(ngayBD: String, ngayKT: String): Flow<Response<List<CtTheTapModel>>> = flow {
+        val request = RetrofitInstance.loadApiCtTheTap.getDSCtTheTapThang(ngayBD,ngayKT)
+        if(request.isSuccessful){
+            emit(request)
+        }
+    }.flowOn(Dispatchers.IO)
+
+    fun getDSCtTheTapTheoDV(ngayBD: String, ngayKT: String): Flow<Response<List<CtTheTapModel>>> = flow {
+        val request = RetrofitInstance.loadApiCtTheTap.getDSCtTheTapTheoDV(ngayBD,ngayKT)
         if(request.isSuccessful){
             emit(request)
         }

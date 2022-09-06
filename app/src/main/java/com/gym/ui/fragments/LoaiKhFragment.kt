@@ -72,7 +72,7 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
                     Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
                     return@collect
                 } else {
-                    loaiKhAdapter.loaiKHs = response
+                    loaiKhAdapter.loaiKHs.addAll(response)
                     loaiKHs.addAll(response)
                     initAdapter()
                     loaiKhAdapter.notifyDataSetChanged()
@@ -237,7 +237,7 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
                     Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
                     return@collect
                 } else {
-                    loaiKhAdapter.loaiKHs = response
+                    loaiKhAdapter.loaiKHs.addAll(response)
                     initAdapter()
                     loaiKhAdapter.notifyDataSetChanged()
                     Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()

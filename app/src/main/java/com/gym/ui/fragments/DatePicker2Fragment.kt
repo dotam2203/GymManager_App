@@ -1,15 +1,19 @@
 package com.gym.ui.fragments
 
 import android.app.DatePickerDialog
-import androidx.fragment.app.DialogFragment
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.DatePicker
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DatePicker2Fragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
+/**
+ * Author: tamdt35@fpt.com.vn
+ * Date:  06/09/2022
+ */
+class DatePicker2Fragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
     private val calendar = Calendar.getInstance()
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //dafault date
@@ -17,7 +21,9 @@ class DatePicker2Fragment : DialogFragment(), DatePickerDialog.OnDateSetListener
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         //return new DatePickerDialog instance
-        return DatePickerDialog(requireActivity(), this, year, month, day)
+        val datePickerDialog = DatePickerDialog(requireActivity(), this, year, month, day)
+        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+        return datePickerDialog
     }
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         calendar.set(Calendar.YEAR, year)

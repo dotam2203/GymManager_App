@@ -2,9 +2,8 @@
 <shape
     android:shape="rectangle"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="10dp" />
     <solid android:color="#F6F0F0"/>
-    <!--<gradient android:gradientRadius="100dp"
-        android:startColor="#BAB4D3"
-        android:endColor="@color/purple_200"/>-->
+    <gradient android:gradientRadius="280dp"
+        android:startColor="#ECCEEF"
+        android:endColor="#D1B2C7"/>
 </shape>
