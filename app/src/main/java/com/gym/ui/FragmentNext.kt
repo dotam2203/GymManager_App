@@ -11,13 +11,11 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
-import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.gym.R
 import com.gym.ui.viewmodel.ViewModel
 import kotlinx.coroutines.delay
@@ -61,15 +59,24 @@ abstract class FragmentNext : Fragment() {
         return currentDate.toString().trim()
     }
     fun getFormatDate(date: String): String {
-        val d: List<Any> = date.split("-")
+        val d: List<Any> = date.split("/")
         var year: String? = ""
         var month: String? = ""
         var day: String? = ""
         day = d[2].toString().trim()
         month = d[1].toString().trim()
         year = d[0].toString().trim()
-        val dateFormat = "$day/$month/$year"
-        return dateFormat
+        return "$day/$month/$year"
+    }
+    fun getFormatDateFromAPI(date: String): String {
+        val d: List<Any> = date.split("-")
+        var year: String? = ""
+        var month: String? = ""
+        var day: String? = ""
+        day = d[0].toString().trim()
+        month = d[1].toString().trim()
+        year = d[2].toString().trim()
+        return "$year/$month/$day"
     }
     fun getFormatDateApi(date: String): String {
         val d: List<Any> = date.split("/")
@@ -183,7 +190,7 @@ abstract class FragmentNext : Fragment() {
         return Base64.getEncoder().encodeToString(byteEncrypted)
     }
     fun compareToDate(dateStart: String): Boolean {
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val sdf = SimpleDateFormat("yyyy/MM/dd")
         val currentDate = sdf.format(Date()).toString().trim()
         val date2: Date = sdf.parse(currentDate) as Date
         val date1: Date = sdf.parse(dateStart) as Date

@@ -31,25 +31,24 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
     ): View? {
         binding = FragmentDsDangkyBinding.inflate(layoutInflater)
         refreshData()
+        initAdapter()
+        reviceDataKH()
         binding.pbLoad.visibility = View.VISIBLE
         lifecycleScope.launchWhenCreated {
             delay(1000L)
-            reviceDataKH()
             if(khachHang.maKH != ""){
                 initViewModel(khachHang)
-                initAdapter()
-                //binding.pbLoad.visibility = View.GONE
             }
             else binding.pbLoad.visibility = View.GONE
         }
+
         return binding.root
     }
 
     private fun refreshData() {
         binding.apply {
             refresh.setOnRefreshListener {
-                reviceDataKH()
-                initAdapter()
+                ctTheTapAdapter.notifyDataSetChanged()
                 binding.pbLoad.visibility = View.GONE
                 refresh.isRefreshing = false
             }
@@ -57,7 +56,7 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
     }
 
     private fun reviceDataKH() {
-        parentFragmentManager.setFragmentResultListener("passData", this, object : FragmentResultListener {
+        parentFragmentManager.setFragmentResultListener("passData1", this, object : FragmentResultListener {
             override fun onFragmentResult(requestKey: String, result: Bundle) {
                 khachHang = result.getParcelable("dataKH") ?: return
                 initViewModel(khachHang)
@@ -73,27 +72,31 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
             lifecycleScope.launchWhenCreated {
                 delay(1000L)
                 viewModel.theTaps.collect {
-
                     if(it.isNotEmpty()){
                         for(i in it.indices){
-                            if(compareToDate(it[i].ngayBD)){
+                            if(compareToDate(getFormatDateFromAPI(it[i].ngayBD))){
                                 viewModel.updateTheTap(TheTapModel(it[i].maThe,it[i].ngayDK,it[i].ngayBD,it[i].ngayKT,"Hoạt động",it[i].maKH))
                             }
                             else if(!compareToDate(it[i].ngayBD)){
                                 viewModel.updateTheTap(TheTapModel(it[i].maThe,it[i].ngayDK,it[i].ngayBD,it[i].ngayKT,"Khóa",it[i].maKH))
                             }
                         }
-                        ctTheTapAdapter.ctTheTaps = getCTTheByMaThe(it as ArrayList<TheTapModel>)
-                        //initAdapter()
+                        ctTheTapAdapter.ctTheTaps.clear()
+                        it.forEach {item->
+                            item.hoaDons?.forEach { hd->
+                                ctTheTapAdapter.ctTheTaps.addAll(hd.ctTheTaps?: emptyList())
+                            }
+                        }
+                        delay(500L)
                         ctTheTapAdapter.notifyDataSetChanged()
                         Log.e("TAG", "List ctthe = ${ctTheTapAdapter.ctTheTaps.size}")
-                        //Toast.makeText(requireActivity(), "List ctthe = ${ctTheTaps.size}", Toast.LENGTH_SHORT).show()
                         binding.pbLoad.visibility = View.GONE
                     }
                     else{
                         binding.pbLoad.visibility = View.GONE
+                        ctTheTapAdapter.ctTheTaps.clear()
                         ctTheTapAdapter.notifyDataSetChanged()
-                        Toast.makeText(requireActivity(), "List null!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(), "Khách hàng chưa đăng ký thẻ tập!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -116,7 +119,7 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
     }
     private fun initAdapter() {
         binding.apply {
-            pbLoad.visibility = View.VISIBLE
+            //pbLoad.visibility = View.VISIBLE
             rvTheTap.apply {
                 layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
                 adapter = ctTheTapAdapter

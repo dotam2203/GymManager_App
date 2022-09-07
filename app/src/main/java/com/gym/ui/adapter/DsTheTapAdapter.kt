@@ -22,19 +22,14 @@ class DsTheTapAdapter(private val _itemClick: OnItemClick): RecyclerView.Adapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.apply {
-                if(position % 2 == 0){
-                    ctThe = ctTheTaps[position]
-                    if(ctTheTaps[position].trangThai == "Khóa"){
-                        itemEnable.isEnabled = false
-                        runnn.visibility = View.GONE
-                        itemEnable.setBackgroundResource(R.drawable.shape_center_panel_fail)
-                    }
-                    tvChiTiet.setOnClickListener {
-                        _itemClick.itemClickInfo(ctTheTaps[position])
-                    }
+                ctThe = ctTheTaps[position]
+                if(ctTheTaps[position].trangThai == "Khóa"){
+                    itemEnable.isEnabled = false
+                    runnn.visibility = View.GONE
+                    itemEnable.setBackgroundResource(R.drawable.shape_center_panel_fail)
                 }
-                else if(position % 2 != 0){
-                    itemEnable.visibility = View.GONE
+                tvChiTiet.setOnClickListener {
+                    _itemClick.itemClickInfo(ctTheTaps[position])
                 }
             }
         }

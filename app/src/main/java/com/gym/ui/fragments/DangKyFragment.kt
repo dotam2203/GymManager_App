@@ -523,7 +523,11 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
     }
 
     private fun passData(theTap: TheTapModel, hoaDon: HoaDonModel, ctTT: CtTheTapModel) {
-
+        val bundle = Bundle()
+        bundle.putParcelable("dataTT", theTap)
+        bundle.putParcelable("dataHD", hoaDon)
+        bundle.putParcelable("dataCTTT", ctTT)
+        childFragmentManager.setFragmentResult("passDataCTHD", bundle)
     }
     private fun startPayment() {
         /*

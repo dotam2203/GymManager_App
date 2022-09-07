@@ -11,7 +11,7 @@ import java.util.*
 
 class CtTheTapRepository {
     fun getDSCtTheTap(): Flow<Response<List<CtTheTapModel>>> = flow {
-        val request = RetrofitInstance.loadApiCtTheTap.getDSCtTheTap()
+        val request = RetrofitInstance.loadApiCtTheTap.getDSCtTheTapTheoNgayBD()
         if(request.isSuccessful){
             emit(request)
         }

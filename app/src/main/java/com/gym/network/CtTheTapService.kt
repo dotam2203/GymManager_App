@@ -7,7 +7,7 @@ import java.util.*
 
 interface CtTheTapService {
     @GET("ctthe/getds")
-    suspend fun getDSCtTheTap(): Response<List<CtTheTapModel>>
+    suspend fun getDSCtTheTapTheoNgayBD(): Response<List<CtTheTapModel>>
 
     @GET("ctthe/sort_thang")
     suspend fun getDSCtTheTapThang(@Query("ngayBD") ngayBD: String, @Query("ngayKT") ngayKT: String): Response<List<CtTheTapModel>>

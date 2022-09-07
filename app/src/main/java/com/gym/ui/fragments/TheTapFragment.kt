@@ -37,11 +37,12 @@ class TheTapFragment : FragmentNext() {
         val bundle = Bundle()
         bundle.putParcelable("dataKH", khachHang)
         childFragmentManager.setFragmentResult("passData", bundle)
+        childFragmentManager.setFragmentResult("passData1", bundle)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewPager.adapter = DangKyViewPagerAdapter(childFragmentManager,activity!!.lifecycle)
+        binding.viewPager.adapter = DangKyViewPagerAdapter(this)
         binding.viewPager.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout, binding.viewPager){
             tab,position -> tab.text = tabTitle[position]
