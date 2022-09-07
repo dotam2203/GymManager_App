@@ -17,12 +17,12 @@
         app:layout_constraintStart_toStartOf="parent"/>
     <TextView
         android:id="@+id/tvPopMessage"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:textSize="18sp"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/imvGif"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="Successfull"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

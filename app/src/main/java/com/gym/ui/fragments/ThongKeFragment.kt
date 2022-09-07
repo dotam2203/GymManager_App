@@ -102,35 +102,41 @@ class ThongKeFragment : FragmentNext() {
                 constraint.visibility = View.GONE
             }
             btnLoc.setOnClickListener {
+                thongKeAdapter.flag = item
                 if(item == 0){
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()
-                    Log.e("NgayBD", "NgayBD: ${getFormatDateApi(txtNgBD.text.toString().trim())} ")
-                    Log.e("NgayKT", "NgayKT: ${getFormatDateApi(txtNgKT.text.toString().trim())}")
                     lifecycleScope.launchWhenCreated {
-                        thongKeTheoThang(getFormatDateApi(txtNgBD.text.toString().trim()),getFormatDateApi(txtNgKT.text.toString().trim()))
+                        thongKeTheoThang(getFormatDateCompareTo(txtNgBD.text.toString().trim()),getFormatDateCompareTo(txtNgKT.text.toString().trim()))
                         delay(1000L)
                         pbLoad.visibility = View.GONE
                         constraint.visibility = View.VISIBLE
                     }
                 }
                 else if(item == 1){
+                    //=================
+                    col1.text = "STT"
+                    //=================
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()
-                    Log.e("NgayBD", "NgayBD: ${getFormatDateApi(txtNgBD.text.toString().trim())} ")
-                    Log.e("NgayKT", "NgayKT: ${getFormatDateApi(txtNgKT.text.toString().trim())}")
+                    Log.e("NgayBD", "NgayBD: ${getFormatDateCompareTo(txtNgBD.text.toString().trim())} ")
+                    Log.e("NgayKT", "NgayKT: ${getFormatDateCompareTo(txtNgKT.text.toString().trim())}")
                     lifecycleScope.launchWhenCreated {
-                        thongKeTheoDichVu(getFormatDateApi(txtNgBD.text.toString().trim()),getFormatDateApi(txtNgKT.text.toString().trim()))
+                        thongKeTheoDichVu(getFormatDateCompareTo(txtNgBD.text.toString().trim()),getFormatDateCompareTo(txtNgKT.text.toString().trim()))
                         delay(1000L)
                         pbLoad.visibility = View.GONE
                         constraint.visibility = View.VISIBLE
                     }
                 }
                 else if(item == 2){
+                    //=================
+                    col1.text = "Hạng"
+                    col2.text = "Khách hàng"
+                    //=================
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()
                     lifecycleScope.launchWhenCreated {
-                        top10KHTiemNang(getFormatDateApi(txtNgBD.text.toString().trim()),getFormatDateApi(txtNgKT.text.toString().trim()))
+                        //top10KHTiemNang(getFormatDateCompareTo(txtNgBD.text.toString().trim()),getFormatDateCompareTo(txtNgKT.text.toString().trim()))
                         delay(1000L)
                         pbLoad.visibility = View.GONE
                         constraint.visibility = View.VISIBLE
@@ -140,11 +146,12 @@ class ThongKeFragment : FragmentNext() {
         }
     }
 
-    fun thongKeTheoThang(ngayBD: String, ngayKT: String){
+    private fun thongKeTheoThang(ngayBD: String, ngayKT: String){
         viewModel.getDSCtTheTapThang(ngayBD, ngayKT)
         lifecycleScope.launchWhenCreated {
             viewModel.ctTheTaps.collect{
                 if(it.isNotEmpty()){
+                    binding.checkList.visibility = View.GONE
                     thongKes.clear()
                     var sum: Long = 0
                     thongKeAdapter.thongKes.clear()
@@ -157,12 +164,16 @@ class ThongKeFragment : FragmentNext() {
                     binding.tvTongDT.text = "${formatMoney(sum.toString().trim())} đ"
                 }
                 else {
+                    binding.apply {
+                        checkList.visibility = View.VISIBLE
+                        constraint.visibility = View.GONE
+                    }
                     return@collect
                 }
             }
         }
     }
-    fun thongKeTheoDichVu(ngayBD: String, ngayKT: String){
+    private fun thongKeTheoDichVu(ngayBD: String, ngayKT: String){
         viewModel.getDSCtTheTapTheoDV(ngayBD, ngayKT)
         lifecycleScope.launchWhenCreated {
             viewModel.ctTheTaps.collect{
@@ -184,7 +195,7 @@ class ThongKeFragment : FragmentNext() {
             }
         }
     }
-    fun getDSKhachHang(){
+    private fun getDSKhachHang(){
         viewModel.getDSKhachHang()
         lifecycleScope.launchWhenCreated {
             viewModel.khachHangs.collect{
@@ -195,7 +206,7 @@ class ThongKeFragment : FragmentNext() {
             }
         }
     }
-    fun getDSTheTheoKH(maKH: String){
+    private fun getDSTheTheoKH(maKH: String){
         viewModel.getDSTheTapTheoKH(maKH)
         lifecycleScope.launchWhenCreated {
             viewModel.theTaps.collect{
@@ -206,7 +217,7 @@ class ThongKeFragment : FragmentNext() {
             }
         }
     }
-    fun getCtTheTheoTheTap(maThe: String){
+    private fun getCtTheTheoTheTap(maThe: String){
         viewModel.getCtTheTapTheoThe(maThe)
         lifecycleScope.launchWhenCreated {
             viewModel.ctTheTap.collect{
@@ -217,7 +228,7 @@ class ThongKeFragment : FragmentNext() {
             }
         }
     }
-    fun top10KHTiemNang(ngayBD: String, ngayKT: String){
+    private fun top10KHTiemNang(ngayBD: String, ngayKT: String){
         var sum: Long = 0
         for(i in khachHangs.indices){
             getDSTheTheoKH(khachHangs[i].maKH)

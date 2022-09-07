@@ -30,8 +30,8 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentKhachhangBinding.inflate(layoutInflater)
+        initAdapter()
         refreshData()
-        binding.pbLoad.visibility = View.VISIBLE
         lifecycleScope.launchWhenCreated {
             delay(2000L)
             initViewModel()
@@ -51,28 +51,29 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
     private fun refreshData() {
         binding.apply {
             refresh.setOnRefreshListener {
-                initViewModel()
+                khachHangAdapter.notifyDataSetChanged()
                 refresh.isRefreshing = false
+                binding.pbLoad.visibility = View.GONE
             }
-
         }
     }
-    fun initViewModel() {
+    private fun initViewModel() {
         //call api
         viewModel.getDSKhachHang()
         //Livedata observer
         lifecycleScope.launchWhenCreated {
             viewModel.khachHangs.collect {response ->
-                if (response.isEmpty()) {
-                    binding.pbLoad.visibility = View.GONE
-                    //Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
-                    return@collect
-                }
-                else{
+                if (response.isNotEmpty()) {
+                    khachHangAdapter.khachHangs.clear()
                     khachHangAdapter.khachHangs.addAll(response)
                     khachHangs.addAll(response)
-                    initAdapter()
                     khachHangAdapter.notifyDataSetChanged()
+                    binding.pbLoad.visibility = View.GONE
+                }
+                else {
+                    khachHangAdapter.khachHangs.clear()
+                    khachHangAdapter.notifyDataSetChanged()
+                    binding.checkList.visibility = View.VISIBLE
                     binding.pbLoad.visibility = View.GONE
                 }
             }

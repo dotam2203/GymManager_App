@@ -1,399 +1,411 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/border_background"
+    android:padding="20dp">
 
-    <data>
-        <variable
-            name="theTap"
-            type="com.gym.model.TheTapModel" />
-        <variable
-            name="hoaDon"
-            type="com.gym.model.HoaDonModel" />
-        <variable
-            name="gia"
-            type="com.gym.model.GiaGtModel" />
-    </data>
+    <TextView
+        android:id="@+id/khdk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/khachHangDK"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/tvKHDK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/khdk"
+        app:layout_constraintStart_toStartOf="@id/khdk"
+        app:layout_constraintTop_toBottomOf="@id/khdk" />
+
+    <TextView
+        android:id="@+id/sdtkh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sdtKH"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSdtDK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/sdtkh"
+        app:layout_constraintStart_toStartOf="@id/sdtkh"
+        app:layout_constraintTop_toBottomOf="@id/sdtkh" />
+
+    <TextView
+        android:id="@+id/tg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/ngayLap"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvKHDK" />
+
+    <TextView
+        android:id="@+id/tvNgayLap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/tg" />
+
+    <TextView
+        android:id="@+id/tvHDMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_background"
-        android:layout_margin="10dp"
-        android:padding="20dp">
-        <TextView
-            android:id="@+id/khdk"
-            android:textColor="@color/black"
-            android:text="@string/khachHangDK"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-        <TextView
-            android:id="@+id/tvKHDK"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/khdk"
-            app:layout_constraintStart_toStartOf="@id/khdk"
-            app:layout_constraintEnd_toEndOf="@id/khdk"/>
-        <TextView
-            android:id="@+id/sdtkh"
-            android:textColor="@color/black"
-            android:text="@string/sdtKH"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-        <TextView
-            android:id="@+id/tvSdtDK"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/sdtkh"
-            app:layout_constraintEnd_toEndOf="@id/sdtkh"
-            app:layout_constraintStart_toStartOf="@id/sdtkh"/>
-        <TextView
-            android:id="@+id/tg"
-            android:textStyle="italic"
-            android:text="@string/ngayLap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/tvKHDK"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvNgayLap"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/tg"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Thông tin THANH TOÁN"
+        android:textColor="@color/red"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNgayLap" />
 
-        <TextView
-            android:id="@+id/tvHDMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textColor="@color/red"
-            android:text="Thông tin THANH TOÁN"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/tvNgayLap"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/lineV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+    <TextView
+        android:id="@+id/hds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/hoaDonSo"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHDMessage" />
 
-        <TextView
-            android:id="@+id/hds"
-            android:text="@string/hoaDonSo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/tvHDMessage"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvHDSo"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="@{hoaDon.maHD}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/hds"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
+    <TextView
+        android:id="@+id/tvHDSo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{hoaDon.maHD}"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/hds" />
 
-        <TextView
-            android:id="@+id/nv"
-            android:text="@string/nhanVienLap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/hds"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvNVLap"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/nv"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
-        <TextView
-            android:id="@+id/dv"
-            android:text="@string/dichVu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/nv"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvDichVu"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/dv"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
+    <TextView
+        android:id="@+id/nv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/nhanVienLap"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hds" />
 
-        <TextView
-            android:id="@+id/ldv"
-            android:text="@string/loaiDV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/dv"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvLoaiDV"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/ldv"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
+    <TextView
+        android:id="@+id/tvNVLap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/nv" />
 
-        <TextView
-            android:id="@+id/dg"
-            android:text="@string/donGia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/ldv"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvDonGia"
-            android:text="@{gia.gia}"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/dg"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
+    <TextView
+        android:id="@+id/dv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/dichVu"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nv" />
 
-        <TextView
-            android:id="@+id/sl"
-            android:text="@string/soLuong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/dg"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvSoLuong"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/sl"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
-        <TextView
-            android:id="@+id/bdTap"
-            android:text="@string/ngayBD"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/sl"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvBDTap"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/bdTap"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
-        <TextView
-            android:id="@+id/ktTap"
-            android:text="@string/ngayKT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/bdTap"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvKTTap"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/ktTap"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
+    <TextView
+        android:id="@+id/tvDichVu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/dv" />
+
+    <TextView
+        android:id="@+id/ldv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/loaiDV"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dv" />
+
+    <TextView
+        android:id="@+id/tvLoaiDV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/ldv" />
+
+    <TextView
+        android:id="@+id/dg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/donGia"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ldv" />
+
+    <TextView
+        android:id="@+id/tvDonGia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{gia.gia}"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/dg" />
+
+    <TextView
+        android:id="@+id/sl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/soLuong"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dg" />
+
+    <TextView
+        android:id="@+id/tvSoLuong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/sl" />
+
+    <TextView
+        android:id="@+id/bdTap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/ngayBD"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sl" />
+
+    <TextView
+        android:id="@+id/tvBDTap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/bdTap" />
+
+    <TextView
+        android:id="@+id/ktTap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/ngayKT"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bdTap" />
+
+    <TextView
+        android:id="@+id/tvKTTap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/ktTap" />
 
 
-        <TextView
-            android:id="@+id/noiDung"
-            android:text="@string/noiDung"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/ktTap"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvNoiDung"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/noiDung"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
+    <TextView
+        android:id="@+id/noiDung"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/noiDung"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ktTap" />
+
+    <TextView
+        android:id="@+id/tvNoiDung"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/noiDung" />
 
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp"
+        android:background="#E91E63"
+        app:layout_constraintTop_toBottomOf="@id/noiDung" />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#E91E63"
-            app:layout_constraintTop_toBottomOf="@id/noiDung"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="10dp"/>
-        <TextView
-            android:id="@+id/khuyenMai"
-            android:text="@string/khuyenMai"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/view"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvKhuyenMai"
-            android:textSize="18sp"
-            android:textColor="@color/red"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/khuyenMai"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
-        <TextView
-            android:id="@+id/giamTien"
-            android:text="@string/giamTien"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/khuyenMai"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvGiamTien"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/giamTien"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
-        <TextView
-            android:id="@+id/thanhTien"
-            android:text="@string/thanhTien"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/giamTien"
-            app:layout_constraintStart_toStartOf="parent" />
-        <TextView
-            android:id="@+id/tvThanhTien"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/thanhTien"
-            app:layout_constraintStart_toStartOf="@id/lineV"/>
-        <LinearLayout
-            android:id="@+id/ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/thanhTien">
+    <TextView
+        android:id="@+id/khuyenMai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/khuyenMai"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnHuyTT"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/click_change"
-                android:text="Hủy"
-                android:textColor="@color/black"
-                android:layout_marginEnd="30dp"
-                android:layout_marginStart="10dp"
-                android:textSize="14sp" />
+    <TextView
+        android:id="@+id/tvKhuyenMai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/khuyenMai" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnThanhToan"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="10dp"
-                android:textColor="@color/black"
-                android:background="@drawable/click_change"
-                android:text="Thanh Toán"
-                android:textSize="14sp" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/giamTien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/giamTien"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/khuyenMai" />
+
+    <TextView
+        android:id="@+id/tvGiamTien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/giamTien" />
+
+    <TextView
+        android:id="@+id/thanhTien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/thanhTien"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/giamTien" />
+
+    <TextView
+        android:id="@+id/tvThanhTien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/lineV"
+        app:layout_constraintTop_toTopOf="@id/thanhTien" />
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/thanhTien">
+
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnTTSau"
-            android:layout_width="200dp"
+            android:id="@+id/btnHuyTT"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/click_change"
+            android:text="Hủy"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnThanhToan"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="10dp"
-            android:textColor="@color/black"
+            android:layout_weight="1"
             android:background="@drawable/click_change"
-            android:text="Thanh Toán Sau"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/ll"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="10dp"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+            android:text="Thanh Toán"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTTSau"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/click_change"
+        android:text="Thanh Toán Sau"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll" />
+</androidx.constraintlayout.widget.ConstraintLayout>

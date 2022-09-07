@@ -58,6 +58,7 @@ abstract class FragmentNext : Fragment() {
         val currentDate = sdf.format(Date())
         return currentDate.toString().trim()
     }
+    //ngày hiển thị ở local, input: yyyy/MM/dd -> output: dd/MM/yyyy
     fun getFormatDate(date: String): String {
         val d: List<Any> = date.split("/")
         var year: String? = ""
@@ -68,17 +69,30 @@ abstract class FragmentNext : Fragment() {
         year = d[0].toString().trim()
         return "$day/$month/$year"
     }
+    //lấy ngày trên api xuống hiển thị ở local, input: yyyy-MM-dd -> output: dd/MM/yyyy
     fun getFormatDateFromAPI(date: String): String {
         val d: List<Any> = date.split("-")
+        var year: String? = ""
+        var month: String? = ""
+        var day: String? = ""
+        day = d[2].toString().trim()
+        month = d[1].toString().trim()
+        year = d[0].toString().trim()
+        return "$day/$month/$year"
+    }
+    //ngày post lên api, input: dd/MM/yyyy -> output: yyyy-MM-dd
+    fun getFormatDateToApi(date: String): String {
+        val d: List<Any> = date.split("/")
         var year: String? = ""
         var month: String? = ""
         var day: String? = ""
         day = d[0].toString().trim()
         month = d[1].toString().trim()
         year = d[2].toString().trim()
-        return "$year/$month/$day"
+        return "$year-$month-$day"
     }
-    fun getFormatDateApi(date: String): String {
+    //lấy ngày nhập vào để thống kê,input: dd/MM/yyyy -> output: yyyy/MM/dd
+    fun getFormatDateCompareTo(date: String): String {
         val d: List<Any> = date.split("/")
         var year: String? = ""
         var month: String? = ""
@@ -208,10 +222,10 @@ abstract class FragmentNext : Fragment() {
         val str2 = str1[0].split(",")
         var str = ""
         for(i in str2.indices){
-            //str.plus(str2[i])
             str += str2[i]
         }
-        return str.trim().toLong()
+        return if(str != "") str.trim().toLong()
+            else 0
     }
     //--------------------------------------------
     fun dialogPopMessage(msg: String, drawable: Int){

@@ -10,6 +10,7 @@ import com.gym.model.ThongKeModel
 class ThongKeAdapter : RecyclerView.Adapter<ThongKeAdapter.ViewHolder>(){
     inner class ViewHolder(val binding: ItemThongkeBinding): RecyclerView.ViewHolder(binding.root){}
     var thongKes = mutableListOf<ThongKeModel>()
+    var flag = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ItemThongkeBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(view)
@@ -24,9 +25,14 @@ class ThongKeAdapter : RecyclerView.Adapter<ThongKeAdapter.ViewHolder>(){
                 else if(position %2 != 0){
                     binding.tvItemTK.setBackgroundColor(Color.CYAN)
                 }
-                tvDTThang.text = getMonthYear(thongKes[position].ngayDK)
-                tvDTDichVu.text = thongKes[position].tenGT
-                tvDoanhThu.text = thongKes[position].donGia
+                if(flag == 0){
+                    tvDTThang.text = getMonthYear(thongKes[position].ngayDK)
+                    tvDTDichVu.text = thongKes[position].tenGT
+                    tvDoanhThu.text = thongKes[position].donGia
+                }
+                else if(flag == 1 || flag == 2){
+                    tvDTThang.text = "${position + 1}"
+                }
             }
         }
     }

@@ -25,9 +25,6 @@ class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapt
                 imbInfo.setOnClickListener {
                     _itemClick.itemClickInfo(hoaDons[position])
                 }
-                imbSelect.setOnClickListener {
-                    _itemClick.itemClickSelect(hoaDons[position].maHD)
-                }
             }
         }
     }
@@ -36,6 +33,5 @@ class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapt
     }
     interface OnItemClick{
         fun itemClickInfo(hoaDonModel: HoaDonModel)
-        fun itemClickSelect(maHD: String)
     }
 }

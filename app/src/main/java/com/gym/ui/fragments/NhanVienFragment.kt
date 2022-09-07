@@ -22,7 +22,7 @@ import com.gym.ui.adapter.NhanVienAdapter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
-class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
+class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
     private lateinit var binding: FragmentNhanvienBinding
     var nhanVienAdapter = NhanVienAdapter(this@NhanVienFragment)
     var nhanViens = ArrayList<NhanVienModel>()
@@ -32,14 +32,9 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //=====================
-        //=====================
         binding = FragmentNhanvienBinding.inflate(layoutInflater)
-        binding.imbBack.setOnClickListener {
-            getFragment(requireView(),R.id.navNhanVienToHome)
-        }
+        initAdapter()
         refreshData()
-        binding.pbLoad.visibility = View.VISIBLE
         lifecycleScope.launchWhenCreated {
             delay(2000L)
             initViewModel()
@@ -50,35 +45,42 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
+            imbBack.setOnClickListener {
+                getFragment(requireView(), R.id.navNhanVienToHome)
+            }
             imbAdd.setOnClickListener {
                 dialogInsertNV()
             }
         }
     }
+
     private fun refreshData() {
         binding.apply {
             refresh.setOnRefreshListener {
-                initViewModel()
+                nhanVienAdapter.notifyDataSetChanged()
                 refresh.isRefreshing = false
+                pbLoad.visibility = View.GONE
             }
 
         }
     }
-    fun initViewModel() {
+
+    private fun initViewModel() {
         //call api
         viewModel.getDSNhanVien()
         //Livedata observer
         lifecycleScope.launchWhenCreated {
-            viewModel.nhanViens.collect {response ->
-                if (response.isEmpty()) {
-                    binding.pbLoad.visibility = View.GONE
-                    return@collect
-                }
-                else{
-                    nhanVienAdapter.nhanViens.addAll(response)
+            viewModel.nhanViens.collect { response ->
+                if (response.isNotEmpty()) {
+                    nhanVienAdapter.nhanViens.clear()
                     nhanViens.addAll(response)
-                    initAdapter()
+                    nhanVienAdapter.nhanViens.addAll(response)
                     nhanVienAdapter.notifyDataSetChanged()
+                    binding.pbLoad.visibility = View.GONE
+                } else {
+                    nhanVienAdapter.nhanViens.clear()
+                    nhanVienAdapter.notifyDataSetChanged()
+                    binding.checkList.visibility = View.VISIBLE
                     binding.pbLoad.visibility = View.GONE
                 }
             }
@@ -94,6 +96,7 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
             }
         }
     }
+
     override fun itemClickEdit(nhanVien: NhanVienModel) {
         dialogEdit(nhanVien)
     }
@@ -107,7 +110,7 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val windowAtrributes : WindowManager.LayoutParams = window!!.attributes
+        val windowAtrributes: WindowManager.LayoutParams = window!!.attributes
         windowAtrributes.gravity = Gravity.CENTER
         window.attributes = windowAtrributes
         //click ra bên ngoài để tắt dialog
@@ -152,7 +155,7 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         //---------------------------------
         btnUpdate.setOnClickListener {
             lifecycleScope.launchWhenCreated {
-                viewModel.updateNhanVien(NhanVienModel(nhanVien.maNV,nhanVien.hoTen,nhanVien.email,txtSdtKH.text.toString(),nhanVien.phai,txtDiaChiKH.text.toString(),""))
+                viewModel.updateNhanVien(NhanVienModel(nhanVien.maNV, nhanVien.hoTen, nhanVien.email, txtSdtKH.text.toString(), nhanVien.phai, txtDiaChiKH.text.toString(), ""))
                 Toast.makeText(requireContext(), "Cập nhật nhân viên thành công!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -161,6 +164,7 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
             dialog.dismiss()
         }
     }
+
     private fun dialogInsertNV() {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -170,7 +174,7 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val windowAtrributes : WindowManager.LayoutParams = window!!.attributes
+        val windowAtrributes: WindowManager.LayoutParams = window!!.attributes
         windowAtrributes.gravity = Gravity.CENTER
         window.attributes = windowAtrributes
         //click ra bên ngoài để tắt dialog
@@ -201,8 +205,8 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         txtMaKH.visibility = View.GONE
         txtTenKH.requestFocus()
         //==============================================================
-        val phais = listOf("Nam","Nữ")
-        val arrAdapterPhai = ArrayAdapter(requireContext(),R.layout.dropdown_item,phais)
+        val phais = listOf("Nam", "Nữ")
+        val arrAdapterPhai = ArrayAdapter(requireContext(), R.layout.dropdown_item, phais)
         var selectPhai: String = ""
         //-----------------------Phái-------------------------
         spPhai.setAdapter(arrAdapterPhai)
@@ -215,18 +219,36 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         }
         btnThem.setOnClickListener {
             val randomPass: String = createPassword()
-            Toast.makeText(requireContext(), "maNV: ${randomString("nhân viên", getMaNVMax(nhanViens))} \ntenKH: ${replaceString(txtTenKH.text.toString())} \nphai: $selectPhai \nSDT: ${txtSdtKH.text} \nemail:${txtEmailKH.text} \nDiaChi: ${txtDiaChi.text}", Toast.LENGTH_SHORT).show()
-            val insertNV = NhanVienModel(randomString("nhân viên", getMaNVMax(nhanViens)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"")
-            val insertTK = TaiKhoanModel(createAccountRandom(txtEmailKH.text.toString()),randomPass,"Hoạt động","Q02",insertNV.maNV)
+            Toast.makeText(
+                requireContext(),
+                "maNV: ${
+                    randomString(
+                        "nhân viên",
+                        getMaNVMax(nhanViens)
+                    )
+                } \ntenKH: ${replaceString(txtTenKH.text.toString())} \nphai: $selectPhai \nSDT: ${txtSdtKH.text} \nemail:${txtEmailKH.text} \nDiaChi: ${txtDiaChi.text}",
+                Toast.LENGTH_SHORT
+            ).show()
+            val insertNV = NhanVienModel(
+                randomString("nhân viên", getMaNVMax(nhanViens)),
+                replaceString(txtTenKH.text.toString()),
+                txtEmailKH.text.toString(),
+                txtSdtKH.text.toString(),
+                selectPhai,
+                txtDiaChi.text.toString(),
+                ""
+            )
+            val insertTK = TaiKhoanModel(createAccountRandom(txtEmailKH.text.toString()), randomPass, "Hoạt động", "Q02", insertNV.maNV)
             viewModel.insertNhanVien(insertNV)
             lifecycleScope.launchWhenCreated {
                 delay(2000L)
                 viewModel.insertTaiKhoan(insertTK)
                 //=====================
                 val title = "VECTOR GYM - CẤP MỚI TÀI KHOẢN ĐĂNG NHẬP"
-                val message = "Nhân viên: ${insertNV.hoTen}\nSố điện thoại:${insertNV.sdt}\nEmail:${insertNV.email} \nTÀI KHOẢN ĐĂNG NHẬP: ${insertTK.maTK}\nMẬT KHẨU: ${insertTK.matKhau}\n\n\nCẢM ƠN bạn đã đồng hành cùng VECTOR GYM!"
+                val message =
+                    "Nhân viên: ${insertNV.hoTen}\nSố điện thoại:${insertNV.sdt}\nEmail:${insertNV.email} \nTÀI KHOẢN ĐĂNG NHẬP: ${insertTK.maTK}\nMẬT KHẨU: ${insertTK.matKhau}\n\n\nCẢM ƠN bạn đã đồng hành cùng VECTOR GYM!"
                 val text = "Thêm nhân viên thành công!"
-                sendMessageFromMail(insertNV.email,title,message,text)
+                sendMessageFromMail(insertNV.email, title, message, text)
                 //=====================
                 Log.e("TAG-CreateAccount", "user:${createAccountRandom(txtEmailKH.text.toString())}\npass:$randomPass\nTrạng thái: Hoạt động\nQuyền:Q02\nmaNV:${insertNV.maNV}")
                 Toast.makeText(requireContext(), "created account successful!!", Toast.LENGTH_SHORT).show()
@@ -234,7 +256,8 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
             }
         }
     }
-    fun dialogDelete(maNV: String){
+
+    fun dialogDelete(maNV: String) {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
@@ -243,7 +266,7 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val windowAtrributes : WindowManager.LayoutParams = window!!.attributes
+        val windowAtrributes: WindowManager.LayoutParams = window!!.attributes
         windowAtrributes.gravity = Gravity.CENTER
         window.attributes = windowAtrributes
         //click ra bên ngoài để tắt dialog
@@ -266,20 +289,21 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
             dialog.dismiss()
         }
     }
-    fun getNhanVienByMaNV(maNV: String): NhanVienModel{
+
+    fun getNhanVienByMaNV(maNV: String): NhanVienModel {
         var nhanVien = NhanVienModel()
         viewModel.getNhanVien(maNV)
         lifecycleScope.launchWhenCreated {
-            viewModel.nhanVien.collect{
-                if(it != null){
+            viewModel.nhanVien.collect {
+                if (it != null) {
                     nhanVien = it
-                }
-                else
+                } else
                     return@collect
             }
         }
         return nhanVien
     }
+
     fun getMaNVMax(nhanViens: ArrayList<NhanVienModel>): String {
         if (nhanViens.isNotEmpty()) {
             var max: Int = nhanViens[0].maNV.substring(2).toInt()
@@ -294,6 +318,7 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
         }
         return "NV00"
     }
+
     override fun itemClickDelete(maNV: String) {
         dialogDelete(maNV)
     }
@@ -304,30 +329,31 @@ class NhanVienFragment : FragmentNext(),NhanVienAdapter.OnItemClick {
 
     private fun passDataKH(nhanVien: NhanVienModel) {
         val bundle = Bundle()
-        bundle.putParcelable("infoKH",nhanVien)
+        bundle.putParcelable("infoKH", nhanVien)
         val fragment = TheTapFragment()
         fragment.arguments = bundle
-        childFragmentManager.beginTransaction().replace(R.id.nav_fragment,fragment).commit()
-        replaceFragment(R.id.nav_fragment,fragment)
+        childFragmentManager.beginTransaction().replace(R.id.nav_fragment, fragment).commit()
+        replaceFragment(R.id.nav_fragment, fragment)
     }
-    private fun createAccountRandom(email: String): String{
+
+    private fun createAccountRandom(email: String): String {
         val msg = email.split("@")
         return msg[0]
     }
-    private fun checkTaiKhoanByMaNV(maNV: String): Boolean{
+
+    private fun checkTaiKhoanByMaNV(maNV: String): Boolean {
         var status: Boolean = false
         viewModel.getDSTaiKhoan()
         lifecycleScope.launchWhenCreated {
-            viewModel.taiKhoans.collect{
-                if(it.isNotEmpty()){
-                    for(i in it.indices){
-                        if(maNV == it[i].maNV){
+            viewModel.taiKhoans.collect {
+                if (it.isNotEmpty()) {
+                    for (i in it.indices) {
+                        if (maNV == it[i].maNV) {
                             status = true
                             break
                         }
                     }
-                }
-                else{
+                } else {
                     return@collect
                 }
             }

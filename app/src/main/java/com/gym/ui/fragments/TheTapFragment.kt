@@ -8,12 +8,14 @@ import android.view.*
 import android.widget.*
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.textfield.TextInputLayout
 import com.gym.R
 import com.gym.databinding.FragmentThetapBinding
 import com.gym.model.KhachHangModel
 import com.gym.model.LoaiKhModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.DangKyViewPagerAdapter
+import com.gym.ui.adapter.KhachHangAdapter
 
 class TheTapFragment : FragmentNext() {
     private lateinit var binding: FragmentThetapBinding
@@ -33,7 +35,7 @@ class TheTapFragment : FragmentNext() {
         return binding.root
     }
 
-    fun passDataKH(khachHang: KhachHangModel) {
+    private fun passDataKH(khachHang: KhachHangModel) {
         val bundle = Bundle()
         bundle.putParcelable("dataKH", khachHang)
         childFragmentManager.setFragmentResult("passData", bundle)
@@ -78,6 +80,7 @@ class TheTapFragment : FragmentNext() {
         dialog.setCancelable(false)
         dialog.show()
         //==============================================================
+        val tvSpLoai: TextInputLayout = dialog.findViewById(R.id.tvSpLoaiKH)
         val spLoai: AutoCompleteTextView = dialog.findViewById(R.id.spLoaiKH)
         val spPhai: AutoCompleteTextView = dialog.findViewById(R.id.spPhaiKH)
         val txtMaKH: EditText = dialog.findViewById(R.id.txtMaKH)
@@ -93,9 +96,10 @@ class TheTapFragment : FragmentNext() {
         //==============================================================
         val tenLoaiKHs = ArrayList<String>()
         val phais = listOf("Nam","Nữ")
-        for(i in loaiKHs.indices){
+        /*for(i in loaiKHs.indices){
             tenLoaiKHs.add(loaiKHs[i].tenLoaiKH)
-        }
+        }*/
+        tenLoaiKHs.add("Bạc")
         val arrAdapterLoaiKH = ArrayAdapter(requireContext(),R.layout.dropdown_item,tenLoaiKHs)
         val arrAdapterPhai = ArrayAdapter(requireContext(),R.layout.dropdown_item,phais)
         var selectLoaiKH: String = ""
@@ -116,6 +120,7 @@ class TheTapFragment : FragmentNext() {
         spPhai.setAdapter(arrAdapterPhai)
         spPhai.setOnItemClickListener { parent, view, position, id ->
             selectPhai = parent.getItemAtPosition(position).toString()
+
         }
         //----------------------------------------------------
         btnHuy.setOnClickListener {
@@ -138,13 +143,12 @@ class TheTapFragment : FragmentNext() {
             }
             if(!txtEmailKH.text.equals("") || !txtSdtKH.text.equals("")){
                 viewModel.insertKhachHang(KhachHangModel(randomString("khách hàng", getMaKHMax(khachHangs)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"",idLoaiKH))
-                //Toast.makeText(requireContext(), "maKH: ${randomString("khách hàng", getMaKHMax(khachHangs))} \ntenKH: ${replaceString(txtTenKH.text.toString())} \nphai: $selectPhai \nSDT: ${txtSdtKH.text} \nemail:${txtEmailKH.text} \nDiaChi: ${txtDiaChi.text} \nloaiKH:$idLoaiKH", Toast.LENGTH_LONG).show()
-                Toast.makeText(requireContext(), "Thêm khách hàng thành công!", Toast.LENGTH_SHORT).show()
+                dialogPopMessage("Thêm khách hàng thành công!",R.drawable.ic_ok)
                 dialog.dismiss()
             }
         }
     }
-    fun initVewModel(){
+    private fun initVewModel(){
         viewModel.getDSKhachHang()
         lifecycleScope.launchWhenCreated {
             viewModel.khachHangs.collect{ response ->
@@ -170,7 +174,7 @@ class TheTapFragment : FragmentNext() {
             }
         }
     }
-    fun getMaKHMax(khachHangs: ArrayList<KhachHangModel>): String {
+    private fun getMaKHMax(khachHangs: ArrayList<KhachHangModel>): String {
         if (khachHangs.isNotEmpty()) {
             var max: Int = khachHangs[0].maKH.substring(2).toInt()
             var maMax = khachHangs[0].maKH

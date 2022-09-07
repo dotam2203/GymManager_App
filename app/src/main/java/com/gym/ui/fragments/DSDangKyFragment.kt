@@ -39,9 +39,10 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
             if(khachHang.maKH != ""){
                 initViewModel(khachHang)
             }
-            else binding.pbLoad.visibility = View.GONE
+            else {
+                binding.checkList.visibility = View.VISIBLE
+                binding.pbLoad.visibility = View.GONE}
         }
-
         return binding.root
     }
 
@@ -91,12 +92,13 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
                         ctTheTapAdapter.notifyDataSetChanged()
                         Log.e("TAG", "List ctthe = ${ctTheTapAdapter.ctTheTaps.size}")
                         binding.pbLoad.visibility = View.GONE
+                        binding.checkList.visibility = View.GONE
                     }
                     else{
                         binding.pbLoad.visibility = View.GONE
                         ctTheTapAdapter.ctTheTaps.clear()
                         ctTheTapAdapter.notifyDataSetChanged()
-                        Toast.makeText(requireActivity(), "Khách hàng chưa đăng ký thẻ tập!", Toast.LENGTH_SHORT).show()
+                        binding.checkList.visibility = View.VISIBLE
                     }
                 }
             }

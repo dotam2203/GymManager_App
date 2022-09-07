@@ -7,10 +7,33 @@
     android:background="@drawable/home_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.ThongKeFragment">
+    <LinearLayout
+        android:id="@+id/checkList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_null"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chưa có dữ liệu!"
+            android:textStyle="italic"
+            android:textSize="16sp"/>
+    </LinearLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tvNgBD"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:hintTextColor="@color/black"
         android:hint="@string/ngayBD"
         app:layout_constraintVertical_bias="0.01"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +41,7 @@
         app:layout_constraintEnd_toStartOf="@id/tvNgKT"
         app:layout_constraintTop_toTopOf="parent"
         app:boxBackgroundMode="outline"
-        app:boxBackgroundColor="@color/gray_200"
+        app:boxBackgroundColor="@color/white"
         app:endIconMode="clear_text"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="5dp"
@@ -35,13 +58,14 @@
         android:id="@+id/tvNgKT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:hintTextColor="@color/black"
         android:hint="@string/ngayKT"
         app:layout_constraintStart_toEndOf="@id/tvNgBD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvNgBD"
         app:layout_constraintBottom_toBottomOf="@id/tvNgBD"
         app:boxBackgroundMode="outline"
-        app:boxBackgroundColor="@color/gray_200"
+        app:boxBackgroundColor="@color/white"
         app:endIconMode="clear_text"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="2dp">
@@ -103,6 +127,7 @@
             <TableRow
                 android:background="@color/blue_100">
                 <TextView
+                    android:id="@+id/col1"
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:text="@string/thang"
@@ -111,6 +136,7 @@
                     android:textSize="14sp"
                     android:gravity="center_horizontal"/>
                 <TextView
+                    android:id="@+id/col2"
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dichVu"
@@ -119,6 +145,7 @@
                     android:textSize="14sp"
                     android:gravity="center_horizontal"/>
                 <TextView
+                    android:id="@+id/col3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"

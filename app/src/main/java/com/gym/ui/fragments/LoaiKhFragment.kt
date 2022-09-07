@@ -33,10 +33,11 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoaikhBinding.inflate(layoutInflater)
+        initAdapter()
+        refreshData()
         if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
             binding.imbAdd.visibility = View.GONE
         }
-        binding.pbLoad.visibility = View.VISIBLE
         lifecycleScope.launchWhenCreated {
             delay(2000L)
             initViewModel()
@@ -45,7 +46,6 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        refreshData()
         binding.imbAdd.setOnClickListener {
             dialogInsert()
         }
@@ -54,29 +54,31 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
     private fun refreshData() {
         binding.apply {
             refresh.setOnRefreshListener {
-                initViewModel()
+                loaiKhAdapter.notifyDataSetChanged()
                 refresh.isRefreshing = false
+                pbLoad.visibility = View.GONE
             }
-
         }
     }
 
-    fun initViewModel() {
+    private fun initViewModel() {
         //call api
         viewModel.getDSLoaiKH()
         //Livedata observer
         lifecycleScope.launchWhenCreated {
             viewModel.loaiKHs.collect { response ->
-                if (response.isEmpty()) {
-                    binding.pbLoad.visibility = View.GONE
-                    Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
-                    return@collect
-                } else {
+                if (response.isNotEmpty()) {
+                    loaiKhAdapter.loaiKHs.clear()
                     loaiKhAdapter.loaiKHs.addAll(response)
                     loaiKHs.addAll(response)
-                    initAdapter()
                     loaiKhAdapter.notifyDataSetChanged()
                     binding.pbLoad.visibility = View.GONE
+                }
+                else {
+                    binding.checkList.visibility = View.VISIBLE
+                    binding.pbLoad.visibility = View.GONE
+                    loaiKhAdapter.loaiKHs.clear()
+                    loaiKhAdapter.notifyDataSetChanged()
                 }
             }
         }

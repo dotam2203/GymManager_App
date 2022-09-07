@@ -32,6 +32,8 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoaigtBinding.inflate(layoutInflater)
+        initAdapter()
+        refreshData()
         if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
             binding.imbAdd.visibility = View.GONE
         }
@@ -46,6 +48,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
     private fun refreshData() {
         binding.apply {
             refresh.setOnRefreshListener {
+                loaiGtAdapter.notifyDataSetChanged()
                 initViewModel()
                 refresh.isRefreshing = false
             }
@@ -54,41 +57,32 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        refreshData()
         binding.imbAdd.setOnClickListener {
             dialogInsert()
         }
     }
 
-    fun initViewModel() {
+    private fun initViewModel() {
         //call api
         viewModel.getDSLoaiGT()
         //Livedata observer
         lifecycleScope.launchWhenCreated {
             viewModel.loaiGTs.collect {response ->
-                if (response.isEmpty()) {
-                    binding.pbLoad.visibility = View.GONE
-                    Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
-                    return@collect
-                }
-                else{
-                    initAdapter()
+                if(response.isNotEmpty()){
+                    loaiGtAdapter.loaiGTs.clear()
                     loaiGtAdapter.loaiGTs.addAll(response)
                     loaiGTs.addAll(response)
                     loaiGtAdapter.notifyDataSetChanged()
                     binding.pbLoad.visibility = View.GONE
                 }
+                else {
+                    binding.checkList.visibility = View.VISIBLE
+                    binding.pbLoad.visibility = View.GONE
+                    loaiGtAdapter.loaiGTs.clear()
+                    loaiGtAdapter.notifyDataSetChanged()
+                }
             }
         }
-        //passDataToDangKy(loaiGTs)
-    }
-
-    fun passDataToDangKy(loaiGTss: ArrayList<LoaiGtModel>){
-        val bundle = Bundle()
-        bundle.putParcelableArrayList("LoaiGTs",loaiGTss)
-        val fragment = DangKyFragment()
-        fragment.arguments = bundle
-        replaceFragment(R.id.nav_fragment,fragment)
     }
     private fun initAdapter() {
         binding.apply {
@@ -99,7 +93,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
             }
         }
     }
-    fun dialogInsert(){
+    private fun dialogInsert(){
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loaigt)
@@ -132,6 +126,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
             else if(!txtTenLoaiGT.text.trim().isEmpty() || !txtTrangThai.text.trim().isEmpty()){
                 //call api
                 viewModel.insertLoaiGT(LoaiGtModel(0, txtTenLoaiGT.text.toString(), txtTrangThai.text.toString()))
+                loaiGtAdapter.notifyDataSetChanged()
                 //Livedata observer
                 getDataCoroutine("Insert success", "Insert fail")
                 initViewModel()

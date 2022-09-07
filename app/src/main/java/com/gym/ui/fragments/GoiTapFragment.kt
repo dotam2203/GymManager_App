@@ -34,22 +34,20 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGoitapBinding.inflate(layoutInflater)
+        initAdapter()
+        refreshData()
         if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
             binding.imbAdd.visibility = View.GONE
         }
-        binding.pbLoad.visibility = View.VISIBLE
         lifecycleScope.launchWhenCreated {
             delay(2000L)
             initViewModel()
             getTenLoaiGT()
         }
-
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        refreshData()
         binding.imbAdd.setOnClickListener {
             dialogInsert()
         }
@@ -58,14 +56,14 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     private fun refreshData() {
         binding.apply {
             refresh.setOnRefreshListener {
-                initViewModel()
+                goiTapAdapter.notifyDataSetChanged()
                 refresh.isRefreshing = false
+                binding.pbLoad.visibility = View.GONE
             }
-
         }
     }
 
-    fun getLoaiGTByIDLoaiGT(idLoaiGT: Int) {
+    private fun getLoaiGTByIDLoaiGT(idLoaiGT: Int) {
         viewModel.getLoaiGT(idLoaiGT)
         lifecycleScope.launchWhenCreated {
             viewModel.loaiGT.collect { response ->
@@ -76,7 +74,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         }
     }
 
-    fun getGiaByIDGia(idGia: Int?) {
+    private fun getGiaByIDGia(idGia: Int?) {
         if (idGia != null) {
             viewModel.getGia(idGia)
             lifecycleScope.launchWhenCreated {
@@ -88,7 +86,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         } else return
     }
 
-    fun getTenLoaiGT() {
+    private fun getTenLoaiGT() {
         viewModel.getDSLoaiGT()
         lifecycleScope.launchWhenCreated {
             viewModel.loaiGTs.collect { response ->
@@ -105,7 +103,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         }
     }
 
-    fun checkIDGiaByMaGT(goiTap: GoiTapModel, gias: ArrayList<GiaGtModel>): Boolean {
+    private fun checkIDGiaByMaGT(goiTap: GoiTapModel, gias: ArrayList<GiaGtModel>): Boolean {
         for (i in gias.indices) {
             if (goiTap.maGT == gias[i].maGT) {
                 getGiaByIDGia(gias[i].idGia)
@@ -115,33 +113,25 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         return false
     }
 
-    fun initViewModel() {
+    private fun initViewModel() {
         //call api
         viewModel.getDSGoiTap()
         //Livedata observer
         lifecycleScope.launchWhenCreated {
             viewModel.goiTaps.collect { response ->
                 if (response.isNotEmpty()) {
-                    initAdapter()
+                    goiTapAdapter.goiTaps.clear()
                     goiTapAdapter.goiTaps.addAll(response)
                     goiTaps.addAll(response)
                     goiTapAdapter.notifyDataSetChanged()
                     binding.pbLoad.visibility = View.GONE
 
                 } else {
+                    binding.checkList.visibility = View.VISIBLE
                     binding.pbLoad.visibility = View.GONE
-                    Toast.makeText(activity, "List null!", Toast.LENGTH_SHORT).show()
-                    return@collect
+                    goiTapAdapter.goiTaps.clear()
+                    goiTapAdapter.notifyDataSetChanged()
                 }
-            }
-        }
-        lifecycleScope.launchWhenCreated {
-            viewModel.goiTap.collect { response ->
-                response ?: return@collect
-                goiTaps.add(response)
-                goiTapAdapter.goiTaps = goiTaps
-                goiTapAdapter.notifyDataSetChanged()
-                binding.pbLoad.visibility = View.GONE
             }
         }
     }
@@ -160,6 +150,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         //Livedata observer
         lifecycleScope.launchWhenCreated {
             viewModel.goiTaps.collect { response ->
+                goiTapAdapter.goiTaps.clear()
                 if (response.isNotEmpty()) {
                     goiTapAdapter.goiTaps.addAll(response)
                     goiTapAdapter.notifyDataSetChanged()
@@ -172,7 +163,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         }
     }
 
-    private fun getDataGia(success: String, fail: String) {
+   /* private fun getDataGia(success: String, fail: String) {
         //Livedata observer
         lifecycleScope.launchWhenCreated {
             viewModel.gias.collect { response ->
@@ -185,9 +176,9 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
                 }
             }
         }
-    }
+    }*/
 
-    fun getMaGTMax(goiTaps: ArrayList<GoiTapModel>): String {
+    private fun getMaGTMax(goiTaps: ArrayList<GoiTapModel>): String {
         if (goiTaps.isNotEmpty()) {
             var max: Int = goiTaps[0].maGT.substring(2).toInt()
             var maMax = goiTaps[0].maGT
@@ -202,7 +193,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         return "GT00"
     }
 
-    fun dialogInsert() {
+    private fun dialogInsert() {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_goitap)
@@ -256,7 +247,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
             lifecycleScope.launchWhenCreated {
                 //txtMaGT.text.toString()
                 val giaGt = GiaGtModel()
-                giaGt.ngayApDung = getFormatDateApi(txtNgayAD.text.toString())
+                giaGt.ngayApDung = getFormatDateToApi(txtNgayAD.text.toString())
                 giaGt.gia = txtGiaGT.text.toString()
                 giaGt.maGT = randomMaGT
                 giaGt.maNV = maNV
@@ -293,7 +284,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         }
     }
 
-    fun dialogEdit(goiTap: GoiTapModel) {
+    private fun dialogEdit(goiTap: GoiTapModel) {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_goitap)

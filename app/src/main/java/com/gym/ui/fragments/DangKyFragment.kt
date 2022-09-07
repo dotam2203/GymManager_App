@@ -43,6 +43,14 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDangkyBinding.inflate(layoutInflater)
+        getTheTap(theTaps)
+        reviceDataKH()
+        getInitCalendar()
+        getEnvent()
+        return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if(maNV != null){
             viewModel.getNhanVien(maNV)
             lifecycleScope.launchWhenCreated {
@@ -51,17 +59,11 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                 }
             }
         }
-        lifecycleScope
         binding.apply {
             btnDangKy.visibility = View.GONE
             txtNgayBD.setText(getCurrentDate())
             txtNgayKT.setText(getCurrentDate())
         }
-        getTheTap(theTaps)
-        reviceDataKH()
-        getInitCalendar()
-        getEnvent()
-        return binding.root
     }
 
     private fun reviceDataKH() {
@@ -114,10 +116,6 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     private fun getEnvent() {
         var selectLoaiGT: String = ""
         var selectGT: String = ""
@@ -145,7 +143,6 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                         loaiGT = it?: return@collect
                     }
                 }
-                Toast.makeText(requireContext(), "Loại gt: ${loaiGT.idLoaiGT}", Toast.LENGTH_SHORT).show()
                 //--------------------------Gói tập------------------------------
                 val tenGTs: ArrayList<String> = getListTenGTByIDLoaiGT(getIDByTenLoaiGT(selectLoaiGT))
                 val arrAdapterGT = ArrayAdapter(requireContext(), R.layout.dropdown_item, tenGTs)
@@ -156,9 +153,6 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                     selectGT = parent.getItemAtPosition(position).toString()
 
                     //-------------------------------lấy giá loại gói tập--------------------------------
-                    /*idLoaiGT = getIDByTenLoaiGT(selectLoaiGT)
-                    Log.e("Message11", "idLoaiGT:$idLoaiGT")*/
-
                     val goiTapss = getGoiTapByIDLoaiGT(idLoaiGT)
                     for (i in goiTapss.indices) {
                         if (selectGT == goiTapss[i].tenGT) {
@@ -177,9 +171,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                         }
                     }
                     //====================
-                    Toast.makeText(requireContext(), "Loại gt: ${goiTap.maGT}", Toast.LENGTH_SHORT).show()
                     price = getGiaByMaGT(maGT)
-                    Toast.makeText(requireContext(), "price ${getGiaByMaGT(maGT).size}", Toast.LENGTH_SHORT).show()
                     //Log.e("Message2", "giá:${price[0].gia}")
                     if (price.size != 0) {
                         txtGia.text = formatMoney(price[0].gia.trim())
@@ -259,22 +251,21 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
             //=================================================
             btnDangKy.setOnClickListener {
                 var saveTheTap = TheTapModel()
-                if(compareToDate(getFormatDateApi(txtNgayBD.text.toString()))){
-                    saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateApi(getCurrentDate()),getFormatDateApi(txtNgayBD.text.toString()),getFormatDateApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH)
+                if(compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))){
+                    saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateToApi(getCurrentDate()),getFormatDateToApi(txtNgayBD.text.toString()),getFormatDateToApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH)
                 }
-                else if(!compareToDate(getFormatDateApi(txtNgayBD.text.toString()))){
-                    saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateApi(getCurrentDate()),getFormatDateApi(txtNgayBD.text.toString()),getFormatDateApi(txtNgayKT.text.toString()),"Khóa",khachHang.maKH)
+                else if(!compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))){
+                    saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateToApi(getCurrentDate()),getFormatDateToApi(txtNgayBD.text.toString()),getFormatDateToApi(txtNgayKT.text.toString()),"Khóa",khachHang.maKH)
                 }
-                val saveHoaDon = HoaDonModel(getRandomMaHD(),getFormatDateApi(getCurrentDate()),maNV.toString(),randomString("thẻ tập", getMaTheMax(theTaps)))
+                val saveHoaDon = HoaDonModel(getRandomMaHD(),getFormatDateToApi(getCurrentDate()),maNV.toString(),randomString("thẻ tập", getMaTheMax(theTaps)))
                 //=======================================
                 dialogYN(saveTheTap, saveHoaDon, goiTap, loaiGT, selectSL)
                 //=======================================
-                //viewModel.insertTheTap(TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateApi(getCurrentDate()),getFormatDateApi(txtNgayBD.text.toString()),getFormatDateApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH))
+                //viewModel.insertTheTap(TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateToApi(getCurrentDate()),getFormatDateToApi(txtNgayBD.text.toString()),getFormatDateToApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH))
                 //Toast.makeText(requireContext(), "Lưu thẻ tập thành công!", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
     private fun getGoiTapByIDLoaiGT(id: Int): ArrayList<GoiTapModel> {
         val goiTaps = ArrayList<GoiTapModel>()
         viewModel.getDSGoiTapTheoLoaiGT(id)
@@ -459,8 +450,8 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         tvKHDK.text = khachHang.hoTen
         tvSDT.text = khachHang.sdt
         tvNgayLap.text = getDateTime()
-        tvNgayBD.text = getFormatDate(theTapModel.ngayBD)
-        tvNgayKT.text = getFormatDate(theTapModel.ngayKT)
+        tvNgayBD.text = getFormatDateFromAPI(theTapModel.ngayBD)
+        tvNgayKT.text = getFormatDateFromAPI(theTapModel.ngayKT)
         tvHDSo.text = hoaDonModel.maHD
         tvNVLap.text = nhanVien.hoTen
         tvDichVu.text = goiTapModel.tenGT
