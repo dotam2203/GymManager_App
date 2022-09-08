@@ -95,29 +95,14 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
                         binding.checkList.visibility = View.GONE
                     }
                     else{
-                        binding.pbLoad.visibility = View.GONE
                         ctTheTapAdapter.ctTheTaps.clear()
                         ctTheTapAdapter.notifyDataSetChanged()
                         binding.checkList.visibility = View.VISIBLE
+                        binding.pbLoad.visibility = View.GONE
                     }
                 }
             }
         }
-    }
-    private fun getCTTheByMaThe(theTaps: ArrayList<TheTapModel>): ArrayList<CtTheTapModel>{
-        val ctts = ArrayList<CtTheTapModel>()
-        for(i in theTaps.indices){
-            viewModel.getCtTheTapTheoThe(theTaps[i].maThe)
-            lifecycleScope.launchWhenCreated {
-                viewModel.ctTheTap.collect{
-                    if(it != null){
-                        ctts.add(it)
-                    }
-                    else return@collect
-                }
-            }
-        }
-        return ctts
     }
     private fun initAdapter() {
         binding.apply {

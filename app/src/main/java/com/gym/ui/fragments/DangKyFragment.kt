@@ -24,6 +24,7 @@ import kotlinx.coroutines.delay
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.jvm.Throws
 
 class DangKyFragment : FragmentNext(),PaymentResultListener {
     private lateinit var binding: FragmentDangkyBinding
@@ -502,10 +503,10 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
             NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Thanh toán sau").Notification()
             //====================*/
             //====================
-            val title = "VECTOR GYM - CHỜ THANH TOÁN DỊCH VỤ!"
+            /*val title = "VECTOR GYM - CHỜ THANH TOÁN DỊCH VỤ!"
             val message = "Khách hàng: ${khachHang.hoTen}\nSố điện thoại:${khachHang.sdt} \nĐăng kí thành công dịch vụ: ${goiTapModel.tenGT}\nLoại dịch vụ: ${tvLoaiDV.text}\nNgày đăng ký: ${tvNgayLap.text} \nNgày bắt đầu: ${tvNgayBD.text}\nNgày kết thúc: ${tvNgayKT.text}\nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Chưa thanh toán \nVUI LÒNG THANH TOÁN TRƯỚC NGÀY ${tvNgayBD.text}"
             val text = "Thanh toán sau!"
-            sendMessageFromMail(khachHang.email,title,message,text)
+            sendMessageFromMail(khachHang.email,title,message,text)*/
             //startPayment()
         }
         btnHuy.setOnClickListener {

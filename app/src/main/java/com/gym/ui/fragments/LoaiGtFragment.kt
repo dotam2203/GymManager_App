@@ -4,7 +4,10 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
@@ -73,6 +76,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
                     loaiGtAdapter.loaiGTs.addAll(response)
                     loaiGTs.addAll(response)
                     loaiGtAdapter.notifyDataSetChanged()
+                    binding.checkList.visibility = View.GONE
                     binding.pbLoad.visibility = View.GONE
                 }
                 else {
@@ -113,6 +117,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         val txtTrangThai: EditText = dialog.findViewById(R.id.txtTTLoaiGT)
         var btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
         var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
+        txtTenLoaiGT.requestFocus()
         txtTrangThai.isEnabled = false
         btnThem.setOnClickListener {
             if(txtTenLoaiGT.text.trim().isEmpty()){
@@ -125,10 +130,10 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
             }
             else if(!txtTenLoaiGT.text.trim().isEmpty() || !txtTrangThai.text.trim().isEmpty()){
                 //call api
-                viewModel.insertLoaiGT(LoaiGtModel(0, txtTenLoaiGT.text.toString(), txtTrangThai.text.toString()))
+                viewModel.insertLoaiGT(LoaiGtModel(0, replaceString(txtTenLoaiGT.text.toString()), txtTrangThai.text.toString()))
                 loaiGtAdapter.notifyDataSetChanged()
                 //Livedata observer
-                getDataCoroutine("Insert success", "Insert fail")
+                getDataCoroutine("Thêm thành công!", "Thêm thất bại")
                 initViewModel()
                 txtTenLoaiGT.setText("")
                 txtTrangThai.setText("")
@@ -169,18 +174,16 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         btnThem.setOnClickListener {
             val tenLoaiGT: String = txtTenLoaiGT.text.toString()
             val trangThai: String = txtTrangThai.text.toString()
-            if(tenLoaiGT.equals("")){
+            if(tenLoaiGT == ""){
                 txtTenLoaiGT.error = "Vui lòng không để trống!"
                 txtTenLoaiGT.requestFocus()
             }
-            if(trangThai.equals("")){
+            if(trangThai == ""){
                 txtTrangThai.error = "Vui lòng không để trống!"
                 txtTrangThai.requestFocus()
             }
-            //call api
-            viewModel.updateLoaiGT(LoaiGtModel(loaiGt.idLoaiGT, txtTenLoaiGT.text.toString(), txtTrangThai.text.toString()))
-            //Livedata observer
-            getDataCoroutine("Update success","Update fail")
+            viewModel.updateLoaiGT(LoaiGtModel(loaiGt.idLoaiGT, replaceString(txtTenLoaiGT.text.toString()), replaceString(txtTrangThai.text.toString())))
+            getDataCoroutine("Cập nhật thành công","Cập nhật thất bại")
             initViewModel()
             Log.d("TAG", "size new: ${loaiGTs.size}")
             dialog.show()
@@ -214,7 +217,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         title.text = "Bạn thật sự muốn xóa loại gói tập ${loaiGT.tenLoaiGT}?"
         btnYes.setOnClickListener {
             viewModel.deleteLoaiGT(idLoaiGT)
-            Toast.makeText(requireContext(), "Xóa loại gói tập ${loaiGT.tenLoaiGT} thành công!", Toast.LENGTH_SHORT).show()
+            dialogPopMessage("Xóa loại gói tập ${loaiGT.tenLoaiGT} thành công!",R.drawable.ic_ok)
             dialog.dismiss()
         }
         btnNo.setOnClickListener {
@@ -241,14 +244,14 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         lifecycleScope.launchWhenCreated {
             viewModel.loaiGTs.collect {response ->
                 if (response.isEmpty()) {
-                    Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
+                    dialogPopMessage(fail,R.drawable.ic_fail)
                     return@collect
                 }
                 else{
                     loaiGtAdapter.loaiGTs.addAll(response)
                     initAdapter()
                     loaiGtAdapter.notifyDataSetChanged()
-                    Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
+                    dialogPopMessage(success,R.drawable.ic_ok)
                 }
             }
         }

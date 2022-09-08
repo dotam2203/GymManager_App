@@ -216,6 +216,7 @@ abstract class FragmentNext : Fragment() {
             return false
         return false
     }
+    //don gia = 100,000 đ => 100000
     fun tongDoanhThu(donGia: String): Long{
         //don gia = 100,000 đ
         val str1 = donGia.split(" ")
@@ -226,6 +227,17 @@ abstract class FragmentNext : Fragment() {
         }
         return if(str != "") str.trim().toLong()
             else 0
+    }
+    //gia = 100,000 => 100000
+    fun formatMoneyToAPI(gia: String): String{
+        //gia = 100,000
+        val str1 = gia.split(" ,")
+        var str = ""
+        for(i in str1.indices){
+            str += str1[i]
+        }
+        return if(str != "") str.trim()
+        else "0"
     }
     //--------------------------------------------
     fun dialogPopMessage(msg: String, drawable: Int){

@@ -72,6 +72,7 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
                     loaiKhAdapter.loaiKHs.addAll(response)
                     loaiKHs.addAll(response)
                     loaiKhAdapter.notifyDataSetChanged()
+                    binding.checkList.visibility = View.GONE
                     binding.pbLoad.visibility = View.GONE
                 }
                 else {

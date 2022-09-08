@@ -15,6 +15,16 @@ import com.gym.ui.SingletonAccount
 class LoaiGtAdapter(private val _itemClick: OnItemClick): RecyclerView.Adapter<LoaiGtAdapter.ViewHolder>(){
     var loaiGTs = mutableListOf<LoaiGtModel>()
     inner class ViewHolder(val binding: ItemLoaigtBinding): RecyclerView.ViewHolder(binding.root) {
+        /*fun jj(flag : Int) {
+            if(flag == 0){
+                binding.imbDelete.visibility = View.VISIBLE
+                binding.imbEdit.visibility = View.VISIBLE
+            }
+            else if(flag == 1 || SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+                binding.imbDelete.visibility = View.GONE
+                binding.imbEdit.visibility = View.GONE
+            }
+        }*/
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,13 +35,19 @@ class LoaiGtAdapter(private val _itemClick: OnItemClick): RecyclerView.Adapter<L
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.apply {
-                if(loaiGTs[position].goiTaps != null){
-                    imbDelete.visibility = View.GONE
-                    imbEdit.isEnabled = false
-                }
-                if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+                if(SingletonAccount.taiKhoan!!.maQuyen == "Q02"){
                     imbDelete.visibility = View.GONE
                     imbEdit.visibility = View.GONE
+                }
+                else if(SingletonAccount.taiKhoan!!.maQuyen == "Q01"){
+                    if(loaiGTs[position].goiTaps.isNullOrEmpty() ){
+                        imbDelete.visibility = View.VISIBLE
+                        imbEdit.visibility = View.VISIBLE
+                    }
+                    else {
+                        imbDelete.visibility = View.GONE
+                        imbEdit.visibility = View.GONE
+                    }
                 }
                 loaiGT = loaiGTs[position]
                 imbEdit.setOnClickListener {

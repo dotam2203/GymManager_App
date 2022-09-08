@@ -13,12 +13,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/itemClickDv"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="90dp"
         android:onClick="@{onItemClick}"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_border_20">
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/lineV"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/lineVV"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:orientation="vertical"
@@ -33,52 +39,53 @@
             android:text="@{goiTap.tenGT}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvTTGoiTap"/>
-        <!--<TextView
-            android:id="@+id/tvTitleTenLoaiGT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loại: "
-            android:textSize="14sp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintEnd_toEndOf="@id/tvTenLGT"
-            app:layout_constraintBottom_toBottomOf="parent"/>-->
+            app:layout_constraintBottom_toTopOf="@id/tvLGT"/>
+
         <TextView
-            android:id="@+id/tvTenLGT"
-            android:text="@{goiTap.tenLoaiGT}"
+            android:id="@+id/tvLGT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/lineV"
+            android:layout_marginStart="20dp"
+            android:text="Loại:"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTenGT"
+            app:layout_constraintBottom_toTopOf="@id/tvTT"/>
+        <TextView
+            android:id="@+id/tvLoaiGT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:text="@{goiTap.tenLoaiGT}"
             android:textSize="16sp"
             android:textStyle="bold|italic"
             android:textColor="@color/violet"
-            android:layout_marginStart="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="10dp"/>
-
+            app:layout_constraintStart_toEndOf="@id/tvLGT"
+            app:layout_constraintTop_toTopOf="@id/tvLGT"
+            app:layout_constraintBottom_toBottomOf="@id/tvLGT"/>
+        <!---->
         <TextView
             android:id="@+id/tvTT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:text="Trạng thái:"
             android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/tvTTGoiTap"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvLGT"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvTTGoiTap"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>
         <TextView
             android:id="@+id/tvTTGoiTap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="44dp"
             android:text="@{goiTap.trangThai}"
             android:textSize="16sp"
             android:textStyle="bold|italic"
             android:textColor="@color/violet"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvTT"
-            app:layout_constraintTop_toBottomOf="@id/tvTenGT"/>
+            app:layout_constraintTop_toTopOf="@id/tvTT"
+            app:layout_constraintBottom_toBottomOf="@id/tvTT"/>
 
         <ImageButton
             android:id="@+id/imbDelete"

@@ -63,9 +63,11 @@ class HoaDonTTFragment : FragmentNext(),HoaDonTTAdapter.OnItemClick {
                     hoaDonTTAdapter.hoaDons.addAll(response)
                     hoaDons.addAll(response)
                     hoaDonTTAdapter.notifyDataSetChanged()
+                    binding.checkList.visibility = View.GONE
                     binding.pbLoad.visibility = View.GONE
                 }
                 else {
+                    binding.checkList.visibility = View.VISIBLE
                     binding.pbLoad.visibility = View.GONE
                     return@collect
                 }

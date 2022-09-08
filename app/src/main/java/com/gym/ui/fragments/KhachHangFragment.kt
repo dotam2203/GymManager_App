@@ -68,6 +68,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
                     khachHangAdapter.khachHangs.addAll(response)
                     khachHangs.addAll(response)
                     khachHangAdapter.notifyDataSetChanged()
+                    binding.checkList.visibility = View.GONE
                     binding.pbLoad.visibility = View.GONE
                 }
                 else {

@@ -76,6 +76,7 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
                     nhanViens.addAll(response)
                     nhanVienAdapter.nhanViens.addAll(response)
                     nhanVienAdapter.notifyDataSetChanged()
+                    binding.checkList.visibility = View.GONE
                     binding.pbLoad.visibility = View.GONE
                 } else {
                     nhanVienAdapter.nhanViens.clear()
