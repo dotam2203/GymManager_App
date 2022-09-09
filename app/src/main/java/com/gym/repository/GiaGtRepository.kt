@@ -51,7 +51,9 @@ class GiaGtRepository {
         }
     }.flowOn(IO)
 
-    suspend fun deleteGia(idGia: Int){
-        RetrofitInstance.loadApiGiaGT.deleteGia(idGia)
+    suspend fun deleteGiaGoiTap(idGia: Int, maGT: String){
+        val request = RetrofitInstance.loadApiGiaGT.deleteGia(idGia)
+//        if(request.isSuccessful)
+            RetrofitInstance.loadApiGoiTap.deleteGoiTap(maGT)
     }
 }

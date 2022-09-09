@@ -18,6 +18,7 @@ import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
 import com.gym.ui.adapter.GoiTapAdapter
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import java.util.ResourceBundle.Control.getControl
 
 class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
@@ -37,7 +38,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         binding = FragmentGoitapBinding.inflate(layoutInflater)
         initAdapter()
         refreshData()
-        if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+        if (SingletonAccount.taiKhoan?.maQuyen == "Q02") {
             binding.imbAdd.visibility = View.GONE
         }
         lifecycleScope.launchWhenCreated {
@@ -47,6 +48,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         }
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.imbAdd.setOnClickListener {
@@ -171,6 +173,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     }
 
     private fun dialogInsert() {
+        var status = true
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_goitap)
@@ -219,35 +222,51 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
             }
         }
         btnThem.setOnClickListener {
-            val giaGt = GiaGtModel()
-            giaGt.ngayApDung = getFormatDateToApi(txtNgayAD.text.toString())
-            giaGt.gia = txtGiaGT.text.toString()
-            giaGt.maGT = randomMaGT
-            giaGt.maNV = maNV
-            for (i in goiTaps.indices) {
-                val tenGT = replaceString(txtTenGT.text.toString()).trim()
-                if ((tenGT == goiTaps[i].tenGT.trim()) && (idLoaiGT == goiTaps[i].idLoaiGT)) {
-                    Toast.makeText(activity, "Loại dịch vụ này đã tồn tại!", Toast.LENGTH_SHORT).show()
-                    spinner.setText("")
-                    selectItem = ""
+            if(selectItem == "" || txtTenGT.text.toString() =="" || txtGiaGT.text.toString() == "" || txtMoTa.text.toString() == ""){
+                status = false
+                if(selectItem == "") {
+                    spinner.error = "Bạn chưa chọn loại gói tập!"
                     spinner.requestFocus()
-                    break
                 }
+                else if(txtTenGT.text.toString() =="")
+                    txtTenGT.error = "Tên dịch vụ không được trống!"
+                else if(txtGiaGT.text.toString() =="")
+                    txtGiaGT.error = "Giá dịch vụ không được trống!"
+                else if(txtMoTa.text.toString() =="")
+                    txtMoTa.error = "Mô tả không được trống!"
             }
-            if(selectItem != ""){
-                try {
-                    viewModel.insertGoiTapGia(GoiTapModel(randomMaGT, txtTenGT.text.toString().replace(",",""), txtMoTa.text.toString(), txtTrangThai.text.toString(), idLoaiGT), giaGt)
-                    dialogPopMessage("Thêm gói tập thành công!",R.drawable.ic_ok)
-                }catch (ex:Exception){
-                    dialogPopMessage("Thêm gói tập thất bại!",R.drawable.ic_fail)
-                }
+            else status = true
 
-                spinner.setText("")
-                txtTenGT.setText("")
-                txtGiaGT.setText("")
-                txtNgayAD.setText("")
-                txtMoTa.setText("")
-                spinner.requestFocus()
+            if(status){
+                val giaGt = GiaGtModel()
+                giaGt.ngayApDung = getFormatDateToApi(txtNgayAD.text.toString())
+                giaGt.gia = txtGiaGT.text.toString()
+                giaGt.maGT = randomMaGT
+                giaGt.maNV = maNV
+                for (i in goiTaps.indices) {
+                    val tenGT = replaceString(txtTenGT.text.toString()).trim()
+                    if ((tenGT == goiTaps[i].tenGT.trim()) && (idLoaiGT == goiTaps[i].idLoaiGT)) {
+                        Toast.makeText(activity, "Loại dịch vụ này đã tồn tại!", Toast.LENGTH_SHORT).show()
+                        spinner.setText("")
+                        selectItem = ""
+                        spinner.requestFocus()
+                        break
+                    }
+                }
+                if (selectItem != "") {
+                    try {
+                        viewModel.insertGoiTapGia(GoiTapModel(randomMaGT, txtTenGT.text.toString().replace(",", ""), txtMoTa.text.toString(), txtTrangThai.text.toString(), idLoaiGT), giaGt)
+                        dialogPopMessage("Thêm gói tập thành công!", R.drawable.ic_ok)
+                    } catch (ex: Exception) {
+                        dialogPopMessage("Thêm gói tập thất bại!", R.drawable.ic_fail)
+                    }
+                    spinner.setText("")
+                    txtTenGT.setText("")
+                    txtGiaGT.setText("")
+                    txtNgayAD.setText("")
+                    txtMoTa.setText("")
+                    spinner.requestFocus()
+                }
             }
         }
         //-------------------------------------------------------------
@@ -258,7 +277,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     }
 
     private fun dialogEdit(goiTap: GoiTapModel) {
-        var status : Boolean = false
+        var status = false
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_goitap)
@@ -300,14 +319,13 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         txtTenGT.setText(goiTap.tenGT)
         txtTrangThai.setText(goiTap.trangThai)
         txtMoTa.setText(goiTap.moTa)
-        //txtGiaGT.setText(formatMoney(goiTap.giaGoiTaps!![0].gia))
-        txtGiaGT.setText(goiTap.giaGoiTaps!![0].gia)
-        txtNgayAD.setText(getFormatDateFromAPI(goiTap.giaGoiTaps!![0].ngayApDung))
-        getControl(imbCalendar,txtNgayAD)
+        txtGiaGT.setText(goiTap.giaGoiTaps?.get(0)?.gia?: "")
+        txtNgayAD.setText(getFormatDateFromAPI(goiTap.giaGoiTaps?.get(0)?.ngayApDung?:""))
+        getControl(imbCalendar, txtNgayAD)
         btnThem.text = "Cập nhật"
         btnHuy.text = "Thoát"
         //============================
-        if(SingletonAccount.taiKhoan!!.maQuyen == "Q02" || !goiTap.ctTheTaps.isNullOrEmpty()){
+        if (SingletonAccount.taiKhoan!!.maQuyen == "Q02" || !goiTap.ctTheTaps.isNullOrEmpty()) {
             txtGiaGT.setText("${formatMoney(goiTap.giaGoiTaps!![0].gia)} đ")
             dialog.setCancelable(true)
             dialog.show()
@@ -320,28 +338,30 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
             txtMoTa.isEnabled = false
         }
         //============================
-    else{
         btnThem.setOnClickListener {
             for (i in goiTaps.indices) {
                 val tenGT = replaceString(txtTenGT.text.toString()).trim()
                 if (tenGT == goiTaps[i].tenGT.trim() && tenGT != goiTap.tenGT) {
                     status = true
-                    Toast.makeText(activity, "Dịch vụ này đã tồn tại!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Dịch vụ này đã tồn tại!", Toast.LENGTH_SHORT).show()
                     txtTenGT.setText(goiTap.tenGT)
-                    txtTenGT.requestFocus()
                     break
                 }
+                else{
+                    status = false
+                }
             }
-            if(!status){
+            txtTenGT.requestFocus()
+            if (!status) {
                 try {
-                    val giaGtModel = GiaGtModel(goiTap.giaGoiTaps!![0].idGia, getFormatDateToApi(txtNgayAD.text.toString()), txtGiaGT.text.toString().replace(",",""), goiTap.maGT, maNV)
+                    val giaGtModel = GiaGtModel(goiTap.giaGoiTaps!![0].idGia, getFormatDateToApi(txtNgayAD.text.toString()), txtGiaGT.text.toString().replace(",", ""), goiTap.maGT, maNV)
                     viewModel.updateGia(giaGtModel)
                     viewModel.updateGoiTap(GoiTapModel(goiTap.maGT, replaceString(txtTenGT.text.toString()), txtMoTa.text.toString(), txtTrangThai.text.toString(), goiTap.idLoaiGT))
                     dialogPopMessage("Cập nhật thông tin thành công!", R.drawable.ic_ok)
                     goiTapAdapter.notifyDataSetChanged()
                     txtTenGT.requestFocus()
                     //dialog.dismiss()
-                } catch (ex: Exception){
+                } catch (ex: Exception) {
                     dialogPopMessage("Cập nhật thông tin thất bại!", R.drawable.ic_fail)
                     txtTenGT.requestFocus()
                 }
@@ -351,8 +371,9 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
 
         btnHuy.setOnClickListener {
             dialog.dismiss()
-        }}
+        }
     }
+
     private fun getControl(imbCalendar: ImageButton, txtNgayAD: EditText) {
         txtNgayAD.setText(getCurrentDate())
         imbCalendar.setOnClickListener {
@@ -374,10 +395,11 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         dialogEdit(goiTapModel)
     }
 
-    override fun itemClickDelete(goiTapModel: GoiTapModel){
+    override fun itemClickDelete(goiTapModel: GoiTapModel) {
         dialogYN(goiTapModel)
         return
     }
+
     private fun dialogYN(goiTapModel: GoiTapModel) {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -401,19 +423,13 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         tvMess.text = "Bạn chắc chắn muốn xóa ${goiTapModel.tenGT}?"
         btnYes.setOnClickListener {
             try {
-                viewModel.deleteGoiTap(goiTapModel.maGT)
-
-                lifecycleScope.launchWhenCreated {
-                    delay(500L)
-                    viewModel.deleteGia(goiTapModel.giaGoiTaps!![0].idGia)
-                    dialogPopMessage("Xoá dịch vụ thành công!", R.drawable.ic_ok)
-                }
-                dialogPopMessage("Loading...", R.drawable.ic_load11)
-                goiTapAdapter.notifyDataSetChanged()
-                dialog.dismiss()
-            } catch (ex: Exception) {
+                viewModel.deleteGiaGoiTap(goiTapModel.giaGoiTaps?.get(0)?.idGia?:0, goiTapModel.maGT)
+                dialogPopMessage("Xoá dịch vụ thành công!", R.drawable.ic_ok)
+            } catch (ex: Exception){
                 dialogPopMessage("Xóa dịch vụ thất bại", R.drawable.ic_fail)
             }
+            goiTapAdapter.notifyDataSetChanged()
+            dialog.dismiss()
         }
         btnNo.setOnClickListener {
             dialog.dismiss()

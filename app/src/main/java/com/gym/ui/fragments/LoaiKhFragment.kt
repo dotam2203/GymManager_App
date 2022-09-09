@@ -162,25 +162,23 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         val tvTenLoaiKH: TextInputLayout = dialog.findViewById(R.id.tvTenLoaiGT)
         val tvTrangThai: TextInputLayout = dialog.findViewById(R.id.tvTTLoaiGT)
         val txtTrangThai: EditText = dialog.findViewById(R.id.txtTTLoaiGT)
-        tvTitle.setText("Loại khách hàng")
-        tvTenLoaiKH.setHint("Loại khách hàng")
+        tvTitle.text = "Loại khách hàng"
+        tvTenLoaiKH.hint = "Loại khách hàng"
         tvTrangThai.visibility = View.GONE
         txtTrangThai.visibility = View.GONE
         var btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
         var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
         txtTenLoaiKH.setText(loaiKh.tenLoaiKH)
         txtTenLoaiKH.requestFocus()
-        btnThem.setText("Cập nhật")
+        btnThem.text = "Cập nhật"
         btnThem.setOnClickListener {
             if (txtTenLoaiKH.text.trim().isEmpty()) {
-                txtTenLoaiKH.error = "Vui lòng không để trống"
+                txtTenLoaiKH.error = "Vui lòng không để trống!"
                 txtTenLoaiKH.requestFocus()
-            } else {
-                //call api
-                viewModel.updateLoaiKH(LoaiKhModel(loaiKh.idLoaiKH, txtTenLoaiKH.text.toString()))
-                Toast.makeText(requireActivity(), "Cập nhật loại khách hàng thành công!", Toast.LENGTH_SHORT).show()
-                dialog.show()
             }
+            viewModel.updateLoaiKH(LoaiKhModel(loaiKh.idLoaiKH, txtTenLoaiKH.text.toString()))
+            dialogPopMessage("Cập nhật loại khách hàng thành công!",R.drawable.ic_ok)
+            dialog.show()
             btnHuy.setOnClickListener {
                 dialog.dismiss()
             }
@@ -211,14 +209,14 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         title.text = "Bạn thật sự muốn xóa loại khách hàng ${loaiKH.tenLoaiKH}?"
         btnYes.setOnClickListener {
             viewModel.deleteLoaiKH(idLoaiKH)
-            Toast.makeText(requireContext(), "Xóa loại khách hàng ${loaiKH.tenLoaiKH} thành công!", Toast.LENGTH_SHORT).show()
+            dialogPopMessage("Xóa loại khách hàng ${loaiKH.tenLoaiKH} thành công!",R.drawable.ic_ok)
             dialog.dismiss()
         }
         btnNo.setOnClickListener {
             dialog.dismiss()
         }
     }
-    fun getLoaiKHByID(idLoaiKH: Int): LoaiKhModel {
+    private fun getLoaiKHByID(idLoaiKH: Int): LoaiKhModel {
         var loaiKH = LoaiKhModel()
         viewModel.getLoaiKH(idLoaiKH)
         lifecycleScope.launchWhenCreated {
@@ -232,23 +230,6 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         }
         return loaiKH
     }
-    private fun getDataCoroutine(success: String, fail: String) {
-        //Livedata observer
-        lifecycleScope.launchWhenCreated {
-            viewModel.loaiKHs.collect { response ->
-                if (response.isEmpty()) {
-                    Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
-                    return@collect
-                } else {
-                    loaiKhAdapter.loaiKHs.addAll(response)
-                    initAdapter()
-                    loaiKhAdapter.notifyDataSetChanged()
-                    Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
     override fun itemClickEdit(loaiKhModel: LoaiKhModel) {
         dialogEdit(loaiKhModel)
         return

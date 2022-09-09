@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -95,9 +94,11 @@ class ViewModel : ViewModel() {
         }
     }
 
-    fun deleteGoiTap(maGT: String) {
+    fun deleteGoiTap(goiTap: GoiTapModel) {
         viewModelScope.launch {
-            goiTapRepository.deleteGoiTap(maGT)
+            if(goiTap.giaGoiTaps.isNullOrEmpty()){
+                goiTapRepository.deleteGoiTap(goiTap.maGT)
+            }
             getDSGoiTap()
         }
     }
@@ -535,10 +536,11 @@ class ViewModel : ViewModel() {
         }
     }
 
-    fun deleteGia(idGia: Int) {
+    fun deleteGiaGoiTap(idGia: Int,maGT: String) {
         viewModelScope.launch {
-            giaRepository.deleteGia(idGia)
+            giaRepository.deleteGiaGoiTap(idGia, maGT)
             getDSGia()
+            getDSGoiTap()
         }
     }
     //---------------------------------------------------------------------

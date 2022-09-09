@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.*
 import android.widget.*
 import androidx.activity.OnBackPressedCallback
@@ -157,7 +158,7 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
         btnUpdate.setOnClickListener {
             lifecycleScope.launchWhenCreated {
                 viewModel.updateNhanVien(NhanVienModel(nhanVien.maNV, nhanVien.hoTen, nhanVien.email, txtSdtKH.text.toString(), nhanVien.phai, txtDiaChiKH.text.toString(), ""))
-                Toast.makeText(requireContext(), "Cập nhật nhân viên thành công!", Toast.LENGTH_SHORT).show()
+                dialogPopMessage("Cập nhật nhân viên thành công!",R.drawable.ic_ok)
             }
         }
         //---------------------------------
@@ -190,7 +191,9 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
         val txtMaKH: EditText = dialog.findViewById(R.id.txtMaKH)
         val tvTenKH: TextInputLayout = dialog.findViewById(R.id.tvTenKH)
         val txtTenKH: EditText = dialog.findViewById(R.id.txtTenKH)
+        val tvEmailKH: TextInputLayout = dialog.findViewById(R.id.tvEmailKH)
         val txtEmailKH: EditText = dialog.findViewById(R.id.txtEmailKH)
+        val tvSdtKH: TextInputLayout = dialog.findViewById(R.id.tvPhoneKH)
         val txtSdtKH: EditText = dialog.findViewById(R.id.txtPhoneKH)
         val txtDiaChi: EditText = dialog.findViewById(R.id.txtDiaChiKH)
         //------------------Set name nv -----
@@ -214,31 +217,25 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
         spPhai.setOnItemClickListener { parent, view, position, id ->
             selectPhai = parent.getItemAtPosition(position).toString()
         }
+        //=======================Check validation=================
+        txtSdtKH.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                if(txtSdtKH.text.toString().matches(".*[0-9]*".toRegex())){
+                    tvSdtKH.helperText = "Số điện thoại gồm 10 chữ số!"
+                }
+                if(txtSdtKH.text.toString().length != 10)
+                    tvSdtKH.helperText = "Số điện thoại gồm 10 chữ số!"
+                tvEmailKH.helperText = null
+            }
+        }
+        //========================================================
         //----------------------------------------------------
         btnHuy.setOnClickListener {
             dialog.dismiss()
         }
         btnThem.setOnClickListener {
             val randomPass: String = createPassword()
-            Toast.makeText(
-                requireContext(),
-                "maNV: ${
-                    randomString(
-                        "nhân viên",
-                        getMaNVMax(nhanViens)
-                    )
-                } \ntenKH: ${replaceString(txtTenKH.text.toString())} \nphai: $selectPhai \nSDT: ${txtSdtKH.text} \nemail:${txtEmailKH.text} \nDiaChi: ${txtDiaChi.text}",
-                Toast.LENGTH_SHORT
-            ).show()
-            val insertNV = NhanVienModel(
-                randomString("nhân viên", getMaNVMax(nhanViens)),
-                replaceString(txtTenKH.text.toString()),
-                txtEmailKH.text.toString(),
-                txtSdtKH.text.toString(),
-                selectPhai,
-                txtDiaChi.text.toString(),
-                ""
-            )
+            val insertNV = NhanVienModel(randomString("nhân viên",getMaNVMax(nhanViens)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"")
             val insertTK = TaiKhoanModel(createAccountRandom(txtEmailKH.text.toString()), randomPass, "Hoạt động", "Q02", insertNV.maNV)
             viewModel.insertNhanVien(insertNV)
             lifecycleScope.launchWhenCreated {
@@ -252,13 +249,13 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
                 sendMessageFromMail(insertNV.email, title, message, text)
                 //=====================
                 Log.e("TAG-CreateAccount", "user:${createAccountRandom(txtEmailKH.text.toString())}\npass:$randomPass\nTrạng thái: Hoạt động\nQuyền:Q02\nmaNV:${insertNV.maNV}")
-                Toast.makeText(requireContext(), "created account successful!!", Toast.LENGTH_SHORT).show()
+                dialogPopMessage("Thêm nhân viên mới thành công!",R.drawable.ic_ok)
                 dialog.dismiss()
             }
         }
     }
 
-    fun dialogDelete(maNV: String) {
+    private fun dialogDelete(maNV: String) {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
@@ -282,9 +279,15 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
         //-------------------------------
         title.text = "Bạn thật sự muốn xóa nhân viên ${nhanVien.hoTen}?"
         btnYes.setOnClickListener {
-            viewModel.deleteNhanVien(maNV)
-            Toast.makeText(requireContext(), "Xóa nhân viên ${nhanVien.hoTen} thành công!", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
+            if(nhanVien.hoaDons.isNullOrEmpty()){
+                viewModel.deleteNhanVien(maNV)
+                dialogPopMessage("Xóa nhân viên ${nhanVien.hoTen} thành công!",R.drawable.ic_ok)
+                dialog.dismiss()
+            }
+            else {
+                dialogPopMessage("Nhân viên ${nhanVien.hoTen} đã lập hóa đơn\nKhông thể xóa!", R.drawable.ic_ok)
+                dialog.dismiss()
+            }
         }
         btnNo.setOnClickListener {
             dialog.dismiss()

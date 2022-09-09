@@ -106,6 +106,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Email"
+            app:helperText="Bắt buộc*"
+            app:helperTextTextColor="@color/red_100"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
             app:layout_constraintEnd_toEndOf="parent"
@@ -130,8 +132,12 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Số điện thoại"
+            app:helperText="Bắt buộc*"
+            app:helperTextTextColor="@color/red_100"
             app:boxBackgroundColor="@color/white"
             app:boxBackgroundMode="outline"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvEmailKH"
@@ -144,7 +150,7 @@
                 android:gravity="center_vertical"
                 android:inputType="number"
                 android:textColor="@color/black"
-                android:ems="10"
+                android:maxLength="10"
                 android:digits="1234567890"/>
         </com.google.android.material.textfield.TextInputLayout>
 
