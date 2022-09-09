@@ -25,9 +25,9 @@ class LoaiKhAdapter(private val _itemClick: OnItemClick): RecyclerView.Adapter<L
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.apply {
-                if(loaiKHs[position].khachHangs != null){
+                if(loaiKHs[position].khachHangs.isNullOrEmpty()){
                     imbDelete.visibility = View.GONE
-                    imbEdit.isEnabled = false
+                    imbEdit.visibility = View.GONE
                 }
                 if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
                     imbDelete.visibility = View.GONE

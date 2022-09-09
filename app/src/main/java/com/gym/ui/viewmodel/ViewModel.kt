@@ -157,6 +157,7 @@ class ViewModel : ViewModel() {
                 if (it.isSuccessful) {
                     _khachHang.value = it.body()
                 }
+                getDSKhachHang()
             }
         }
     }
@@ -335,9 +336,10 @@ class ViewModel : ViewModel() {
         }
     }
 
-    fun deleteNhanVien(maNV: String) {
+    fun deleteNhanVienTK(maNV: String, maTK: String) {
         viewModelScope.launch {
-            nhanVienRepository.deleteNhanVien(maNV)
+            nhanVienRepository.deleteNhanVienTaiKhoan(maNV,maTK)
+            getDSTaiKhoan()
             getDSNhanVien()
         }
     }

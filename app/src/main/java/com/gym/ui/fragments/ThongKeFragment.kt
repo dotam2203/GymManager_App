@@ -139,7 +139,8 @@ class ThongKeFragment : FragmentNext() {
                         //top10KHTiemNang(getFormatDateCompareTo(txtNgBD.text.toString().trim()),getFormatDateCompareTo(txtNgKT.text.toString().trim()))
                         delay(1000L)
                         pbLoad.visibility = View.GONE
-                        constraint.visibility = View.VISIBLE
+                        checkList.visibility = View.VISIBLE
+                        constraint.visibility = View.GONE
                     }
                 }
             }

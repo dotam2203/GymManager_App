@@ -4,6 +4,9 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Patterns
 import android.view.*
 import android.widget.*
 import androidx.lifecycle.lifecycleScope
@@ -57,13 +60,13 @@ class TheTapFragment : FragmentNext() {
                 dialogInfoKH(khachHang)
             }
             btnInsertKH.setOnClickListener {
-                Toast.makeText(requireContext(), "You on click!!", Toast.LENGTH_SHORT).show()
                 dialogInsertKH()
             }
         }
     }
 
     private fun dialogInsertKH() {
+        var status = true
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_khachhang)
@@ -96,9 +99,6 @@ class TheTapFragment : FragmentNext() {
         //==============================================================
         val tenLoaiKHs = ArrayList<String>()
         val phais = listOf("Nam","Nữ")
-        /*for(i in loaiKHs.indices){
-            tenLoaiKHs.add(loaiKHs[i].tenLoaiKH)
-        }*/
         tenLoaiKHs.add("Bạc")
         val arrAdapterLoaiKH = ArrayAdapter(requireContext(),R.layout.dropdown_item,tenLoaiKHs)
         val arrAdapterPhai = ArrayAdapter(requireContext(),R.layout.dropdown_item,phais)
@@ -126,22 +126,41 @@ class TheTapFragment : FragmentNext() {
         btnHuy.setOnClickListener {
             dialog.dismiss()
         }
+        txtEmailKH.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(txtEmailKH.text.toString()).matches())
+                    txtEmailKH.error = "Sai định dạng email!"
+            }
+        })
         btnThem.setOnClickListener {
-            for(i in khachHangs.indices){
-                if((txtEmailKH.text.trim() == khachHangs[i].email.trim()) || (txtSdtKH.text.trim() == (khachHangs[i].sdt.trim()))){
-                    if(txtEmailKH.text.trim() == khachHangs[i].email.trim()){
-                        Toast.makeText(requireContext(), "Email này đã được đăng ký!", Toast.LENGTH_SHORT).show()
-                        txtEmailKH.setText("")
-                        txtEmailKH.requestFocus()
-                    }
-                    else if(txtSdtKH.text.trim() == (khachHangs[i].sdt.trim())){
-                        Toast.makeText(requireContext(), "Số điện thoại này đã được đăng ký!", Toast.LENGTH_SHORT).show()
-                        txtSdtKH.setText("")
+            if(txtTenKH.text.toString() == ""){
+                txtTenKH.error = "Tên không được để trống!"
+                txtTenKH.requestFocus()
+                status = false
+            }
+            if(txtSdtKH.text.length < 10){
+                txtSdtKH.error = "Số điện thoại gồm 10 chữ số!"
+                txtSdtKH.requestFocus()
+                status = false
+            }
+            else if(txtSdtKH.text.length == 10){
+                for(i in khachHangs.indices){
+                    if(txtSdtKH.text.toString() == khachHangs[i].sdt){
+                        txtSdtKH.error = "Số điện thoại đã đăng ký!"
                         txtSdtKH.requestFocus()
+                        status = false
                     }
+                    if(txtEmailKH.text.trim() == khachHangs[i].email.trim()){
+                        txtEmailKH.error = "Email này đã được đăng ký!"
+                        txtEmailKH.requestFocus()
+                        status = false
+                    }
+                    else status = true
                 }
             }
-            if(!txtEmailKH.text.equals("") || !txtSdtKH.text.equals("")){
+            if(status){
                 viewModel.insertKhachHang(KhachHangModel(randomString("khách hàng", getMaKHMax(khachHangs)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"",idLoaiKH))
                 dialogPopMessage("Thêm khách hàng thành công!",R.drawable.ic_ok)
                 dialog.dismiss()
@@ -227,7 +246,7 @@ class TheTapFragment : FragmentNext() {
             }
         }
     }
-    fun dialogInfoKH(khachHang: KhachHangModel){
+    private fun dialogInfoKH(khachHang: KhachHangModel){
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_khachhang)

@@ -4,6 +4,9 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Patterns
 import android.view.*
 import android.widget.*
 import androidx.lifecycle.lifecycleScope
@@ -125,6 +128,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         dialogEdit(khachHang)
     }
     private fun dialogEdit(khachHang: KhachHangModel) {
+        var status = true
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_khachhang)
@@ -155,9 +159,9 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         var idLoaiKH: Int = 0
         //---------------------------------
         txtMaKH.visibility = View.GONE
-        btnUpdate.setText("Cập nhật")
+        btnUpdate.text = "Cập nhật"
         getLoaiKHByID(khachHang.idLoaiKH)
-        spLoaiKH.setText(loaiKH.tenLoaiKH)
+        spLoaiKH.setText(khachHang.tenLoaiKH)
         txtTenKH.setText(khachHang.hoTen)
         txtEmailKH.setText(khachHang.email)
         txtSdtKH.setText(khachHang.sdt)
@@ -166,18 +170,49 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         txtTenKH.isEnabled = false
         txtPhaiKH.isEnabled = false
         //---------------------------------
-        spLoaiKH.setText(tenLoaiKHs[0])
         spLoaiKH.setAdapter(arrayAdapter)
         spLoaiKH.setOnItemClickListener { parent, view, position, id ->
             selectItem = parent.getItemAtPosition(position).toString()
+            for( i in loaiKHs.indices) {
+                if(selectItem.equals(loaiKHs[i].tenLoaiKH)){
+                    idLoaiKH = loaiKHs[i].idLoaiKH
+                    break
+                }
+            }
         }
-        for(i in loaiKHs.indices){
-            if(selectItem == loaiKHs[i].tenLoaiKH)
-                idLoaiKH = loaiKHs[i].idLoaiKH
-        }
+        txtEmailKH.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (!Patterns.EMAIL_ADDRESS.matcher(txtEmailKH.text.toString()).matches())
+                    txtEmailKH.error = "Sai định dạng email!"
+            }
+        })
         btnUpdate.setOnClickListener {
-            lifecycleScope.launchWhenCreated {
-                viewModel.updateKhachHang(KhachHangModel(khachHang.maKH,replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),txtPhaiKH.text.toString(),txtDiaChiKH.text.toString(),selectItem.toString(),idLoaiKH))
+            if(txtSdtKH.text.length < 10){
+                txtSdtKH.error = "Số điện thoại gồm 10 chữ số!"
+                txtSdtKH.requestFocus()
+            }
+            else if(txtSdtKH.text.length == 10){
+                for(i in khachHangs.indices){
+                    if(txtSdtKH.text.toString() != khachHang.sdt && txtSdtKH.text.toString() == khachHangs[i].sdt){
+                        txtSdtKH.error = "Số điện thoại đã đăng ký!"
+                        txtSdtKH.requestFocus()
+                        status = false
+                        break
+                    }
+                    else status = true
+                }
+            }
+            if(status){
+                if(idLoaiKH == 0){
+                    viewModel.updateKhachHang(KhachHangModel(khachHang.maKH,replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),txtPhaiKH.text.toString(),txtDiaChiKH.text.toString(),selectItem.toString(),khachHang.idLoaiKH))
+                    dialogPopMessage("Cập nhật thông tin thành công!",R.drawable.ic_ok)
+                }
+                else if(idLoaiKH != 0){
+                    viewModel.updateKhachHang(KhachHangModel(khachHang.maKH,replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),txtPhaiKH.text.toString(),txtDiaChiKH.text.toString(),selectItem.toString(),idLoaiKH))
+                    dialogPopMessage("Cập nhật thông tin thành công!",R.drawable.ic_ok)
+                }
             }
         }
         //---------------------------------

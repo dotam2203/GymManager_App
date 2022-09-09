@@ -33,7 +33,8 @@ class NhanVienRepository {
         if (request.isSuccessful)
             emit(request)
     }.flowOn(IO)
-    suspend fun deleteNhanVien(maNV: String){
+    suspend fun deleteNhanVienTaiKhoan(maNV: String, maTK: String){
+        RetrofitInstance.loadApiTaiKhoan.deleteTaiKhoan(maTK)
         RetrofitInstance.loadApiNhanVien.deleteNhanVien(maNV)
     }
 }

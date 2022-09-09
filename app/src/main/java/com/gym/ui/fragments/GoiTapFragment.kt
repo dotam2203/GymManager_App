@@ -97,9 +97,11 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
                     binding.pbLoad.visibility = View.GONE
                     return@collect
                 } else {
-                    loaiGTs.addAll(response)
-                    for (i in response.indices) {
-                        tenLoaiGTs.add(loaiGTs[i].tenLoaiGT)
+                    response.forEach {
+                        if(it.trangThai == "Hoạt động"){
+                            loaiGTs.add(it)
+                            tenLoaiGTs.add(it.tenLoaiGT)
+                        }
                     }
                 }
             }

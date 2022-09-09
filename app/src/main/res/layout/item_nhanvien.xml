@@ -62,6 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:textSize="16sp"
+            android:text="Hoạt động"
             android:textStyle="bold|italic"
             android:textColor="@color/violet"
             app:layout_constraintBottom_toBottomOf="parent"

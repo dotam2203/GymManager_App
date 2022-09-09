@@ -17,13 +17,16 @@ import com.gym.databinding.FragmentHoadonTtBinding
 import com.gym.firebase.NotificationHelper
 import com.gym.model.*
 import com.gym.ui.FragmentNext
+import com.gym.ui.SingletonAccount
 import com.gym.ui.adapter.HoaDonTTAdapter
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 
 class HoaDonTTFragment : FragmentNext(),HoaDonTTAdapter.OnItemClick {
     private lateinit var binding: FragmentHoadonTtBinding
     var hoaDonTTAdapter = HoaDonTTAdapter(this@HoaDonTTFragment)
     var hoaDons = ArrayList<HoaDonModel>()
+    var hoaDons1 = ArrayList<HoaDonModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,24 +55,47 @@ class HoaDonTTFragment : FragmentNext(),HoaDonTTAdapter.OnItemClick {
         }
     }
     private fun initViewModel() {
-        //call api
-        viewModel.getDSHoaDonTheoNgayGiam()
-        //Livedata observer
-        lifecycleScope.launchWhenCreated {
-            viewModel.hoaDons.collect {response ->
-                hoaDonTTAdapter.hoaDons.clear()
-                if (response.isNotEmpty()) {
-                    hoaDonTTAdapter.hoaDons.clear()
-                    hoaDonTTAdapter.hoaDons.addAll(response)
-                    hoaDons.addAll(response)
-                    hoaDonTTAdapter.notifyDataSetChanged()
-                    binding.checkList.visibility = View.GONE
-                    binding.pbLoad.visibility = View.GONE
+        if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
+            viewModel.getDSHoaDonTheoNV(SingletonAccount.taiKhoan!!.maNV)
+            lifecycleScope.launchWhenCreated {
+                viewModel.hoaDons.collect{
+                    if(it.isNotEmpty()){
+                        hoaDonTTAdapter.hoaDons.clear()
+                        hoaDonTTAdapter.hoaDons.addAll(it)
+                        hoaDons.addAll(it)
+                        hoaDonTTAdapter.notifyDataSetChanged()
+                        binding.checkList.visibility = View.GONE
+                        binding.pbLoad.visibility = View.GONE
+                    }
+                    else {
+                        binding.checkList.visibility = View.VISIBLE
+                        binding.pbLoad.visibility = View.GONE
+                        return@collect
+                    }
+
                 }
-                else {
-                    binding.checkList.visibility = View.VISIBLE
-                    binding.pbLoad.visibility = View.GONE
-                    return@collect
+            }
+        }
+        else if(SingletonAccount.taiKhoan?.maQuyen == "Q01"){
+            //call api
+            viewModel.getDSHoaDonTheoNgayGiam()
+            //Livedata observer
+            lifecycleScope.launchWhenCreated {
+                viewModel.hoaDons.collect {response ->
+                    hoaDonTTAdapter.hoaDons.clear()
+                    if (response.isNotEmpty()) {
+                        hoaDonTTAdapter.hoaDons.clear()
+                        hoaDonTTAdapter.hoaDons.addAll(response)
+                        hoaDons.addAll(response)
+                        hoaDonTTAdapter.notifyDataSetChanged()
+                        binding.checkList.visibility = View.GONE
+                        binding.pbLoad.visibility = View.GONE
+                    }
+                    else {
+                        binding.checkList.visibility = View.VISIBLE
+                        binding.pbLoad.visibility = View.GONE
+                        return@collect
+                    }
                 }
             }
         }

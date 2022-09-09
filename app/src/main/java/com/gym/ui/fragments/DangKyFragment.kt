@@ -318,10 +318,15 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         val tenLoaiGTs: ArrayList<String> = arrayListOf()
         viewModel.getDSLoaiGT()
         lifecycleScope.launchWhenCreated {
-            viewModel.loaiGTs.collect {
-                for (i in it.indices) {
-                    tenLoaiGTs.add(it[i].tenLoaiGT)
+            viewModel.loaiGTs.collect { response ->
+                if(response.isNotEmpty()){
+                    response.forEach {
+                        if(it.trangThai == "Hoạt động"){
+                            tenLoaiGTs.add(it.tenLoaiGT)
+                        }
+                    }
                 }
+                else return@collect
             }
         }
         return tenLoaiGTs
@@ -352,11 +357,14 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
             viewModel.goiTaps.collect {
                 Log.e("Error", "check tenGTs: ${it.size}")
                 if (it.isNotEmpty()) {
-                    for (i in it.indices) {
-                        binding.spGoiTap.isEnabled = true
-                        tenGTs.add(it[i].tenGT)
+                    it.forEach { sort ->
+                        if(sort.trangThai == "Hoạt động"){
+                            binding.spGoiTap.isEnabled = true
+                            tenGTs.add(sort.tenGT)
+                        }
                     }
-                } else if (it.isEmpty()) {
+                }
+                else {
                     binding.spGoiTap.isEnabled = false
                     return@collect
                 }
@@ -496,18 +504,18 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
 
         }
         btnThanhToanSau.setOnClickListener {
-            /*viewModel.insertTheTap(theTapModel)
+           // viewModel.insertTheTap(theTapModel)
             //Toast.makeText(requireContext(), "Trả sau thành công!", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
             dialogPopMessage("Vui lòng thanh toán trong thời gian sớm nhất!",R.drawable.ic_warning)//-------------------
             NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Thanh toán sau").Notification()
-            //====================*/
             //====================
-            /*val title = "VECTOR GYM - CHỜ THANH TOÁN DỊCH VỤ!"
+            //====================
+            val title = "VECTOR GYM - CHỜ THANH TOÁN DỊCH VỤ!"
             val message = "Khách hàng: ${khachHang.hoTen}\nSố điện thoại:${khachHang.sdt} \nĐăng kí thành công dịch vụ: ${goiTapModel.tenGT}\nLoại dịch vụ: ${tvLoaiDV.text}\nNgày đăng ký: ${tvNgayLap.text} \nNgày bắt đầu: ${tvNgayBD.text}\nNgày kết thúc: ${tvNgayKT.text}\nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Chưa thanh toán \nVUI LÒNG THANH TOÁN TRƯỚC NGÀY ${tvNgayBD.text}"
             val text = "Thanh toán sau!"
-            sendMessageFromMail(khachHang.email,title,message,text)*/
-            //startPayment()
+            sendMessageFromMail(khachHang.email,title,message,text)
+            startPayment()
         }
         btnHuy.setOnClickListener {
             dialog.dismiss()
