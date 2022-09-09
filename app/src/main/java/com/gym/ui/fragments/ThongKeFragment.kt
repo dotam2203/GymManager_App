@@ -12,6 +12,7 @@ import com.gym.R
 import com.gym.databinding.FragmentThongkeBinding
 import com.gym.model.*
 import com.gym.ui.FragmentNext
+import com.gym.ui.SingletonAccount
 import com.gym.ui.adapter.ThongKeAdapter
 import kotlinx.coroutines.delay
 
@@ -38,6 +39,12 @@ class ThongKeFragment : FragmentNext() {
         }
         getEvent()
         initAdapter()
+        if(SingletonAccount.taiKhoan!!.maQuyen == "Q02"){
+            binding.btnLoc.isEnabled = false
+        }
+        else if(SingletonAccount.taiKhoan!!.maQuyen == "Q01"){
+            binding.btnLoc.isEnabled = true
+        }
         return binding.root
     }
 

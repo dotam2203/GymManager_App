@@ -296,7 +296,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
 
     private fun getInitCalendar() {
         binding.apply {
-            imbCalendar.setOnClickListener {
+            imbCalendarBD.setOnClickListener {
                 val datePickerFragment = DatePickerFagment()
                 val support = requireActivity().supportFragmentManager
                 //receive date
@@ -307,14 +307,14 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                     }
                 }
                 //show dialog
-                datePickerFragment.show(support, "DatePickerFragment")
+                datePickerFragment.show(support,"DatePickerFragment")
             }
         }
     }
 
     //================================================
     //--------------------Loại gt----------------------
-    fun getListTenLoaiGT(): ArrayList<String> {
+    private fun getListTenLoaiGT(): ArrayList<String> {
         val tenLoaiGTs: ArrayList<String> = arrayListOf()
         viewModel.getDSLoaiGT()
         lifecycleScope.launchWhenCreated {
@@ -332,7 +332,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         return tenLoaiGTs
     }
 
-    fun getIDByTenLoaiGT(ten: String): Int {
+    private fun getIDByTenLoaiGT(ten: String): Int {
         var id: Int = 0
         viewModel.getDSLoaiGT()
         lifecycleScope.launchWhenCreated {
@@ -350,7 +350,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
 
     //--------------------------------------------
     //-------------------Gói Tập------------------
-    fun getListTenGTByIDLoaiGT(id: Int): ArrayList<String> {
+    private fun getListTenGTByIDLoaiGT(id: Int): ArrayList<String> {
         val tenGTs = ArrayList<String>()
         lifecycleScope.launchWhenCreated {
             viewModel.getDSGoiTapTheoLoaiGT(id)
@@ -373,7 +373,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         return tenGTs
     }
 
-    fun getMaTheMax(theTaps: ArrayList<TheTapModel>): String {
+    private fun getMaTheMax(theTaps: ArrayList<TheTapModel>): String {
         if (theTaps.isNotEmpty()) {
             var max: Int = theTaps[0].maThe.substring(2).toInt()
             var maMax = theTaps[0].maThe

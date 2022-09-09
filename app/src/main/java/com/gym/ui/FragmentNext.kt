@@ -80,6 +80,17 @@ abstract class FragmentNext : Fragment() {
         year = d[0].toString().trim()
         return "$day/$month/$year"
     }
+    //lấy ngày trên api xuống hiển thị ở local, input: yyyy-MM-dd -> output: yyyy/MM/dd
+    fun getFormatDateFromAPI1(date: String): String {
+        val d: List<Any> = date.split("-")
+        var year: String? = ""
+        var month: String? = ""
+        var day: String? = ""
+        day = d[2].toString().trim()
+        month = d[1].toString().trim()
+        year = d[0].toString().trim()
+        return "$year/$month/$day"
+    }
     //ngày post lên api, input: dd/MM/yyyy -> output: yyyy-MM-dd
     fun getFormatDateToApi(date: String): String {
         val d: List<Any> = date.split("/")
