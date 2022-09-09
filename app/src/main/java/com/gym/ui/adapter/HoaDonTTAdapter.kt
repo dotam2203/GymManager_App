@@ -11,6 +11,10 @@ class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapt
     inner class ViewHolder(val binding: ItemHoadonBinding): RecyclerView.ViewHolder(binding.root){
     }
 
+    fun setFilterList(filter: ArrayList<HoaDonModel>){
+        this.hoaDons = filter
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = ItemHoadonBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(view)
@@ -20,7 +24,7 @@ class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapt
         with(holder){
             binding.apply {
                 tvMaHD.text = hoaDons[position].maHD
-                tvNgayLap.text = hoaDons[position].ngayLap
+                tvNgayLap.text = getFormatDateFromAPI(hoaDons[position].ngayLap)
                 tvHoaDonKH.text = hoaDons[position].tenKH
                 imbInfo.setOnClickListener {
                     _itemClick.itemClickInfo(hoaDons[position])
@@ -33,5 +37,15 @@ class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapt
     }
     interface OnItemClick{
         fun itemClickInfo(hoaDonModel: HoaDonModel)
+    }
+    private fun getFormatDateFromAPI(date: String): String {
+        val d: List<Any> = date.split("-")
+        var year: String? = ""
+        var month: String? = ""
+        var day: String? = ""
+        day = d[2].toString().trim()
+        month = d[1].toString().trim()
+        year = d[0].toString().trim()
+        return "$day/$month/$year"
     }
 }

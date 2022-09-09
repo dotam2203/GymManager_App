@@ -7,8 +7,7 @@ import android.icu.util.UniversalTimeScale.toLong
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,12 +20,14 @@ import com.gym.ui.SingletonAccount
 import com.gym.ui.adapter.HoaDonTTAdapter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HoaDonTTFragment : FragmentNext(),HoaDonTTAdapter.OnItemClick {
     private lateinit var binding: FragmentHoadonTtBinding
     var hoaDonTTAdapter = HoaDonTTAdapter(this@HoaDonTTFragment)
     var hoaDons = ArrayList<HoaDonModel>()
-    var hoaDons1 = ArrayList<HoaDonModel>()
+    var filter = ArrayList<HoaDonModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,12 +40,53 @@ class HoaDonTTFragment : FragmentNext(),HoaDonTTAdapter.OnItemClick {
             delay(2000L)
             initViewModel()
         }
+        getEvent()
         return binding.root
+    }
+
+    private fun getEvent() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                getFilter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                getFilter(newText)
+                return false
+            }
+
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
+
+    private fun getFilter(s: String?) {
+        viewModel.getDSHoaDonTheoNgayGiam()
+        lifecycleScope.launchWhenCreated {
+            viewModel.hoaDons.collect{ response ->
+                if(response.isNotEmpty()){
+                    filter.clear()
+                    for(i in response.indices){
+                        if (s != null) {
+                            if((response[i].maHD.lowercase().contains(s.lowercase(Locale.getDefault()))) || response[i].tenKH.lowercase().contains(s.lowercase(Locale.getDefault()))){
+                                filter.add(response[i])
+                            }
+                        }
+                    }
+                    hoaDonTTAdapter.setFilterList(filter)
+                    hoaDonTTAdapter.notifyDataSetChanged()
+                    if(filter.isEmpty()){
+                        Toast.makeText(requireContext(), "Không có dữ liệu!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else return@collect
+            }
+        }
+    }
+
     private fun refreshData() {
         binding.apply {
             refresh.setOnRefreshListener {
