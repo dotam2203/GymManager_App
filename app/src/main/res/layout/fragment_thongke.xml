@@ -159,7 +159,7 @@
                 android:id="@+id/rvThongKe"
                 tools:listitem="@layout/item_thongke"
                 android:background="#DBECEA"
-                android:layout_height="410dp"/>
+                android:layout_height="350dp"/>
             <TableRow
                 android:background="@color/blue_100">
 

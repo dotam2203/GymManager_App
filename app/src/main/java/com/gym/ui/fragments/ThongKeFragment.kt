@@ -55,8 +55,8 @@ class ThongKeFragment : FragmentNext() {
     }
 
     private fun setControl() {
-        val options = arrayListOf("Doanh thu theo tháng", "Doanh thu theo dịch vụ", "Top 10 khách hàng tiềm năng")
-        Log.e("option", "setControl: $options", )
+        val options = arrayListOf("Doanh thu theo tháng", "Doanh thu theo dịch vụ")
+        Log.e("option", "setControl: $options")
         binding.apply {
             item = 0
             val arrayAdapter = ArrayAdapter(requireContext(),R.layout.dropdown_item, options)
@@ -111,6 +111,9 @@ class ThongKeFragment : FragmentNext() {
             btnLoc.setOnClickListener {
                 thongKeAdapter.flag = item
                 if(item == 0){
+                    //=================
+                    col1.text = "Tháng"
+                    //=================
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()
                     lifecycleScope.launchWhenCreated {
@@ -122,7 +125,7 @@ class ThongKeFragment : FragmentNext() {
                 }
                 else if(item == 1){
                     //=================
-                    col1.text = "STT"
+                    col1.text = "Loại DV"
                     //=================
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()

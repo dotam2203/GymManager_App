@@ -503,6 +503,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
             //====================
 
         }
+        btnThanhToanSau.visibility = View.GONE
         btnThanhToanSau.setOnClickListener {
            // viewModel.insertTheTap(theTapModel)
             //Toast.makeText(requireContext(), "Trả sau thành công!", Toast.LENGTH_SHORT).show()

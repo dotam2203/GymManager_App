@@ -105,13 +105,14 @@ class TheTapFragment : FragmentNext() {
         var selectLoaiKH: String = ""
         var idLoaiKH: Int = 0
         var selectPhai: String = ""
+        spLoai.setText("Bạc")
         //==========================Loại kh==============
         spLoai.setAdapter(arrAdapterLoaiKH)
         spLoai.setOnItemClickListener { parent, view, position, id ->
             selectLoaiKH = parent.getItemAtPosition(position).toString()
             for(i in loaiKHs.indices){
                 if(selectLoaiKH == loaiKHs[i].tenLoaiKH){
-                    idLoaiKH = loaiKHs[i].idLoaiKH
+                    idLoaiKH = 1
                 }
             }
         }
@@ -135,7 +136,7 @@ class TheTapFragment : FragmentNext() {
             }
         })
         btnThem.setOnClickListener {
-            if(txtTenKH.text.toString() == ""){
+            /*if(txtTenKH.text.toString().isNullOrEmpty()){
                 txtTenKH.error = "Tên không được để trống!"
                 txtTenKH.requestFocus()
                 status = false
@@ -159,11 +160,35 @@ class TheTapFragment : FragmentNext() {
                     }
                     else status = true
                 }
+            }*/
+            if(txtTenKH.text.toString() == "" || txtSdtKH.text.toString() == ""|| selectPhai == ""){
+                if(txtTenKH.text.toString() == ""){
+                    txtTenKH.apply {
+                        error = "Tên không được để trống!"
+                        requestFocus()
+                    }
+                }
+                else if(selectPhai == ""){
+                    spPhai.apply {
+                        error = "Vui lòng chọn phái!"
+                        requestFocus()
+                    }
+                }
+                else if(txtSdtKH.text.toString() == "" || txtSdtKH.text.length != 10){
+                    txtSdtKH.apply {
+                        error = "Số điện thoại gồm 10 số!"
+                        requestFocus()
+                    }
+                }
             }
-            if(status){
-                viewModel.insertKhachHang(KhachHangModel(randomString("khách hàng", getMaKHMax(khachHangs)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"",idLoaiKH))
+            else{
+                viewModel.insertKhachHang(KhachHangModel(randomString("khách hàng", getMaKHMax(khachHangs)),replaceString(txtTenKH.text.toString()),txtEmailKH.text.toString(),txtSdtKH.text.toString(),selectPhai,txtDiaChi.text.toString(),"",1))
                 dialogPopMessage("Thêm khách hàng thành công!",R.drawable.ic_ok)
                 dialog.dismiss()
+                txtEmailKH.setText("")
+                txtDiaChi.setText("")
+                txtSdtKH.setText("")
+                txtTenKH.setText("")
             }
         }
     }

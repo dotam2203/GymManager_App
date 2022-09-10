@@ -30,8 +30,10 @@ class ThongKeAdapter : RecyclerView.Adapter<ThongKeAdapter.ViewHolder>(){
                     tvDTDichVu.text = thongKes[position].tenGT
                     tvDoanhThu.text = thongKes[position].donGia
                 }
-                else if(flag == 1 || flag == 2){
+                else if(flag == 1){
                     tvDTThang.text = "${position + 1}"
+                    tvDTDichVu.text = thongKes[position].tenGT
+                    tvDoanhThu.text = thongKes[position].donGia
                 }
             }
         }
