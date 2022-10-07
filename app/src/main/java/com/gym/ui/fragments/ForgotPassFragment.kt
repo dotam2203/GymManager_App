@@ -85,7 +85,7 @@ class ForgotPassFragment : FragmentNext() {
                 val newPass = createPassword()
                 if(checkEmail(email)){
                     getTaiKhoanByEmail(email)
-                    getNhanVienByMaNV(taiKhoan.maNV)
+                    nhanVien = getNhanVienByMaNV(taiKhoan.maNV)
                     val taiKhoanModel = TaiKhoanModel(taiKhoan.maTK,maHoaPassApi(newPass),taiKhoan.trangThai,taiKhoan.maQuyen,taiKhoan.maNV)
                     viewModel.updateTaiKhoan(taiKhoanModel)
                     if(SingletonAccount.taiKhoan != null){
@@ -119,14 +119,14 @@ class ForgotPassFragment : FragmentNext() {
             }
         }
     }
-    private fun getNhanVienByMaNV(maNV: String) {
+    /*private fun getNhanVienByMaNV(maNV: String) {
         viewModel.getNhanVien(maNV)
         lifecycleScope.launchWhenCreated {
             viewModel.nhanVien.collect {
                 nhanVien = it ?: return@collect
             }
         }
-    }
+    }*/
     private fun getTaiKhoanByEmail(email: String){
         for(i in dsTaiKhoan.indices){
             if(email == dsTaiKhoan[i].email){

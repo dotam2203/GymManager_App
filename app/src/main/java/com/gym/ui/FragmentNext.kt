@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.gym.R
+import com.gym.model.NhanVienModel
 import com.gym.ui.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 import pl.droidsonroids.gif.GifImageView
@@ -332,4 +333,18 @@ abstract class FragmentNext : Fragment() {
             }
         }
     }
+    //=======================Call api lấy data================
+    //-------------Nhân Viên--------------------------------
+    fun getNhanVienByMaNV(maNV: String) : NhanVienModel{
+        var nhanVien = NhanVienModel()
+        viewModel.getNhanVien(maNV)
+        lifecycleScope.launchWhenCreated {
+            viewModel.nhanVien.collect {
+                nhanVien = it ?: return@collect
+            }
+        }
+        return nhanVien
+    }
+    //------------------------------------------------------
+    //-------------Nhân Viên--------------------------------
 }

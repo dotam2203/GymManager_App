@@ -348,20 +348,6 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
         }
         return maTK
     }
-    fun getNhanVienByMaNV(maNV: String): NhanVienModel {
-        var nhanVien = NhanVienModel()
-        viewModel.getNhanVien(maNV)
-        lifecycleScope.launchWhenCreated {
-            viewModel.nhanVien.collect {
-                if (it != null) {
-                    nhanVien = it
-                } else
-                    return@collect
-            }
-        }
-        return nhanVien
-    }
-
     fun getMaNVMax(nhanViens: ArrayList<NhanVienModel>): String {
         if (nhanViens.isNotEmpty()) {
             var max: Int = nhanViens[0].maNV.substring(2).toInt()

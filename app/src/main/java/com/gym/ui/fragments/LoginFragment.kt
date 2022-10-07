@@ -138,7 +138,7 @@ class LoginFragment : FragmentNext() {
             if (checkLogin(dsTaiKhoan)) {
                 for (i in dsTaiKhoan.indices) {
                     if (binding.txtUserLogin.text.toString().trim() == dsTaiKhoan[i].maTK) {
-                        getNhanVienByMaNV(dsTaiKhoan[i].maNV)
+                        nhanVien = getNhanVienByMaNV(dsTaiKhoan[i].maNV)
                         lifecycleScope.launchWhenCreated {
                             delay(2000L)
                             //====================
@@ -207,15 +207,6 @@ class LoginFragment : FragmentNext() {
                 }
                 pbLoad.visibility = View.VISIBLE
                 return false
-            }
-        }
-    }
-
-    private fun getNhanVienByMaNV(maNV: String) {
-        viewModel.getNhanVien(maNV)
-        lifecycleScope.launchWhenCreated {
-            viewModel.nhanVien.collect {
-                nhanVien = it ?: return@collect
             }
         }
     }
