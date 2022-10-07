@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.jvm.Throws
 
-class DangKyFragment : FragmentNext(),PaymentResultListener {
+class DangKyFragment : FragmentNext(), PaymentResultListener {
     private lateinit var binding: FragmentDangkyBinding
     var khachHang = KhachHangModel()
     val loaiGTs = ArrayList<LoaiGtModel>()
@@ -44,19 +44,20 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDangkyBinding.inflate(layoutInflater)
-        getTheTap(theTaps)
+        theTaps = getDSTheTap()
         reviceDataKH()
         getInitCalendar()
         getEnvent()
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(maNV != null){
+        if (maNV != null) {
             viewModel.getNhanVien(maNV)
             lifecycleScope.launchWhenCreated {
-                viewModel.nhanVien.collect{
-                    nhanVien = it?: return@collect
+                viewModel.nhanVien.collect {
+                    nhanVien = it ?: return@collect
                 }
             }
         }
@@ -77,17 +78,6 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                 //===========================================================
             }
         })
-    }
-
-    private fun getTheTap(theTaps: ArrayList<TheTapModel>) {
-        viewModel.getDSTheTap()
-        lifecycleScope.launchWhenCreated {
-            viewModel.theTaps.collect {
-                if (it.isNotEmpty()) {
-                    theTaps.addAll(it)
-                }
-            }
-        }
     }
 
     private fun getInitViewModel() {
@@ -140,8 +130,8 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                 //Log.e("Message", "idLoaiGT:$idLoaiGT")
                 viewModel.getLoaiGT(idLoaiGT)
                 lifecycleScope.launchWhenCreated {
-                    viewModel.loaiGT.collect{
-                        loaiGT = it?: return@collect
+                    viewModel.loaiGT.collect {
+                        loaiGT = it ?: return@collect
                     }
                 }
                 //--------------------------Gói tập------------------------------
@@ -167,8 +157,8 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                     //====================
                     viewModel.getGoiTap(maGT)
                     lifecycleScope.launchWhenCreated {
-                        viewModel.goiTap.collect{
-                            goiTap = it?: return@collect
+                        viewModel.goiTap.collect {
+                            goiTap = it ?: return@collect
                         }
                     }
                     //====================
@@ -252,13 +242,26 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
             //=================================================
             btnDangKy.setOnClickListener {
                 var saveTheTap = TheTapModel()
-                if(compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))){
-                    saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateToApi(getCurrentDate()),getFormatDateToApi(txtNgayBD.text.toString()),getFormatDateToApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH)
+                if (compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))) {
+                    saveTheTap = TheTapModel(
+                        randomString("thẻ tập", getMaTheMax(theTaps)),
+                        getFormatDateToApi(getCurrentDate()),
+                        getFormatDateToApi(txtNgayBD.text.toString()),
+                        getFormatDateToApi(txtNgayKT.text.toString()),
+                        "Hoạt động",
+                        khachHang.maKH
+                    )
+                } else if (!compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))) {
+                    saveTheTap = TheTapModel(
+                        randomString("thẻ tập", getMaTheMax(theTaps)),
+                        getFormatDateToApi(getCurrentDate()),
+                        getFormatDateToApi(txtNgayBD.text.toString()),
+                        getFormatDateToApi(txtNgayKT.text.toString()),
+                        "Khóa",
+                        khachHang.maKH
+                    )
                 }
-                else if(!compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))){
-                    saveTheTap = TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateToApi(getCurrentDate()),getFormatDateToApi(txtNgayBD.text.toString()),getFormatDateToApi(txtNgayKT.text.toString()),"Khóa",khachHang.maKH)
-                }
-                val saveHoaDon = HoaDonModel(getRandomMaHD(),getFormatDateToApi(getCurrentDate()),maNV.toString(),randomString("thẻ tập", getMaTheMax(theTaps)))
+                val saveHoaDon = HoaDonModel(getRandomMaHD(), getFormatDateToApi(getCurrentDate()), maNV.toString(), randomString("thẻ tập", getMaTheMax(theTaps)))
                 //=======================================
                 dialogYN(saveTheTap, saveHoaDon, goiTap, loaiGT, selectSL)
                 //=======================================
@@ -267,6 +270,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
             }
         }
     }
+
     private fun getGoiTapByIDLoaiGT(id: Int): ArrayList<GoiTapModel> {
         val goiTaps = ArrayList<GoiTapModel>()
         viewModel.getDSGoiTapTheoLoaiGT(id)
@@ -307,48 +311,10 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                     }
                 }
                 //show dialog
-                datePickerFragment.show(support,"DatePickerFragment")
+                datePickerFragment.show(support, "DatePickerFragment")
             }
         }
     }
-
-    //================================================
-    //--------------------Loại gt----------------------
-    private fun getListTenLoaiGT(): ArrayList<String> {
-        val tenLoaiGTs: ArrayList<String> = arrayListOf()
-        viewModel.getDSLoaiGT()
-        lifecycleScope.launchWhenCreated {
-            viewModel.loaiGTs.collect { response ->
-                if(response.isNotEmpty()){
-                    response.forEach {
-                        if(it.trangThai == "Hoạt động"){
-                            tenLoaiGTs.add(it.tenLoaiGT)
-                        }
-                    }
-                }
-                else return@collect
-            }
-        }
-        return tenLoaiGTs
-    }
-
-    private fun getIDByTenLoaiGT(ten: String): Int {
-        var id: Int = 0
-        viewModel.getDSLoaiGT()
-        lifecycleScope.launchWhenCreated {
-            viewModel.loaiGTs.collect {
-                for (i in it.indices) {
-                    if (ten.trim() == it[i].tenLoaiGT.trim()) {
-                        id = it[i].idLoaiGT
-                        break
-                    }
-                }
-            }
-        }
-        return id
-    }
-
-    //--------------------------------------------
     //-------------------Gói Tập------------------
     private fun getListTenGTByIDLoaiGT(id: Int): ArrayList<String> {
         val tenGTs = ArrayList<String>()
@@ -358,13 +324,12 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                 Log.e("Error", "check tenGTs: ${it.size}")
                 if (it.isNotEmpty()) {
                     it.forEach { sort ->
-                        if(sort.trangThai == "Hoạt động"){
+                        if (sort.trangThai == "Hoạt động") {
                             binding.spGoiTap.isEnabled = true
                             tenGTs.add(sort.tenGT)
                         }
                     }
-                }
-                else {
+                } else {
                     binding.spGoiTap.isEnabled = false
                     return@collect
                 }
@@ -373,23 +338,8 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         return tenGTs
     }
 
-    private fun getMaTheMax(theTaps: ArrayList<TheTapModel>): String {
-        if (theTaps.isNotEmpty()) {
-            var max: Int = theTaps[0].maThe.substring(2).toInt()
-            var maMax = theTaps[0].maThe
-            for (i in theTaps.indices) {
-                if (max <= theTaps[i].maThe.substring(2).toInt()) {
-                    max = theTaps[i].maThe.substring(2).toInt()
-                    maMax = theTaps[i].maThe
-                }
-            }
-            return maMax
-        }
-        return "TT00"
-    }
-
     //============================================
-    fun dialogYN(theTapModel: TheTapModel, hoaDonModel: HoaDonModel, goiTapModel: GoiTapModel,loaiGtModel: LoaiGtModel, select: String) {
+    fun dialogYN(theTapModel: TheTapModel, hoaDonModel: HoaDonModel, goiTapModel: GoiTapModel, loaiGtModel: LoaiGtModel, select: String) {
         val dialog = Dialog(activity!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
@@ -410,14 +360,15 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         val btnN: Button = dialog.findViewById(R.id.btnNo)
         title.text = "Vui lòng THANH TOÁN để hoàn tất đăng ký!"
         btnY.setOnClickListener {
-            dialogThanhToan(theTapModel,hoaDonModel,goiTapModel,loaiGtModel, select)
+            dialogThanhToan(theTapModel, hoaDonModel, goiTapModel, loaiGtModel, select)
             dialog.dismiss()
         }
         btnN.setOnClickListener {
             dialog.dismiss()
         }
     }
-    fun dialogThanhToan(theTapModel: TheTapModel, hoaDonModel: HoaDonModel, goiTapModel: GoiTapModel,loaiGtModel: LoaiGtModel,select: String) {
+
+    fun dialogThanhToan(theTapModel: TheTapModel, hoaDonModel: HoaDonModel, goiTapModel: GoiTapModel, loaiGtModel: LoaiGtModel, select: String) {
         val dialog = Dialog(activity!!)
         var ctTTModel = CtTheTapModel()
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -467,7 +418,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         tvNoiDung.text = goiTapModel.moTa
         tvLoaiDV.text = loaiGtModel.tenLoaiGT
         tvDonGia.text = "${formatMoney(price[0].gia)} đ"
-        tvSoLuong.text = select.substring(0,1)
+        tvSoLuong.text = select.substring(0, 1)
         tvKhuyenMai.text = "0%"
         tvGiamTien.text = "0"
         tvThanhTien.text = "${binding.txtGia.text} đ"
@@ -481,19 +432,25 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
                 Log.e("STT2", "2")
                 lifecycleScope.launchWhenCreated {
                     delay(3000L)
-                    ctTTModel = CtTheTapModel(0,tvThanhTien.text.toString(),goiTapModel.maGT,hoaDonModel.maHD,theTapModel.maThe)
+                    ctTTModel = CtTheTapModel(0, tvThanhTien.text.toString(), goiTapModel.maGT, hoaDonModel.maHD, theTapModel.maThe)
                     viewModel.insertCtTheTap(ctTTModel)
                     Log.e("STT3", "3")
                 }
             }
-            passData(theTapModel,hoaDonModel,ctTTModel)
+            passData(theTapModel, hoaDonModel, ctTTModel)
             //-------------------
-            NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí thành công dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text} \nTrạng thái: Đã Thanh Toán").Notification()
+            NotificationHelper(
+                requireContext(),
+                R.drawable.ic_email,
+                "Thanh toán dịch vụ",
+                "Khách hàng ${khachHang.hoTen} \nĐăng kí thành công dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text} \nTrạng thái: Đã Thanh Toán"
+            ).Notification()
             //====================
             val title = "VECTOR GYM - THANH TOÁN DỊCH VỤ THÀNH CÔNG!"
-            val message = "Khách hàng: ${khachHang.hoTen}\nSố điện thoại:${khachHang.sdt} \nĐăng kí thành công dịch vụ: ${goiTapModel.tenGT}\nLoại dịch vụ: ${tvLoaiDV.text}\nNgày đăng ký: ${tvNgayLap.text} \nNgày bắt đầu: ${tvNgayBD.text}\nNgày kết thúc: ${tvNgayKT.text}\nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Đã thanh toán \n\nCảm ơn quý khách hàng đã đồng hành cùng VECTOR GYM!"
+            val message =
+                "Khách hàng: ${khachHang.hoTen}\nSố điện thoại:${khachHang.sdt} \nĐăng kí thành công dịch vụ: ${goiTapModel.tenGT}\nLoại dịch vụ: ${tvLoaiDV.text}\nNgày đăng ký: ${tvNgayLap.text} \nNgày bắt đầu: ${tvNgayBD.text}\nNgày kết thúc: ${tvNgayKT.text}\nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Đã thanh toán \n\nCảm ơn quý khách hàng đã đồng hành cùng VECTOR GYM!"
             val text = "Thanh toán thành công!"
-            sendMessageFromMail(khachHang.email,title,message,text)
+            sendMessageFromMail(khachHang.email, title, message, text)
             //====================
             dialog.setCancelable(true)
             tvHDMess.text = "Chi Tiết Hóa Đơn"
@@ -505,17 +462,23 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         }
         btnThanhToanSau.visibility = View.GONE
         btnThanhToanSau.setOnClickListener {
-           // viewModel.insertTheTap(theTapModel)
+            // viewModel.insertTheTap(theTapModel)
             //Toast.makeText(requireContext(), "Trả sau thành công!", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
-            dialogPopMessage("Vui lòng thanh toán trong thời gian sớm nhất!",R.drawable.ic_warning)//-------------------
-            NotificationHelper(requireContext(),R.drawable.ic_email,"Thanh toán dịch vụ","Khách hàng ${khachHang.hoTen} \nĐăng kí dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Thanh toán sau").Notification()
+            dialogPopMessage("Vui lòng thanh toán trong thời gian sớm nhất!", R.drawable.ic_warning)//-------------------
+            NotificationHelper(
+                requireContext(),
+                R.drawable.ic_email,
+                "Thanh toán dịch vụ",
+                "Khách hàng ${khachHang.hoTen} \nĐăng kí dịch vụ ${goiTapModel.tenGT} \nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Thanh toán sau"
+            ).Notification()
             //====================
             //====================
             val title = "VECTOR GYM - CHỜ THANH TOÁN DỊCH VỤ!"
-            val message = "Khách hàng: ${khachHang.hoTen}\nSố điện thoại:${khachHang.sdt} \nĐăng kí thành công dịch vụ: ${goiTapModel.tenGT}\nLoại dịch vụ: ${tvLoaiDV.text}\nNgày đăng ký: ${tvNgayLap.text} \nNgày bắt đầu: ${tvNgayBD.text}\nNgày kết thúc: ${tvNgayKT.text}\nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Chưa thanh toán \nVUI LÒNG THANH TOÁN TRƯỚC NGÀY ${tvNgayBD.text}"
+            val message =
+                "Khách hàng: ${khachHang.hoTen}\nSố điện thoại:${khachHang.sdt} \nĐăng kí thành công dịch vụ: ${goiTapModel.tenGT}\nLoại dịch vụ: ${tvLoaiDV.text}\nNgày đăng ký: ${tvNgayLap.text} \nNgày bắt đầu: ${tvNgayBD.text}\nNgày kết thúc: ${tvNgayKT.text}\nTổng thanh toán: ${tvThanhTien.text}đ \nTrạng thái: Chưa thanh toán \nVUI LÒNG THANH TOÁN TRƯỚC NGÀY ${tvNgayBD.text}"
             val text = "Thanh toán sau!"
-            sendMessageFromMail(khachHang.email,title,message,text)
+            sendMessageFromMail(khachHang.email, title, message, text)
             startPayment()
         }
         btnHuy.setOnClickListener {
@@ -530,6 +493,7 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
         bundle.putParcelable("dataCTTT", ctTT)
         childFragmentManager.setFragmentResult("passDataCTHD", bundle)
     }
+
     private fun startPayment() {
         /*
         *  You need to pass current activity in order to let Razorpay create CheckoutActivity
@@ -538,18 +502,18 @@ class DangKyFragment : FragmentNext(),PaymentResultListener {
 
         try {
             val options = JSONObject()
-            options.put("name","Razorpay Corp")
-            options.put("description","Demoing Charges")
+            options.put("name", "Razorpay Corp")
+            options.put("description", "Demoing Charges")
             //You can omit the image option to fetch the image from dashboard
-            options.put("image","https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg")
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg")
             options.put("theme.color", "#3399cc");
-            options.put("currency","INR");
+            options.put("currency", "INR");
             options.put("order_id", "order_DBJOWzybf0sJbb");
-            options.put("amount","50000")//pass amount in currency subunits
-            options.put("prefill.email","gaurav.kumar@example.com")
-            options.put("prefill.contact","9876543210")
-            checkout.open(activity,options)
-        }catch (e: Exception){
+            options.put("amount", "50000")//pass amount in currency subunits
+            options.put("prefill.email", "gaurav.kumar@example.com")
+            options.put("prefill.contact", "9876543210")
+            checkout.open(activity, options)
+        } catch (e: Exception) {
             Toast.makeText(requireActivity(), "Payment failed ${e.message}!", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
         }

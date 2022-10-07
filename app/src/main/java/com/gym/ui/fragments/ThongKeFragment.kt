@@ -31,7 +31,8 @@ class ThongKeFragment : FragmentNext() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentThongkeBinding.inflate(layoutInflater)
-        getDSGoiTap()
+        goiTaps = getDSGoiTap()
+        khachHangs = getDSKhachHang()
         binding.apply {
             txtNgBD.setText(getCurrentDate())
             txtNgKT.setText(getCurrentDate())
@@ -50,7 +51,6 @@ class ThongKeFragment : FragmentNext() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getDSKhachHang()
         setControl()
     }
 
@@ -63,18 +63,6 @@ class ThongKeFragment : FragmentNext() {
             spDV.setAdapter(arrayAdapter)
             spDV.setOnItemClickListener { parent, view, position, id ->
                 item = position
-            }
-        }
-    }
-
-    private fun getDSGoiTap(){
-        viewModel.getDSGoiTap()
-        lifecycleScope.launchWhenCreated {
-            viewModel.goiTaps.collect{
-                if(it.isNotEmpty()){
-                    goiTaps.addAll(it)
-                }
-                else return@collect
             }
         }
     }
@@ -206,43 +194,10 @@ class ThongKeFragment : FragmentNext() {
             }
         }
     }
-    private fun getDSKhachHang(){
-        viewModel.getDSKhachHang()
-        lifecycleScope.launchWhenCreated {
-            viewModel.khachHangs.collect{
-                if(it.isNotEmpty()){
-                    khachHangs.addAll(it)
-                }
-                else return@collect
-            }
-        }
-    }
-    private fun getDSTheTheoKH(maKH: String){
-        viewModel.getDSTheTapTheoKH(maKH)
-        lifecycleScope.launchWhenCreated {
-            viewModel.theTaps.collect{
-                if(it.isNotEmpty()){
-                    thes.addAll(it)
-                }
-                else return@collect
-            }
-        }
-    }
-    private fun getCtTheTheoTheTap(maThe: String){
-        viewModel.getCtTheTapTheoThe(maThe)
-        lifecycleScope.launchWhenCreated {
-            viewModel.ctTheTap.collect{
-                if(it != null){
-                    ctThe = it
-                }
-                else return@collect
-            }
-        }
-    }
     private fun top10KHTiemNang(ngayBD: String, ngayKT: String){
         var sum: Long = 0
         for(i in khachHangs.indices){
-            getDSTheTheoKH(khachHangs[i].maKH)
+            thes = getDSTheTheoKH(khachHangs[i].maKH)
             for(j in thes.indices){
                 getCtTheTheoTheTap(thes[i].maThe)
                 sum += tongDoanhThu(ctThe.donGia)

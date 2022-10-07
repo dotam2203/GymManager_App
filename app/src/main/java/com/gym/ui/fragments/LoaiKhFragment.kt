@@ -216,20 +216,6 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
             dialog.dismiss()
         }
     }
-    private fun getLoaiKHByID(idLoaiKH: Int): LoaiKhModel {
-        var loaiKH = LoaiKhModel()
-        viewModel.getLoaiKH(idLoaiKH)
-        lifecycleScope.launchWhenCreated {
-            viewModel.loaiKH.collect{
-                if(it != null){
-                    loaiKH = it
-                }
-                else
-                    return@collect
-            }
-        }
-        return loaiKH
-    }
     override fun itemClickEdit(loaiKhModel: LoaiKhModel) {
         dialogEdit(loaiKhModel)
         return

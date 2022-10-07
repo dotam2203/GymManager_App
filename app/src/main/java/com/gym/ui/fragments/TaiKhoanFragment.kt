@@ -165,8 +165,6 @@ class TaiKhoanFragment : FragmentNext() {
                 delay(3000L)
                 getFragment(requireView(), R.id.navHomeToLogin)
             }
-            //replaceFragment(R.id.fragmentLogin, LoginFragment())
-            //activity!!.finish()
         }
         btnNo.setOnClickListener {
             dialog.dismiss()

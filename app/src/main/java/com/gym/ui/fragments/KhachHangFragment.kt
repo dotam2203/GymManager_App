@@ -94,36 +94,21 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         }
     }
 
-    fun getTenLoaiKH(){
+    fun getTenLoaiKH() {
         viewModel.getDSLoaiKH()
         lifecycleScope.launchWhenCreated {
-            viewModel.loaiKHs.collect{ response ->
-                if(response.isEmpty()){
+            viewModel.loaiKHs.collect { response ->
+                if (response.isEmpty()) {
                     return@collect
-                }
-                else{
+                } else {
                     loaiKHs.addAll(response)
-                    for (i in response.indices){
+                    for (i in response.indices) {
                         tenLoaiKHs.add(loaiKHs[i].tenLoaiKH)
                     }
                 }
             }
         }
     }
-    fun getLoaiKHByID(idLoaiKH: Int){
-        viewModel.getLoaiKH(idLoaiKH)
-        lifecycleScope.launchWhenCreated {
-            viewModel.loaiKH.collect{ response ->
-                if(response == null){
-                    return@collect
-                }
-                else{
-                    loaiKH = response
-                }
-            }
-        }
-    }
-
     override fun itemClickEdit(khachHang: KhachHangModel) {
         dialogEdit(khachHang)
     }
@@ -160,7 +145,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         //---------------------------------
         txtMaKH.visibility = View.GONE
         btnUpdate.text = "Cập nhật"
-        getLoaiKHByID(khachHang.idLoaiKH)
+        loaiKH = getLoaiKHByID(khachHang.idLoaiKH)
         spLoaiKH.setText(khachHang.tenLoaiKH)
         txtTenKH.setText(khachHang.hoTen)
         txtEmailKH.setText(khachHang.email)
@@ -251,20 +236,6 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         btnNo.setOnClickListener {
             dialog.dismiss()
         }
-    }
-    fun getKhachHangByMaKH(maKH: String): KhachHangModel {
-        var khachHang = KhachHangModel()
-        viewModel.getKhachHang(maKH)
-        lifecycleScope.launchWhenCreated {
-            viewModel.khachHang.collect{
-                if(it != null){
-                    khachHang = it
-                }
-                else
-                    return@collect
-            }
-        }
-        return khachHang
     }
     override fun itemClickDelete(maKH: String) {
         dialogDelete(maKH)

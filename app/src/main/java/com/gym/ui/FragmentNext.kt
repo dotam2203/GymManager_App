@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.gym.R
-import com.gym.model.NhanVienModel
+import com.gym.model.*
 import com.gym.ui.viewmodel.ViewModel
 import kotlinx.coroutines.delay
 import pl.droidsonroids.gif.GifImageView
@@ -157,11 +157,6 @@ abstract class FragmentNext : Fragment() {
         }
         return str.trim()
     }
-    fun getRandomMaHD(): String{
-        val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
-        return "HD${current.format(formatter)}"
-    }
     fun getDateTime(): String{
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
@@ -228,18 +223,7 @@ abstract class FragmentNext : Fragment() {
             return false
         return false
     }
-    //don gia = 100,000 đ => 100000
-    fun tongDoanhThu(donGia: String): Long{
-        //don gia = 100,000 đ
-        val str1 = donGia.split(" ")
-        val str2 = str1[0].split(",")
-        var str = ""
-        for(i in str2.indices){
-            str += str2[i]
-        }
-        return if(str != "") str.trim().toLong()
-            else 0
-    }
+
     //gia = 100,000 => 100000
     fun formatMoneyToAPI(gia: String): String{
         //gia = 100,000
@@ -279,7 +263,6 @@ abstract class FragmentNext : Fragment() {
 
     }
     fun sendMessageFromMail(email: String, title: String, message: String, text: String) {
-
         //pass: akyfsgnsbwqoxyta
         val toMail ="vectorgym2203@gmail.com"
         val toPass = "akyfsgnsbwqoxyta"
@@ -346,5 +329,270 @@ abstract class FragmentNext : Fragment() {
         return nhanVien
     }
     //------------------------------------------------------
-    //-------------Nhân Viên--------------------------------
+    //-------------Tài khoản - Quyền--------------------------------
+    // ------------------------------------------------------
+    //-------------Gói Tập-- Giá------------------------------
+    fun getMaGTMax(goiTaps: ArrayList<GoiTapModel>): String {
+        if (goiTaps.isNotEmpty()) {
+            var max: Int = goiTaps[0].maGT.substring(2).toInt()
+            var maMax = goiTaps[0].maGT
+            for (i in goiTaps.indices) {
+                if (max <= goiTaps[i].maGT.substring(2).toInt()) {
+                    max = goiTaps[i].maGT.substring(2).toInt()
+                    maMax = goiTaps[i].maGT
+                }
+            }
+            return maMax
+        }
+        return "GT00"
+    }
+    fun getDSGoiTap(): ArrayList<GoiTapModel>{
+        val goiTaps = ArrayList<GoiTapModel>()
+        viewModel.getDSGoiTap()
+        lifecycleScope.launchWhenCreated {
+            viewModel.goiTaps.collect{
+                if(it.isNotEmpty()){
+                    goiTaps.addAll(it)
+                }
+                else return@collect
+            }
+        }
+        return goiTaps
+    }
+    fun getMoTa(maGT: String): String{
+        var moTa = ""
+        viewModel.getGoiTap(maGT)
+        lifecycleScope.launchWhenCreated {
+            viewModel.goiTap.collect{
+                if(it != null)
+                    moTa = it.moTa
+            }
+        }
+        return moTa
+    }
+    fun getGiaGT(maGT: String): String{
+        var gia = ""
+        viewModel.getDSGiaTheoGoiTap(maGT)
+        lifecycleScope.launchWhenCreated {
+            viewModel.gias.collect{
+                if(it.isNotEmpty())
+                    gia = it[0].gia.trim()
+            }
+        }
+        return gia
+    }
+
+    // ------------------------------------------------------
+    //-------------Nhân viên--------------------------------
+    // ------------------------------------------------------
+    //-------------Khách hàng--------------------------------
+    fun getMaKHMax(khachHangs: ArrayList<KhachHangModel>): String {
+        if (khachHangs.isNotEmpty()) {
+            var max: Int = khachHangs[0].maKH.substring(2).toInt()
+            var maMax = khachHangs[0].maKH
+            for (i in khachHangs.indices) {
+                if (max <= khachHangs[i].maKH.substring(2).toInt()) {
+                    max = khachHangs[i].maKH.substring(2).toInt()
+                    maMax = khachHangs[i].maKH
+                }
+            }
+            return maMax
+        }
+        return "KH00"
+    }
+    fun getDSKhachHang(): ArrayList<KhachHangModel>{
+        val khachHangs = ArrayList<KhachHangModel>()
+        viewModel.getDSKhachHang()
+        lifecycleScope.launchWhenCreated {
+            viewModel.khachHangs.collect{
+                if(it.isNotEmpty()){
+                    khachHangs.addAll(it)
+                }
+                else return@collect
+            }
+        }
+        return khachHangs
+    }
+    fun getKhachHangByMaKH(maKH: String): KhachHangModel {
+        var khachHang = KhachHangModel()
+        viewModel.getKhachHang(maKH)
+        lifecycleScope.launchWhenCreated {
+            viewModel.khachHang.collect{
+                if(it != null){
+                    khachHang = it
+                }
+                else
+                    return@collect
+            }
+        }
+        return khachHang
+    }
+    // ------------------------------------------------------
+    //-------------Thẻ tập - CT Thẻ Tập----------------------
+    fun getMaTheMax(theTaps: java.util.ArrayList<TheTapModel>): String {
+        if (theTaps.isNotEmpty()) {
+            var max: Int = theTaps[0].maThe.substring(2).toInt()
+            var maMax = theTaps[0].maThe
+            for (i in theTaps.indices) {
+                if (max <= theTaps[i].maThe.substring(2).toInt()) {
+                    max = theTaps[i].maThe.substring(2).toInt()
+                    maMax = theTaps[i].maThe
+                }
+            }
+            return maMax
+        }
+        return "TT00"
+    }
+    fun getDSTheTap(): ArrayList<TheTapModel>{
+        val theTaps =  ArrayList<TheTapModel>()
+        viewModel.getDSTheTap()
+        lifecycleScope.launchWhenCreated {
+            viewModel.theTaps.collect {
+                if (it.isNotEmpty()) {
+                    theTaps.addAll(it)
+                }
+            }
+        }
+        return theTaps
+    }
+    fun getDSTheTheoKH(maKH: String): ArrayList<TheTapModel>{
+        val thes = ArrayList<TheTapModel>()
+        viewModel.getDSTheTapTheoKH(maKH)
+        lifecycleScope.launchWhenCreated {
+            viewModel.theTaps.collect{
+                if(it.isNotEmpty()){
+                    thes.addAll(it)
+                }
+                else return@collect
+            }
+        }
+        return thes
+    }
+    fun getCtTheTheoTheTap(maThe: String) : CtTheTapModel{
+        var ctThe = CtTheTapModel()
+        viewModel.getCtTheTapTheoThe(maThe)
+        lifecycleScope.launchWhenCreated {
+            viewModel.ctTheTap.collect{
+                if(it != null){
+                    ctThe = it
+                }
+                else return@collect
+            }
+        }
+        return ctThe
+    }
+    // ------------------------------------------------------
+    //-------------Nhân viên--------------------------------
+    fun getMaNVMax(nhanViens: ArrayList<NhanVienModel>): String {
+        if (nhanViens.isNotEmpty()) {
+            var max: Int = nhanViens[0].maNV.substring(2).toInt()
+            var maMax = nhanViens[0].maNV
+            for (i in nhanViens.indices) {
+                if (max <= nhanViens[i].maNV.substring(2).toInt()) {
+                    max = nhanViens[i].maNV.substring(2).toInt()
+                    maMax = nhanViens[i].maNV
+                }
+            }
+            return maMax
+        }
+        return "NV00"
+    }
+    fun getTenNV(maNV: String): String{
+        var nv = ""
+        viewModel.getNhanVien(maNV)
+        lifecycleScope.launchWhenCreated {
+            viewModel.nhanVien.collect{
+                if(it != null)
+                    nv = it.hoTen
+            }
+        }
+        return nv
+    }
+    // ------------------------------------------------------
+
+    //-------------Loại gói tập - Loại khách hàng------------
+    fun getIDByTenLoaiGT(ten: String): Int {
+        var id: Int = 0
+        viewModel.getDSLoaiGT()
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiGTs.collect {
+                for (i in it.indices) {
+                    if (ten.trim() == it[i].tenLoaiGT.trim()) {
+                        id = it[i].idLoaiGT
+                        break
+                    }
+                }
+            }
+        }
+        return id
+    }
+    fun getListTenLoaiGT(): ArrayList<String> {
+        val tenLoaiGTs: ArrayList<String> = arrayListOf()
+        viewModel.getDSLoaiGT()
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiGTs.collect { response ->
+                if (response.isNotEmpty()) {
+                    response.forEach {
+                        if (it.trangThai == "Hoạt động") {
+                            tenLoaiGTs.add(it.tenLoaiGT)
+                        }
+                    }
+                } else return@collect
+            }
+        }
+        return tenLoaiGTs
+    }
+    fun getLoaiGTByID(idLoaiGT: Int): LoaiGtModel {
+        var loaiGT = LoaiGtModel()
+        viewModel.getLoaiGT(idLoaiGT)
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiGT.collect{
+                if(it != null){
+                    loaiGT = it
+                }
+                else
+                    return@collect
+            }
+        }
+        return loaiGT
+    }
+    fun getLoaiKHByID(idLoaiKH: Int): LoaiKhModel {
+        var loaiKH = LoaiKhModel()
+        viewModel.getLoaiKH(idLoaiKH)
+        lifecycleScope.launchWhenCreated {
+            viewModel.loaiKH.collect{
+                if(it != null){
+                    loaiKH = it
+                }
+                else
+                    return@collect
+            }
+        }
+        return loaiKH
+    }
+    // ------------------------------------------------------
+
+    // -------------Thống kê--------------------------------
+    //don gia = 100,000 đ => 100000
+    fun tongDoanhThu(donGia: String): Long{
+        //don gia = 100,000 đ
+        val str1 = donGia.split(" ")
+        val str2 = str1[0].split(",")
+        var str = ""
+        for(i in str2.indices){
+            str += str2[i]
+        }
+        return if(str != "") str.trim().toLong()
+        else 0
+    }
+    // ------------------------------------------------------
+    //-------------Hóa đơn-------------------------------
+    fun getRandomMaHD(): String{
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
+        return "HD${current.format(formatter)}"
+    }
+    //------------------------------------------------------
+
+    //------------------------------------------------------
 }

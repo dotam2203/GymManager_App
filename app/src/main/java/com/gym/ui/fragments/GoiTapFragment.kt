@@ -66,29 +66,6 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         }
     }
 
-    private fun getLoaiGTByIDLoaiGT(idLoaiGT: Int) {
-        viewModel.getLoaiGT(idLoaiGT)
-        lifecycleScope.launchWhenCreated {
-            viewModel.loaiGT.collect { response ->
-                if (response != null) {
-                    loaiGT = response
-                }
-            }
-        }
-    }
-
-    private fun getGiaByIDGia(idGia: Int?) {
-        if (idGia != null) {
-            viewModel.getGia(idGia)
-            lifecycleScope.launchWhenCreated {
-                viewModel.gia.collect { response ->
-                    if (response != null)
-                        gia = response
-                }
-            }
-        } else return
-    }
-
     private fun getTenLoaiGT() {
         viewModel.getDSLoaiGT()
         lifecycleScope.launchWhenCreated {
@@ -98,7 +75,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
                     return@collect
                 } else {
                     response.forEach {
-                        if(it.trangThai == "Hoạt động"){
+                        if (it.trangThai == "Hoạt động") {
                             loaiGTs.add(it)
                             tenLoaiGTs.add(it.tenLoaiGT)
                         }
@@ -140,38 +117,6 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
                 adapter = goiTapAdapter
             }
         }
-    }
-
-    private fun getDataGT(success: String, fail: String) {
-        //Livedata observer
-        lifecycleScope.launchWhenCreated {
-            viewModel.goiTaps.collect { response ->
-                goiTapAdapter.goiTaps.clear()
-                if (response.isNotEmpty()) {
-                    goiTapAdapter.goiTaps.addAll(response)
-                    goiTapAdapter.notifyDataSetChanged()
-                    Toast.makeText(activity, success, Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(activity, fail, Toast.LENGTH_SHORT).show()
-                    return@collect
-                }
-            }
-        }
-    }
-
-    private fun getMaGTMax(goiTaps: ArrayList<GoiTapModel>): String {
-        if (goiTaps.isNotEmpty()) {
-            var max: Int = goiTaps[0].maGT.substring(2).toInt()
-            var maMax = goiTaps[0].maGT
-            for (i in goiTaps.indices) {
-                if (max <= goiTaps[i].maGT.substring(2).toInt()) {
-                    max = goiTaps[i].maGT.substring(2).toInt()
-                    maMax = goiTaps[i].maGT
-                }
-            }
-            return maMax
-        }
-        return "GT00"
     }
 
     private fun dialogInsert() {
@@ -224,22 +169,20 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
             }
         }
         btnThem.setOnClickListener {
-            if(selectItem == "" || txtTenGT.text.toString() =="" || txtGiaGT.text.toString() == "" || txtMoTa.text.toString() == ""){
+            if (selectItem == "" || txtTenGT.text.toString() == "" || txtGiaGT.text.toString() == "" || txtMoTa.text.toString() == "") {
                 status = false
-                if(selectItem == "") {
+                if (selectItem == "") {
                     spinner.error = "Bạn chưa chọn loại gói tập!"
                     spinner.requestFocus()
-                }
-                else if(txtTenGT.text.toString() =="")
+                } else if (txtTenGT.text.toString() == "")
                     txtTenGT.error = "Tên dịch vụ không được trống!"
-                else if(txtGiaGT.text.toString() =="")
+                else if (txtGiaGT.text.toString() == "")
                     txtGiaGT.error = "Giá dịch vụ không được trống!"
-                else if(txtMoTa.text.toString() =="")
+                else if (txtMoTa.text.toString() == "")
                     txtMoTa.error = "Mô tả không được trống!"
-            }
-            else status = true
+            } else status = true
 
-            if(status){
+            if (status) {
                 val giaGt = GiaGtModel()
                 giaGt.ngayApDung = getFormatDateToApi(txtNgayAD.text.toString())
                 giaGt.gia = txtGiaGT.text.toString()
@@ -321,8 +264,8 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         txtTenGT.setText(goiTap.tenGT)
         txtTrangThai.setText(goiTap.trangThai)
         txtMoTa.setText(goiTap.moTa)
-        txtGiaGT.setText(goiTap.giaGoiTaps?.get(0)?.gia?: "")
-        txtNgayAD.setText(getFormatDateFromAPI(goiTap.giaGoiTaps?.get(0)?.ngayApDung?:""))
+        txtGiaGT.setText(goiTap.giaGoiTaps?.get(0)?.gia ?: "")
+        txtNgayAD.setText(getFormatDateFromAPI(goiTap.giaGoiTaps?.get(0)?.ngayApDung ?: ""))
         getControl(imbCalendar, txtNgayAD)
         btnThem.text = "Cập nhật"
         btnHuy.text = "Thoát"
@@ -348,8 +291,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
                     Toast.makeText(requireContext(), "Dịch vụ này đã tồn tại!", Toast.LENGTH_SHORT).show()
                     txtTenGT.setText(goiTap.tenGT)
                     break
-                }
-                else{
+                } else {
                     status = false
                 }
             }
@@ -425,9 +367,9 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
         tvMess.text = "Bạn chắc chắn muốn xóa ${goiTapModel.tenGT}?"
         btnYes.setOnClickListener {
             try {
-                viewModel.deleteGiaGoiTap(goiTapModel.giaGoiTaps?.get(0)?.idGia?:0, goiTapModel.maGT)
+                viewModel.deleteGiaGoiTap(goiTapModel.giaGoiTaps?.get(0)?.idGia ?: 0, goiTapModel.maGT)
                 dialogPopMessage("Xoá dịch vụ thành công!", R.drawable.ic_ok)
-            } catch (ex: Exception){
+            } catch (ex: Exception) {
                 dialogPopMessage("Xóa dịch vụ thất bại", R.drawable.ic_fail)
             }
             goiTapAdapter.notifyDataSetChanged()

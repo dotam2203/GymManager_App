@@ -43,8 +43,6 @@ import kotlin.collections.ArrayList
 class LoginFragment : FragmentNext() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var sharedPreferencesLogin: SharedPreferencesLogin
-    private lateinit var username: String
-    private lateinit var password: String
 
     var dsTaiKhoan = ArrayList<TaiKhoanModel>()
     var emails = ArrayList<String>()

@@ -348,20 +348,6 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
         }
         return maTK
     }
-    fun getMaNVMax(nhanViens: ArrayList<NhanVienModel>): String {
-        if (nhanViens.isNotEmpty()) {
-            var max: Int = nhanViens[0].maNV.substring(2).toInt()
-            var maMax = nhanViens[0].maNV
-            for (i in nhanViens.indices) {
-                if (max <= nhanViens[i].maNV.substring(2).toInt()) {
-                    max = nhanViens[i].maNV.substring(2).toInt()
-                    maMax = nhanViens[i].maNV
-                }
-            }
-            return maMax
-        }
-        return "NV00"
-    }
 
     override fun itemClickDelete(maNV: String) {
         val maTK = checkAccountDel(maNV)

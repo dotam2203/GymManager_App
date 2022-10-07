@@ -136,31 +136,6 @@ class TheTapFragment : FragmentNext() {
             }
         })
         btnThem.setOnClickListener {
-            /*if(txtTenKH.text.toString().isNullOrEmpty()){
-                txtTenKH.error = "Tên không được để trống!"
-                txtTenKH.requestFocus()
-                status = false
-            }
-            if(txtSdtKH.text.length < 10){
-                txtSdtKH.error = "Số điện thoại gồm 10 chữ số!"
-                txtSdtKH.requestFocus()
-                status = false
-            }
-            else if(txtSdtKH.text.length == 10){
-                for(i in khachHangs.indices){
-                    if(txtSdtKH.text.toString() == khachHangs[i].sdt){
-                        txtSdtKH.error = "Số điện thoại đã đăng ký!"
-                        txtSdtKH.requestFocus()
-                        status = false
-                    }
-                    if(txtEmailKH.text.trim() == khachHangs[i].email.trim()){
-                        txtEmailKH.error = "Email này đã được đăng ký!"
-                        txtEmailKH.requestFocus()
-                        status = false
-                    }
-                    else status = true
-                }
-            }*/
             if(txtTenKH.text.toString() == "" || txtSdtKH.text.toString() == ""|| selectPhai == ""){
                 if(txtTenKH.text.toString() == ""){
                     txtTenKH.apply {
@@ -217,20 +192,6 @@ class TheTapFragment : FragmentNext() {
                     return@collect
             }
         }
-    }
-    private fun getMaKHMax(khachHangs: ArrayList<KhachHangModel>): String {
-        if (khachHangs.isNotEmpty()) {
-            var max: Int = khachHangs[0].maKH.substring(2).toInt()
-            var maMax = khachHangs[0].maKH
-            for (i in khachHangs.indices) {
-                if (max <= khachHangs[i].maKH.substring(2).toInt()) {
-                    max = khachHangs[i].maKH.substring(2).toInt()
-                    maMax = khachHangs[i].maKH
-                }
-            }
-            return maMax
-        }
-        return "KH00"
     }
     fun setControl(){
         binding.apply {
@@ -324,6 +285,5 @@ class TheTapFragment : FragmentNext() {
         txtEmailKH.setText(khachHang.email)
         txtSdtKH.setText(khachHang.sdt)
         txtDiaChi.setText(khachHang.diaChi)
-
     }
 }

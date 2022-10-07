@@ -223,38 +223,4 @@ class HoaDonTTFragment : FragmentNext(),HoaDonTTAdapter.OnItemClick {
         btnThanhToan.visibility = View.GONE
         btnHuy.visibility = View.GONE
     }
-    private fun getTenNV(maNV: String): String{
-        var nv = ""
-        viewModel.getNhanVien(maNV)
-        lifecycleScope.launchWhenCreated {
-            viewModel.nhanVien.collect{
-                if(it != null)
-                    nv = it.hoTen
-            }
-        }
-        return nv
-    }
-    private fun getMoTa(maGT: String): String{
-        var moTa = ""
-        viewModel.getGoiTap(maGT)
-        lifecycleScope.launchWhenCreated {
-            viewModel.goiTap.collect{
-                if(it != null)
-                    moTa = it.moTa
-            }
-        }
-        return moTa
-    }
-    private fun getGiaGT(maGT: String): String{
-        var gia = ""
-        viewModel.getDSGiaTheoGoiTap(maGT)
-        lifecycleScope.launchWhenCreated {
-            viewModel.gias.collect{
-                if(it.isNotEmpty())
-                    gia = it[0].gia.trim()
-            }
-        }
-        return gia
-    }
-
 }

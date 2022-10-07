@@ -55,7 +55,6 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
                 initViewModel()
                 refresh.isRefreshing = false
             }
-
         }
     }
 
@@ -224,21 +223,6 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
             dialog.dismiss()
         }
     }
-    fun getLoaiGTByID(idLoaiGT: Int): LoaiGtModel {
-        var loaiGT = LoaiGtModel()
-        viewModel.getLoaiGT(idLoaiGT)
-        lifecycleScope.launchWhenCreated {
-            viewModel.loaiGT.collect{
-                if(it != null){
-                    loaiGT = it
-                }
-                else
-                    return@collect
-            }
-        }
-        return loaiGT
-    }
-
     private fun getDataCoroutine(success: String, fail: String) {
         //Livedata observer
         lifecycleScope.launchWhenCreated {
