@@ -30,7 +30,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    packagingOptions{
+    packagingOptions {
         exclude 'META-INF/NOTICE.md'
         exclude 'META-INF/LICENSE.md'
     }
@@ -43,7 +43,7 @@ android {
     }
 }
 dependencies {
-    implementation fileTree(dir: "libs",includes: ['*.jar'])
+    implementation fileTree(dir: "libs", includes: ['*.jar'])
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.7'
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
@@ -97,4 +97,10 @@ dependencies {
     //side
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     implementation 'com.aldoapps:autoformatedittext:0.9.3'
+
+    //chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+
+
+
 }

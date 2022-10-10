@@ -1,102 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/home_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.ThongKeFragment">
+
     <LinearLayout
         android:id="@+id/checkList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_null"/>
+            android:src="@drawable/ic_null" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chưa có dữ liệu!"
-            android:textStyle="italic"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:textStyle="italic" />
     </LinearLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tvNgBD"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:hintTextColor="@color/black"
-        android:hint="@string/ngayBD"
-        app:layout_constraintVertical_bias="0.01"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvNgKT"
-        app:layout_constraintTop_toTopOf="parent"
-        app:boxBackgroundMode="outline"
-        app:boxBackgroundColor="@color/white"
-        app:endIconMode="clear_text"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="5dp"
         android:gravity="center_vertical"
+        android:hint="@string/ngayBD"
+        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundMode="outline"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvNgKT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01"
         app:layout_constraintVertical_chainStyle="spread_inside">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtNgBD"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="datetime"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tvNgKT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:hintTextColor="@color/black"
-        android:hint="@string/ngayKT"
-        app:layout_constraintStart_toEndOf="@id/tvNgBD"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvNgBD"
-        app:layout_constraintBottom_toBottomOf="@id/tvNgBD"
-        app:boxBackgroundMode="outline"
-        app:boxBackgroundColor="@color/white"
-        app:endIconMode="clear_text"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="2dp">
+        android:layout_marginEnd="2dp"
+        android:hint="@string/ngayKT"
+        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundMode="outline"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/tvNgBD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvNgBD"
+        app:layout_constraintTop_toTopOf="@id/tvNgBD">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtNgKT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="datetime"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLoc"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Lọc"
+        android:layout_marginTop="10dp"
         android:background="@drawable/click_change"
-        app:layout_constraintTop_toBottomOf="@id/tvSpDV"
+        android:text="Lọc"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintTop_toBottomOf="@id/tvSpDV" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChart"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/click_change"
+        android:text="Chart"
+        app:layout_constraintEnd_toStartOf="@+id/btnLoc"
+        app:layout_constraintTop_toBottomOf="@id/tvSpDV" />
+
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/tvSpDV"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
         android:hint="Loại thống kê"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNgBD">
+
         <AutoCompleteTextView
             android:id="@+id/spDV"
             android:layout_width="match_parent"
@@ -106,62 +126,69 @@
             android:text="Doanh thu theo tháng"
             android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone">
+
         <TableLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            app:layout_constraintTop_toTopOf="@id/constraint"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:stretchColumns="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/constraint"
             app:layout_constraintVertical_bias="0.3">
-            <TableRow
-                android:background="@color/blue_100">
+
+            <TableRow android:background="@color/blue_100">
+
                 <TextView
                     android:id="@+id/col1"
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
                     android:text="@string/thang"
                     android:textColor="@color/white"
-                    android:padding="10dp"
-                    android:textSize="14sp"
-                    android:gravity="center_horizontal"/>
+                    android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/col2"
                     android:layout_width="125dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
                     android:text="@string/dichVu"
                     android:textColor="@color/white"
-                    android:padding="10dp"
-                    android:textSize="14sp"
-                    android:gravity="center_horizontal"/>
+                    android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/col3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
                     android:text="@string/doanhThu"
                     android:textColor="@color/white"
-                    android:padding="10dp"
-                    android:textSize="14sp"
-                    android:gravity="center_horizontal"/>
+                    android:textSize="14sp" />
             </TableRow>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvThongKe"
-                tools:listitem="@layout/item_thongke"
+                android:layout_height="350dp"
                 android:background="#DBECEA"
-                android:layout_height="350dp"/>
-            <TableRow
-                android:background="@color/blue_100">
+                tools:listitem="@layout/item_thongke" />
+
+            <TableRow android:background="@color/blue_100">
 
                 <TextView
                     android:layout_width="0dp"
@@ -179,23 +206,54 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
                     android:text="@string/doanhThu"
                     android:textColor="@color/yellow"
-                    android:textStyle="bold"
-                    android:padding="10dp"
                     android:textSize="16sp"
-                    android:gravity="center_horizontal"/>
+                    android:textStyle="bold" />
             </TableRow>
         </TableLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chartLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barchart"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_reload"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/pbLoad"
-        android:src="@drawable/ic_load"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_load"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
