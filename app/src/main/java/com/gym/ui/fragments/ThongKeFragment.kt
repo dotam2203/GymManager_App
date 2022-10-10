@@ -36,9 +36,9 @@ class ThongKeFragment : FragmentNext() {
     var item = 0
 
     ////
-    private var barEntries: ArrayList<BarEntry>? = ArrayList()
+
     private val barChart get() = binding.barchart
-    private var dates: ArrayList<String>? = ArrayList()
+
 
     ////
 
@@ -53,7 +53,7 @@ class ThongKeFragment : FragmentNext() {
             txtNgBD.setText(getCurrentDate())
             txtNgKT.setText(getCurrentDate())
             constraint.visibility = View.GONE
-            chartLayout.visibility = View.GONE
+            showChartLayout(false)
 
         }
         getEvent()
@@ -186,8 +186,7 @@ class ThongKeFragment : FragmentNext() {
                     showChartLayout(true)
                     showTableLayout(false)
                     createRandomBarGraph(
-                        getFormatDateCompareTo(txtNgBD.text.toString().trim()),
-                        getFormatDateCompareTo(txtNgKT.text.toString().trim())
+                        txtNgBD.text.toString().trim(), txtNgKT.text.toString().trim()
                     )
                 } else {
                     showChartLayout(false)
@@ -197,8 +196,7 @@ class ThongKeFragment : FragmentNext() {
             floatingActionButton.setOnClickListener {
                 if (item == 0) {
                     createRandomBarGraph(
-                        getFormatDateCompareTo(txtNgBD.text.toString().trim()),
-                        getFormatDateCompareTo(txtNgKT.text.toString().trim())
+                        txtNgBD.text.toString().trim(), txtNgKT.text.toString().trim()
                     )
                     barChart?.notifyDataSetChanged()
                     Toast.makeText(context, "Touch The Chart To RESET", Toast.LENGTH_SHORT)
@@ -295,8 +293,9 @@ class ThongKeFragment : FragmentNext() {
     }
 
     private fun createRandomBarGraph(ngayBD: String?, ngayKT: String?) {
-        val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy")
-
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+        var dates: ArrayList<String>? = ArrayList()
+        val barEntries: ArrayList<BarEntry> = ArrayList()
         try {
             val date1 = ngayBD?.let { simpleDateFormat.parse(it) }
             val date2 = ngayKT?.let { simpleDateFormat.parse(it) }
@@ -314,6 +313,9 @@ class ThongKeFragment : FragmentNext() {
                 val tong: Long = getSumDataForChart(ngayBD!!, ngayKT!!)
                 barEntries?.add(BarEntry(tong.toFloat(), j))
             }
+            if (barEntries.isEmpty()) {
+                showNoData(true)
+            } else showNoData(false)
         } catch (e: ParseException) {
             e.printStackTrace()
         }
@@ -360,12 +362,7 @@ class ThongKeFragment : FragmentNext() {
 
     private fun getList(startDate: Calendar, endDate: Calendar?): ArrayList<String> {
         val list = ArrayList<String>()
-//        while (endDate?.let { startDate.compareTo(it) }!! <= 0) {
-//            list.add(getDate(startDate))
-//            startDate.add(Calendar.DAY_OF_MONTH, 1)
-//        }
-
-        while (startDate.before(endDate)) {
+        while (endDate?.let { startDate.compareTo(it) }!! <= 0) {
             list.add(getDate(startDate))
             startDate.add(Calendar.DAY_OF_MONTH, 1)
         }
@@ -374,12 +371,14 @@ class ThongKeFragment : FragmentNext() {
 
     fun showChartLayout(value: Boolean) {
         if (value) {
-            if (binding.chartLayout.visibility == View.GONE) {
-                binding.chartLayout.visibility = View.VISIBLE
+            if (binding.barchart.visibility == View.GONE && binding.floatingActionButton.visibility == View.GONE) {
+                binding.barchart.visibility = View.VISIBLE
+                binding.floatingActionButton.visibility = View.VISIBLE
             }
         } else {
-            if (binding.chartLayout.visibility == View.VISIBLE) {
-                binding.chartLayout.visibility = View.GONE
+            if (binding.barchart.visibility == View.VISIBLE && binding.floatingActionButton.visibility == View.VISIBLE) {
+                binding.barchart.visibility = View.GONE
+                binding.floatingActionButton.visibility = View.GONE
             }
         }
 
@@ -394,6 +393,20 @@ class ThongKeFragment : FragmentNext() {
         } else {
             if (binding.constraint.visibility == View.VISIBLE) {
                 binding.constraint.visibility = View.GONE
+            }
+        }
+
+
+    }
+
+    fun showNoData(value: Boolean) {
+        if (value) {
+            if (binding.checkList.visibility == View.GONE) {
+                binding.checkList.visibility = View.VISIBLE
+            }
+        } else {
+            if (binding.checkList.visibility == View.VISIBLE) {
+                binding.checkList.visibility = View.GONE
             }
         }
 
