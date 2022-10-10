@@ -1,6 +1,6 @@
 # GymManager 
 #link api: https://gym-manager-api.herokuapp.com/...
-#nguyên tắc call api:
+- Nguyên tắc call api:
   + get list: .../getds
   + get item in list: .../get
   + get by id staff: .../getstaff?idStaff=01
