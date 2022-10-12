@@ -38,6 +38,7 @@ class ThongKeFragment : FragmentNext() {
             txtNgKT.setText(getCurrentDate())
             constraint.visibility = View.GONE
         }
+        getDisableKeyboard()
         getEvent()
         initAdapter()
         if(SingletonAccount.taiKhoan!!.maQuyen == "Q02"){
@@ -47,6 +48,13 @@ class ThongKeFragment : FragmentNext() {
             binding.btnLoc.isEnabled = true
         }
         return binding.root
+    }
+
+    private fun getDisableKeyboard() {
+        binding.apply {
+            txtNgBD
+            txtNgKT
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,6 +109,7 @@ class ThongKeFragment : FragmentNext() {
                 if(item == 0){
                     //=================
                     col1.text = "Tháng"
+                    col2.visibility = View.GONE
                     //=================
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()
@@ -114,6 +123,7 @@ class ThongKeFragment : FragmentNext() {
                 else if(item == 1){
                     //=================
                     col1.text = "Loại DV"
+                    col2.visibility = View.VISIBLE
                     //=================
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()
