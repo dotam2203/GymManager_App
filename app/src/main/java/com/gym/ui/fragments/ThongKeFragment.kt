@@ -1,5 +1,7 @@
 package com.gym.ui.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,7 +25,7 @@ import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class ThongKeFragment : FragmentNext() {
     private lateinit var binding: FragmentThongkeBinding
@@ -189,7 +191,6 @@ class ThongKeFragment : FragmentNext() {
                         showTableLayout(true)
                         pbLoad.visibility = View.GONE
                         checkList.visibility = View.GONE
-                        showChartLayout(false)
                         binding.tvTDL.visibility = View.GONE
                         binding.tvTongDT.visibility = View.GONE
                     }
@@ -208,6 +209,13 @@ class ThongKeFragment : FragmentNext() {
 //                } else {
 //                    showChartLayout(false)
 //                }
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://www.youtube.com/watch?v=Z2TTrIiv1hI")
+                    )
+                )
+
                 Toast.makeText(context, "chua xong", Toast.LENGTH_SHORT).show()
             }
             floatingActionButton.setOnClickListener {
@@ -215,7 +223,7 @@ class ThongKeFragment : FragmentNext() {
                     createRandomBarGraph(
                         txtNgBD.text.toString().trim(), txtNgKT.text.toString().trim()
                     )
-                    barChart?.notifyDataSetChanged()
+                    barChart.notifyDataSetChanged()
                     Toast.makeText(context, "Touch The Chart To RESET", Toast.LENGTH_SHORT)
                         .show()
 
