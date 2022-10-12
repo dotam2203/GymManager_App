@@ -138,6 +138,7 @@ class ThongKeFragment : FragmentNext() {
                 if (item == 0) {
                     //=================
                     col1.text = "Tháng"
+                    col2.visibility = View.GONE
                     //=================
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()
@@ -151,6 +152,7 @@ class ThongKeFragment : FragmentNext() {
                         constraint.visibility = View.VISIBLE
                     }
                 } else if (item == 1) {
+                    col2.visibility = View.VISIBLE
                     showChartLayout(false)
                     //=================
                     col1.text = "Loại DV"
@@ -177,6 +179,7 @@ class ThongKeFragment : FragmentNext() {
                         constraint.visibility = View.VISIBLE
                     }
                 } else if (item == 2) {
+                    col2.visibility = View.VISIBLE
                     showChartLayout(false)
                     //=================
                     col1.text = "STT"
