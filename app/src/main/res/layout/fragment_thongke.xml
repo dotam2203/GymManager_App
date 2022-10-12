@@ -192,6 +192,7 @@
             <TableRow android:background="@color/blue_100">
 
                 <TextView
+                    android:id="@+id/tvTDL"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7"
@@ -226,7 +227,9 @@
         app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnChart" />
+        app:layout_constraintTop_toBottomOf="@+id/btnChart"
+        android:visibility="gone"
+        />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
@@ -235,7 +238,9 @@
             android:src="@drawable/ic_reload"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            />
 
 
     <pl.droidsonroids.gif.GifImageView

@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -20,6 +19,7 @@ import com.gym.ui.FragmentNext
 import com.gym.ui.SingletonAccount
 import com.gym.ui.adapter.ThongKeAdapter
 import kotlinx.coroutines.delay
+import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,7 +38,7 @@ class ThongKeFragment : FragmentNext() {
     ////
 
     private val barChart get() = binding.barchart
-
+    var listThe = ArrayList<TheTapModel>()
 
     ////
 
@@ -48,13 +48,20 @@ class ThongKeFragment : FragmentNext() {
     ): View? {
         binding = FragmentThongkeBinding.inflate(layoutInflater)
         goiTaps = getDSGoiTap()
-        khachHangs = getDSKhachHang()
+
         binding.apply {
             txtNgBD.setText(getCurrentDate())
+            txtNgBD.setText("01/01/2022")
+            txtNgBD.focusable = 0
+            txtNgKT.focusable = 0
             txtNgKT.setText(getCurrentDate())
             constraint.visibility = View.GONE
             showChartLayout(false)
-
+            lifecycleScope.launchWhenCreated {
+                khachHangs = getDSKhachHang()
+                listThe = getDSTheTap()
+                delay(1000L)
+            }
         }
         getEvent()
         initAdapter()
@@ -72,7 +79,11 @@ class ThongKeFragment : FragmentNext() {
     }
 
     private fun setControl() {
-        val options = arrayListOf("Doanh thu theo tháng", "Doanh thu theo dịch vụ")
+        val options = arrayListOf(
+            "Doanh thu theo tháng",
+            "Doanh thu theo dịch vụ",
+            "Top 10 khách hàng tiềm năng"
+        )
         Log.e("option", "setControl: $options")
         binding.apply {
             item = 0
@@ -158,40 +169,46 @@ class ThongKeFragment : FragmentNext() {
                             getFormatDateCompareTo(txtNgKT.text.toString().trim())
                         )
                         delay(1000L)
+                        binding.tvTDL.visibility = View.VISIBLE
+                        binding.tvTongDT.visibility = View.VISIBLE
                         pbLoad.visibility = View.GONE
                         constraint.visibility = View.VISIBLE
                     }
                 } else if (item == 2) {
                     showChartLayout(false)
                     //=================
-                    col1.text = "Hạng"
+                    col1.text = "STT"
                     col2.text = "Khách hàng"
                     //=================
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()
                     lifecycleScope.launchWhenCreated {
                         //top10KHTiemNang(getFormatDateCompareTo(txtNgBD.text.toString().trim()),getFormatDateCompareTo(txtNgKT.text.toString().trim()))
+                        setAdapterThongKe(list10customer())
                         delay(1000L)
+                        showTableLayout(true)
                         pbLoad.visibility = View.GONE
-                        checkList.visibility = View.VISIBLE
-                        constraint.visibility = View.GONE
+                        checkList.visibility = View.GONE
+                        showChartLayout(false)
+                        binding.tvTDL.visibility = View.GONE
+                        binding.tvTongDT.visibility = View.GONE
                     }
                 }
             }
             btnChart.setOnClickListener {
-                if (item == 0) {
-                    if (constraint.visibility == View.VISIBLE) {
-                        constraint.visibility = View.GONE
-                    }
-                    showChartLayout(true)
-                    showTableLayout(false)
-                    createRandomBarGraph(
-                        txtNgBD.text.toString().trim(), txtNgKT.text.toString().trim()
-                    )
-                } else {
-                    showChartLayout(false)
-                }
-
+//                if (item == 0) {
+//                    if (constraint.visibility == View.VISIBLE) {
+//                        constraint.visibility = View.GONE
+//                    }
+//                    showChartLayout(true)
+//                    showTableLayout(false)
+//                    createRandomBarGraph(
+//                        txtNgBD.text.toString().trim(), txtNgKT.text.toString().trim()
+//                    )
+//                } else {
+//                    showChartLayout(false)
+//                }
+                Toast.makeText(context, "chua xong", Toast.LENGTH_SHORT).show()
             }
             floatingActionButton.setOnClickListener {
                 if (item == 0) {
@@ -272,17 +289,6 @@ class ThongKeFragment : FragmentNext() {
         }
     }
 
-    private fun top10KHTiemNang(ngayBD: String, ngayKT: String) {
-        var sum: Long = 0
-        for (i in khachHangs.indices) {
-            thes = getDSTheTheoKH(khachHangs[i].maKH)
-            for (j in thes.indices) {
-                getCtTheTheoTheTap(thes[i].maThe)
-                sum += tongDoanhThu(ctThe.donGia)
-            }
-        }
-    }
-
     private fun initAdapter() {
         binding.apply {
             rvThongKe.apply {
@@ -293,24 +299,15 @@ class ThongKeFragment : FragmentNext() {
     }
 
     private fun createRandomBarGraph(ngayBD: String?, ngayKT: String?) {
-        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
         var dates: ArrayList<String>? = ArrayList()
         val barEntries: ArrayList<BarEntry> = ArrayList()
         try {
-            val date1 = ngayBD?.let { simpleDateFormat.parse(it) }
-            val date2 = ngayKT?.let { simpleDateFormat.parse(it) }
-            val mDate1 = Calendar.getInstance()
-            val mDate2 = Calendar.getInstance()
-            if (date1 != null) {
-                mDate1.time = date1
-            }
-            if (date2 != null) {
-                mDate2.time = date2
-            }
 
-            dates = getList(mDate1, mDate2)
-            for (j in dates!!.indices) {
-                val tong: Long = getSumDataForChart(ngayBD!!, ngayKT!!)
+            dates = getList(ngayBD!!, ngayKT!!)
+            for (j in dates.indices) {
+
+                val tong = 0
+
                 barEntries?.add(BarEntry(tong.toFloat(), j))
             }
             if (barEntries.isEmpty()) {
@@ -324,49 +321,53 @@ class ThongKeFragment : FragmentNext() {
         barChart?.data = barData
     }
 
-    fun getSumDataForChart(ngayBD: String, ngayKT: String): Long {
-        var sum: Long = 0
-        viewModel.getDSCtTheTapThang(ngayBD, ngayKT)
-        lifecycleScope.launchWhenCreated {
-            viewModel.ctTheTaps.collect {
-                if (it.isNotEmpty()) {
-                    binding.checkList.visibility = View.GONE
-                    for (i in it.indices) {
-                        sum += tongDoanhThu(it[i].donGia)
-                    }
-                } else {
-                    binding.apply {
-                        checkList.visibility = View.VISIBLE
-                        constraint.visibility = View.GONE
-                        showChartLayout(true)
-                    }
-                    return@collect
-                }
-            }
-        }
+//    fun getDataForChart(ngayBD: String, ngayKT: String): ArrayList<ChartModel> {
+//        var sum: Long = 0
+//        viewModel.getDSCtTheTapThang(ngayBD, ngayKT)
+//        lifecycleScope.launchWhenCreated {
+//            viewModel.ctTheTaps.collect {
+//                if (it.isNotEmpty()) {
+//                    binding.checkList.visibility = View.GONE
+//                    for (i in it.indices) {
+//
+//
+//                    }
+//                } else {
+//                    binding.apply {
+//                        checkList.visibility = View.VISIBLE
+//                        constraint.visibility = View.GONE
+//                        showChartLayout(true)
+//                    }
+//                    return@collect
+//                }
+//            }
+//        }
+//
+//    }
 
-        return sum
-    }
+    private fun getList(startDate: String, endDate: String): ArrayList<String> {
+        var listMonth = ArrayList<String>()
+        val forMater: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val beginCalendar = Calendar.getInstance()
+        val finishCalendar = Calendar.getInstance()
 
-    private fun getDate(cld: Calendar): String {
-        var curDate = (cld[Calendar.DAY_OF_MONTH].toString() + "/" + (cld[Calendar.MONTH] + 1)
-                + "/" + cld[Calendar.YEAR])
         try {
-            val date = SimpleDateFormat("dd/MM/yyyy").parse(curDate)
-            curDate = SimpleDateFormat("dd/MM/yyyy").format(date)
+            beginCalendar.time = forMater.parse(getMonthYear(startDate)) as Date
+            finishCalendar.time = forMater.parse(getMonthYear(endDate)) as Date
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-        return curDate
-    }
 
-    private fun getList(startDate: Calendar, endDate: Calendar?): ArrayList<String> {
-        val list = ArrayList<String>()
-        while (endDate?.let { startDate.compareTo(it) }!! <= 0) {
-            list.add(getDate(startDate))
-            startDate.add(Calendar.DAY_OF_MONTH, 1)
+        while (beginCalendar.before(finishCalendar) || beginCalendar.equals(finishCalendar)) {
+            // add one month to date per loop
+            val date: String = forMater.format(beginCalendar.time).toUpperCase()
+//            Log.d("hungbt", date)
+            beginCalendar.add(Calendar.MONTH, 1)
+            listMonth.add(date)
         }
-        return list
+
+        return listMonth
+
     }
 
     fun showChartLayout(value: Boolean) {
@@ -409,8 +410,78 @@ class ThongKeFragment : FragmentNext() {
                 binding.checkList.visibility = View.GONE
             }
         }
+    }
 
+    /***
+     *  dd/mm/yyyy -> 01/mm/yyyy
+     * */
+    fun getMonthYear(date: String): String {
+        val d: List<Any> = date.split("/")
+        var year: String? = ""
+        var month: String? = ""
+        month = d[1].toString().trim()
+        year = d[2].toString().trim()
+        return "01/$month/$year"
+    }
 
+    /***
+     *  get list 10 customer
+     * */
+    private fun list10customer(): ArrayList<ThongKeKhachHangModel> {
+        val listKH: ArrayList<ThongKeKhachHangModel> = ArrayList()
+        for (i in khachHangs.indices) {
+            val temp = getListTheTheoKH(khachHangs[i].maKH)
+            var sum: Long = 0
+            for (j in temp.indices) {
+                sum += temp[j].hoaDons?.get(j)?.ctTheTaps?.get(j)?.donGia?.toLong()!!
+                val khachhang =
+                    ThongKeKhachHangModel(khachHangs[i].maKH, khachHangs[i].hoTen, sum)
+                listKH.add(khachhang)
+            }
+        }
+
+        val list10KH: ArrayList<ThongKeKhachHangModel> = ArrayList()
+        listKH.sortByDescending { it.tongTien }
+        for (i in listKH.indices) {
+            if (i >= 10) {
+                break
+            }
+            list10KH.add(listKH[i])
+
+        }
+
+        list10KH.sortByDescending { it.tongTien }
+        return list10KH
+
+    }
+
+    private fun getListTheTheoKH(maKH: String): ArrayList<TheTapModel> {
+        val listTemp: ArrayList<TheTapModel> = ArrayList()
+        for (i in listThe.indices) {
+            if (listThe[i].maKH == maKH) {
+                listTemp.add(listThe[i])
+            }
+        }
+        return listTemp
+    }
+
+    private fun setAdapterThongKe(list: ArrayList<ThongKeKhachHangModel>) {
+        binding.checkList.visibility = View.GONE
+        thongKes.clear()
+        thongKeAdapter.thongKes.clear()
+        for (i in list.indices) {
+            thongKes.add(
+                ThongKeModel(
+                    list[i].tongTien.toString(),
+                    "",
+                    list[i].hoTen,
+                    ""
+                )
+            )
+        }
+
+        thongKeAdapter.thongKes.addAll(thongKes)
+        thongKeAdapter.notifyDataSetChanged()
     }
 
 }
