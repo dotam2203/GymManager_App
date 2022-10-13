@@ -1,6 +1,7 @@
 package com.gym.ui.fragments
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -42,7 +43,7 @@ class ThongKeFragment : FragmentNext() {
 
     private val barChart get() = binding.barchart
     var listThe = ArrayList<TheTapModel>()
-
+    var listDataChartMonth = ArrayList<ChartModel>()
     ////
 
     override fun onCreateView(
@@ -79,6 +80,7 @@ class ThongKeFragment : FragmentNext() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setControl()
+        binding.floatingActionButton.visibility = View.GONE
     }
 
     private fun setControl() {
@@ -201,37 +203,35 @@ class ThongKeFragment : FragmentNext() {
                 }
             }
             btnChart.setOnClickListener {
-//                if (item == 0) {
-//                    if (constraint.visibility == View.VISIBLE) {
-//                        constraint.visibility = View.GONE
-//                    }
-//                    showChartLayout(true)
-//                    showTableLayout(false)
-//                    createRandomBarGraph(
-//                        txtNgBD.text.toString().trim(), txtNgKT.text.toString().trim()
-//                    )
-//                } else {
-//                    showChartLayout(false)
-//                }
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://www.youtube.com/watch?v=Z2TTrIiv1hI")
-                    )
-                )
-
-                Toast.makeText(context, "chua xong", Toast.LENGTH_SHORT).show()
-            }
-            floatingActionButton.setOnClickListener {
                 if (item == 0) {
-                    createRandomBarGraph(
-                        txtNgBD.text.toString().trim(), txtNgKT.text.toString().trim()
-                    )
-                    barChart.notifyDataSetChanged()
+                    if (constraint.visibility == View.VISIBLE) {
+                        constraint.visibility = View.GONE
+                    }
+                    showChartLayout(true)
+                    showTableLayout(false)
+                    pbLoad.visibility = View.VISIBLE
+
+                    lifecycleScope.launchWhenCreated {
+                        getDataForChart(
+                            txtNgBD.text.toString().trim(),
+                            txtNgKT.text.toString().trim()
+                        )
+                        delay(1000L)
+                        pbLoad.visibility = View.GONE
+                    }
+
                     Toast.makeText(context, "Touch The Chart To RESET", Toast.LENGTH_SHORT)
                         .show()
-
+                } else {
+                    showChartLayout(false)
                 }
+
+//                startActivity(
+//                    Intent(
+//                        Intent.ACTION_VIEW,
+//                        Uri.parse("https://www.youtube.com/watch?v=Z2TTrIiv1hI")
+//                    )
+//                )
 
             }
 
@@ -310,55 +310,71 @@ class ThongKeFragment : FragmentNext() {
         }
     }
 
-    private fun createRandomBarGraph(ngayBD: String?, ngayKT: String?) {
+    private fun createRandomBarGraph(ngayBD: String, ngayKT: String, list: ArrayList<ChartModel>) {
         var dates: ArrayList<String>? = ArrayList()
+        val listTemp = ArrayList<String>()
         val barEntries: ArrayList<BarEntry> = ArrayList()
         try {
+            dates = getList(ngayBD, ngayKT)
 
-            dates = getList(ngayBD!!, ngayKT!!)
             for (j in dates.indices) {
-
-                val tong = 0
-
-                barEntries?.add(BarEntry(tong.toFloat(), j))
+                for (i in list.indices) {
+                    if (dates[j].subSequence(3, 5)
+                        == getFormatDateFromAPI(list[i].ngayDK).subSequence(3, 5)
+                    ) {
+                        barEntries?.add(BarEntry(list[i].donGia.toFloat(), j))
+                    }
+                }
             }
             if (barEntries.isEmpty()) {
                 showNoData(true)
             } else showNoData(false)
+
+            val barDataSet = BarDataSet(barEntries, "VND")
+            for (i in dates.indices) {
+                val a: String = catChuoi(dates[i])
+                listTemp.add(a)
+            }
+
+            val barData = BarData(listTemp, barDataSet)
+            barChart?.data = barData
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-        val barDataSet = BarDataSet(barEntries, "VND")
-        val barData = BarData(dates, barDataSet)
-        barChart?.data = barData
     }
 
-//    fun getDataForChart(ngayBD: String, ngayKT: String): ArrayList<ChartModel> {
-//        var sum: Long = 0
-//        viewModel.getDSCtTheTapThang(ngayBD, ngayKT)
-//        lifecycleScope.launchWhenCreated {
-//            viewModel.ctTheTaps.collect {
-//                if (it.isNotEmpty()) {
-//                    binding.checkList.visibility = View.GONE
-//                    for (i in it.indices) {
-//
-//
-//                    }
-//                } else {
-//                    binding.apply {
-//                        checkList.visibility = View.VISIBLE
-//                        constraint.visibility = View.GONE
-//                        showChartLayout(true)
-//                    }
-//                    return@collect
-//                }
-//            }
-//        }
-//
-//    }
+    fun getDataForChart(ngayBD: String, ngayKT: String) {
 
+        viewModel.getDSCtTheTapThang(
+            getFormatDateCompareTo(ngayBD),
+            getFormatDateCompareTo(ngayKT)
+        )
+        val list: ArrayList<ChartModel> = ArrayList()
+        lifecycleScope.launchWhenCreated {
+            viewModel.ctTheTaps.collect {
+                if (it.isNotEmpty()) {
+                    binding.checkList.visibility = View.GONE
+                    for (i in it.indices) {
+                        list.add(ChartModel(it[i].donGia, it[i].ngayDK))
+                    }
+
+                    createRandomBarGraph(ngayBD, ngayKT, list)
+                } else {
+                    binding.apply {
+                        checkList.visibility = View.VISIBLE
+                        constraint.visibility = View.GONE
+                    }
+                    return@collect
+                }
+            }
+            listDataChartMonth.addAll(list)
+        }
+    }
+
+    /*** get list month between two date
+     */
     private fun getList(startDate: String, endDate: String): ArrayList<String> {
-        var listMonth = ArrayList<String>()
+        val listMonth = ArrayList<String>()
         val forMater: DateFormat = SimpleDateFormat("dd/MM/yyyy")
         val beginCalendar = Calendar.getInstance()
         val finishCalendar = Calendar.getInstance()
@@ -371,9 +387,7 @@ class ThongKeFragment : FragmentNext() {
         }
 
         while (beginCalendar.before(finishCalendar) || beginCalendar.equals(finishCalendar)) {
-            // add one month to date per loop
             val date: String = forMater.format(beginCalendar.time).toUpperCase()
-//            Log.d("hungbt", date)
             beginCalendar.add(Calendar.MONTH, 1)
             listMonth.add(date)
         }
@@ -384,12 +398,12 @@ class ThongKeFragment : FragmentNext() {
 
     fun showChartLayout(value: Boolean) {
         if (value) {
-            if (binding.barchart.visibility == View.GONE && binding.floatingActionButton.visibility == View.GONE) {
+            if (binding.barchart.visibility == View.GONE) {
                 binding.barchart.visibility = View.VISIBLE
-                binding.floatingActionButton.visibility = View.VISIBLE
+                binding.floatingActionButton.visibility = View.GONE
             }
         } else {
-            if (binding.barchart.visibility == View.VISIBLE && binding.floatingActionButton.visibility == View.VISIBLE) {
+            if (binding.barchart.visibility == View.VISIBLE) {
                 binding.barchart.visibility = View.GONE
                 binding.floatingActionButton.visibility = View.GONE
             }
@@ -412,7 +426,7 @@ class ThongKeFragment : FragmentNext() {
 
     }
 
-    fun showNoData(value: Boolean) {
+    private fun showNoData(value: Boolean) {
         if (value) {
             if (binding.checkList.visibility == View.GONE) {
                 binding.checkList.visibility = View.VISIBLE
@@ -434,6 +448,15 @@ class ThongKeFragment : FragmentNext() {
         month = d[1].toString().trim()
         year = d[2].toString().trim()
         return "01/$month/$year"
+    }
+
+    fun catChuoi(date: String): String {
+        val d: List<Any> = date.split("/")
+        var year: String? = ""
+        var month: String? = ""
+        month = d[1].toString().trim()
+        year = d[2].toString().trim()
+        return "$month/$year"
     }
 
     /***
