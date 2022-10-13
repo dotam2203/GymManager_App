@@ -25,6 +25,7 @@ import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ThongKeFragment : FragmentNext() {
@@ -442,28 +443,32 @@ class ThongKeFragment : FragmentNext() {
         val listKH: ArrayList<ThongKeKhachHangModel> = ArrayList()
         for (i in khachHangs.indices) {
             val temp = getListTheTheoKH(khachHangs[i].maKH)
-            var sum: Long = 0
+            var sum: Long
             for (j in temp.indices) {
-                sum += temp[j].hoaDons?.get(j)?.ctTheTaps?.get(j)?.donGia?.toLong()!!
-                val khachhang =
-                    ThongKeKhachHangModel(khachHangs[i].maKH, khachHangs[i].hoTen, sum)
+                sum = getDonGia(temp)
+                val khachhang = ThongKeKhachHangModel(khachHangs[i].maKH, khachHangs[i].hoTen, sum)
                 listKH.add(khachhang)
             }
         }
 
-        val list10KH: ArrayList<ThongKeKhachHangModel> = ArrayList()
-        listKH.sortByDescending { it.tongTien }
+        val listTemp = ArrayList<ThongKeKhachHangModel>()
         for (i in listKH.indices) {
+            if (!listTemp.contains(listKH[i])) {
+                listTemp.add(listKH[i])
+            }
+        }
+
+        val list10KH: ArrayList<ThongKeKhachHangModel> = ArrayList()
+        listTemp.sortByDescending { it.tongTien }
+        for (i in listTemp.indices) {
             if (i >= 10) {
                 break
             }
-            list10KH.add(listKH[i])
-
+            list10KH.add(listTemp[i])
         }
-
         list10KH.sortByDescending { it.tongTien }
-        return list10KH
 
+        return list10KH
     }
 
     private fun getListTheTheoKH(maKH: String): ArrayList<TheTapModel> {
@@ -493,6 +498,19 @@ class ThongKeFragment : FragmentNext() {
 
         thongKeAdapter.thongKes.addAll(thongKes)
         thongKeAdapter.notifyDataSetChanged()
+    }
+
+
+    private fun getDonGia(list: ArrayList<TheTapModel>): Long {
+        var sum: Long = 0
+        for (i in list.indices) {
+            for (j in list[i].hoaDons?.indices!!) {
+                for (r in list[i].hoaDons?.get(j)?.ctTheTaps!!.indices)
+                    sum += list[i].hoaDons?.get(j)?.ctTheTaps?.get(r)?.donGia?.toLong() ?: 0
+            }
+
+        }
+        return sum
     }
 
 }
