@@ -1,8 +1,5 @@
 package com.gym.ui.fragments
 
-import android.content.Intent
-import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,7 +32,6 @@ class ThongKeFragment : FragmentNext() {
     var goiTaps = ArrayList<GoiTapModel>()
     var thongKes = ArrayList<ThongKeModel>()
     var khachHangs = ArrayList<KhachHangModel>()
-    var thes = ArrayList<TheTapModel>()
     var ctThe = CtTheTapModel()
     var item = 0
 
@@ -43,7 +39,6 @@ class ThongKeFragment : FragmentNext() {
 
     private val barChart get() = binding.barchart
     var listThe = ArrayList<TheTapModel>()
-    var listDataChartMonth = ArrayList<ChartModel>()
     ////
 
     override fun onCreateView(
@@ -310,6 +305,13 @@ class ThongKeFragment : FragmentNext() {
         }
     }
 
+    /***    create Chart
+     *      dayStart
+     *      dayEnd
+     *      list sum data
+     *  */
+
+
     private fun createRandomBarGraph(ngayBD: String, ngayKT: String, list: ArrayList<ChartModel>) {
         var dates: ArrayList<String>? = ArrayList()
         val listTemp = ArrayList<String>()
@@ -343,6 +345,9 @@ class ThongKeFragment : FragmentNext() {
         }
     }
 
+    /***    get data sum for chart
+     *  */
+
     fun getDataForChart(ngayBD: String, ngayKT: String) {
 
         viewModel.getDSCtTheTapThang(
@@ -367,7 +372,6 @@ class ThongKeFragment : FragmentNext() {
                     return@collect
                 }
             }
-            listDataChartMonth.addAll(list)
         }
     }
 
@@ -387,7 +391,7 @@ class ThongKeFragment : FragmentNext() {
         }
 
         while (beginCalendar.before(finishCalendar) || beginCalendar.equals(finishCalendar)) {
-            val date: String = forMater.format(beginCalendar.time).toUpperCase()
+            val date: String = forMater.format(beginCalendar.time)
             beginCalendar.add(Calendar.MONTH, 1)
             listMonth.add(date)
         }
@@ -395,6 +399,9 @@ class ThongKeFragment : FragmentNext() {
         return listMonth
 
     }
+
+    /*** true = show layout chart
+     * */
 
     fun showChartLayout(value: Boolean) {
         if (value) {
@@ -412,6 +419,8 @@ class ThongKeFragment : FragmentNext() {
 
     }
 
+    /*** true = show layout table
+     * */
     fun showTableLayout(value: Boolean) {
         if (value) {
             if (binding.constraint.visibility == View.GONE) {
@@ -425,6 +434,9 @@ class ThongKeFragment : FragmentNext() {
 
 
     }
+
+    /*** true = show layout no data
+     * */
 
     private fun showNoData(value: Boolean) {
         if (value) {
@@ -450,6 +462,8 @@ class ThongKeFragment : FragmentNext() {
         return "01/$month/$year"
     }
 
+    /***  format MM/yyyy
+     * */
     fun catChuoi(date: String): String {
         val d: List<Any> = date.split("/")
         var year: String? = ""
