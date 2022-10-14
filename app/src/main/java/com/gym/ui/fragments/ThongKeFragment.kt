@@ -1,5 +1,6 @@
 package com.gym.ui.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.data.BarData
@@ -41,6 +43,7 @@ class ThongKeFragment : FragmentNext() {
     var listThe = ArrayList<TheTapModel>()
     ////
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,8 +54,8 @@ class ThongKeFragment : FragmentNext() {
         binding.apply {
             txtNgBD.setText(getCurrentDate())
             txtNgBD.setText("01/01/2022")
-            txtNgBD.focusable = 0
-            txtNgKT.focusable = 0
+            txtNgBD.focusable = View.NOT_FOCUSABLE
+            txtNgKT.focusable = View.NOT_FOCUSABLE
             txtNgKT.setText(getCurrentDate())
             constraint.visibility = View.GONE
             showChartLayout(false)
@@ -66,8 +69,10 @@ class ThongKeFragment : FragmentNext() {
         initAdapter()
         if (SingletonAccount.taiKhoan?.maQuyen == "Q02") {
             binding.btnLoc.isEnabled = false
+            binding.btnChart.isEnabled = false
         } else if (SingletonAccount.taiKhoan?.maQuyen == "Q01") {
             binding.btnLoc.isEnabled = true
+            binding.btnChart.isEnabled = true
         }
         return binding.root
     }
@@ -91,6 +96,9 @@ class ThongKeFragment : FragmentNext() {
             spDV.setAdapter(arrayAdapter)
             spDV.setOnItemClickListener { parent, view, position, id ->
                 item = position
+                btnChart.isEnabled = item != 2
+                tvNgBD.isEnabled = item != 2
+                tvNgKT.isEnabled = item != 2
             }
         }
     }
@@ -186,7 +194,6 @@ class ThongKeFragment : FragmentNext() {
                     pbLoad.visibility = View.VISIBLE
                     thongKes.clear()
                     lifecycleScope.launchWhenCreated {
-                        //top10KHTiemNang(getFormatDateCompareTo(txtNgBD.text.toString().trim()),getFormatDateCompareTo(txtNgKT.text.toString().trim()))
                         setAdapterThongKe(list10customer())
                         delay(1000L)
                         showTableLayout(true)
@@ -198,27 +205,55 @@ class ThongKeFragment : FragmentNext() {
                 }
             }
             btnChart.setOnClickListener {
-                if (item == 0) {
-                    if (constraint.visibility == View.VISIBLE) {
-                        constraint.visibility = View.GONE
-                    }
-                    showChartLayout(true)
-                    showTableLayout(false)
-                    pbLoad.visibility = View.VISIBLE
+                barChart.clear()
+                when (item) {
+                    0 -> {
+                        if (constraint.visibility == View.VISIBLE) {
+                            constraint.visibility = View.GONE
+                        }
+                        showChartLayout(true)
+                        showTableLayout(false)
+                        pbLoad.visibility = View.VISIBLE
 
-                    lifecycleScope.launchWhenCreated {
-                        getDataForChart(
-                            txtNgBD.text.toString().trim(),
-                            txtNgKT.text.toString().trim()
-                        )
-                        delay(1000L)
-                        pbLoad.visibility = View.GONE
-                    }
+                        lifecycleScope.launchWhenCreated {
+                            getDataForChart(
+                                txtNgBD.text.toString().trim(),
+                                txtNgKT.text.toString().trim()
+                            )
+                            barChart.notifyDataSetChanged()
+                            delay(1000L)
+                            pbLoad.visibility = View.GONE
+                        }
 
-                    Toast.makeText(context, "Touch The Chart To RESET", Toast.LENGTH_SHORT)
-                        .show()
-                } else {
-                    showChartLayout(false)
+                        Toast.makeText(context, "Touch The Chart To RESET", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    1 -> {
+
+                        if (constraint.visibility == View.VISIBLE) {
+                            constraint.visibility = View.GONE
+                        }
+                        showChartLayout(true)
+                        showTableLayout(false)
+                        pbLoad.visibility = View.VISIBLE
+
+                        lifecycleScope.launchWhenCreated {
+                            charDV(
+                                txtNgBD.text.toString().trim(),
+                                txtNgKT.text.toString().trim()
+                            )
+
+                            delay(1000L)
+
+                            pbLoad.visibility = View.GONE
+                        }
+
+                        Toast.makeText(context, "Touch The Chart To RESET", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    else -> {
+                        showChartLayout(false)
+                    }
                 }
 
 //                startActivity(
@@ -312,7 +347,11 @@ class ThongKeFragment : FragmentNext() {
      *  */
 
 
-    private fun createRandomBarGraph(ngayBD: String, ngayKT: String, list: ArrayList<ChartModel>) {
+    private fun createRandomBarGraphByDay(
+        ngayBD: String,
+        ngayKT: String,
+        list: ArrayList<ChartModel>
+    ) {
         var dates: ArrayList<String>? = ArrayList()
         val listTemp = ArrayList<String>()
         val barEntries: ArrayList<BarEntry> = ArrayList()
@@ -340,6 +379,34 @@ class ThongKeFragment : FragmentNext() {
 
             val barData = BarData(listTemp, barDataSet)
             barChart?.data = barData
+
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun createRandomBarGraphByService(
+        list: ArrayList<ChartModelDV>
+    ) {
+
+        val listTemp = ArrayList<String>()
+        val barEntries: ArrayList<BarEntry> = ArrayList()
+        try {
+            for (j in list.indices)
+                barEntries?.add(BarEntry(list[j].donGia.toFloat(), j))
+
+            if (barEntries.isEmpty()) {
+                showNoData(true)
+            } else showNoData(false)
+
+            val barDataSet = BarDataSet(barEntries, "VND")
+
+            for (i in list.indices) {
+                listTemp.add(list[i].tenDV)
+            }
+
+            val barData = BarData(listTemp, barDataSet)
+            barChart?.data = barData
         } catch (e: ParseException) {
             e.printStackTrace()
         }
@@ -347,6 +414,28 @@ class ThongKeFragment : FragmentNext() {
 
     /***    get data sum for chart
      *  */
+    private fun charDV(ngayBD: String, ngayKT: String) {
+        viewModel.getDSCtTheTapTheoDV(
+            getFormatDateCompareTo(ngayBD),
+            getFormatDateCompareTo(ngayKT)
+        )
+        val list: ArrayList<ChartModelDV> = ArrayList()
+        lifecycleScope.launchWhenCreated {
+            viewModel.ctTheTaps.collect {
+                if (it.isNotEmpty()) {
+                    binding.checkList.visibility = View.GONE
+                    for (i in it.indices) {
+                        list.add(ChartModelDV(it[i].donGia, it[i].tenGT))
+                    }
+
+                    createRandomBarGraphByService(list)
+                } else {
+                    return@collect
+                }
+            }
+        }
+    }
+
 
     fun getDataForChart(ngayBD: String, ngayKT: String) {
 
@@ -363,7 +452,7 @@ class ThongKeFragment : FragmentNext() {
                         list.add(ChartModel(it[i].donGia, it[i].ngayDK))
                     }
 
-                    createRandomBarGraph(ngayBD, ngayKT, list)
+                    createRandomBarGraphByDay(ngayBD, ngayKT, list)
                 } else {
                     binding.apply {
                         checkList.visibility = View.VISIBLE
@@ -549,6 +638,7 @@ class ThongKeFragment : FragmentNext() {
         }
         return sum
     }
+
 
 }
 

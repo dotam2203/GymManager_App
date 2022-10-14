@@ -8,3 +8,9 @@ data class ChartModel(
     var donGia: String = "",
     var ngayDK: String = ""
 ) : Parcelable
+
+@Parcelize
+data class ChartModelDV(
+    var donGia: String = "",
+    var tenDV: String = ""
+) : Parcelable
