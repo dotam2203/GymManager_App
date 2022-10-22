@@ -91,10 +91,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage-ktx'
     //payment
     implementation 'com.razorpay:checkout:1.6.24'
-    //send email
-    /*implementation 'com.su.mail:android-mail:1.6.6'
-    implementation 'com.sun.mail:android-activation:1.6.7'*/
     //side
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     implementation 'com.aldoapps:autoformatedittext:0.9.3'
+    implementation 'com.nex3z:notification-badge:1.0.4'
 }

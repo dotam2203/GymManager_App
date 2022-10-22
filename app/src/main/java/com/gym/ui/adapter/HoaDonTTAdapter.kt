@@ -1,5 +1,6 @@
 package com.gym.ui.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,7 @@ import com.gym.model.HoaDonModel
 
 class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapter<HoaDonTTAdapter.ViewHolder>() {
     var hoaDons = mutableListOf<HoaDonModel>()
+    var row_index = -1
     inner class ViewHolder(val binding: ItemHoadonBinding): RecyclerView.ViewHolder(binding.root){
     }
 
@@ -23,12 +25,21 @@ class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             binding.apply {
+                row_index = position
                 tvMaHD.text = hoaDons[position].maHD
                 tvNgayLap.text = getFormatDateFromAPI(hoaDons[position].ngayLap)
                 tvHoaDonKH.text = hoaDons[position].tenKH
                 imbInfo.setOnClickListener {
                     _itemClick.itemClickInfo(hoaDons[position])
+                    if(row_index==position){
+                        imbInfo.setBackgroundColor(Color.parseColor("#567845"));
+                    }
+                    else
+                    {
+                        imbInfo.setBackgroundColor(Color.parseColor("#ffffff"));
+                    }
                 }
+
             }
         }
     }

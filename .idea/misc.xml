@@ -60,6 +60,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/dialog_message.xml" value="0.18795289855072464" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/dialog_thanhtoan.xml" value="0.20521590423257802" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/dropdown_item.xml" value="0.17753623188405798" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_baitap.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_bottom.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_dangki.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_dangky.xml" value="0.25" />
@@ -89,6 +90,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_thetap.xml" value="0.2359375" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_thongke.xml" value="0.20521590423257802" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/fragment_trangchu.xml" value="0.25" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_baitap.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_dichvu.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_goitap.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/item_hoadon.xml" value="0.25" />
@@ -108,6 +110,7 @@
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/layout/trangchu_nhanvien.xml" value="0.264" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/menu/menu.xml" value="0.25" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/menu/menu_home.xml" value="0.25" />
+        <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/menu/menu_nhanvien.xml" value="0.24895833333333334" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1505" />
         <entry key="..\:/Do An TTTN/Project/GymManager/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1505" />
       </map>

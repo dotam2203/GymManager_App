@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.85" />
+            app:layout_constraintGuide_percent="0.82" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="45dp"
@@ -32,6 +32,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/lineV"
             app:layout_constraintTop_toTopOf="parent" />
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/tvNotifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/tvUser"
@@ -73,6 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/border_background"
+                    android:scaleType = "fitCenter"
                     app:iss_corner_radius="10"
                     app:iss_period="2000"
                     app:iss_auto_cycle="true"
