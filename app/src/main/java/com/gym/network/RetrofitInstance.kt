@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit
  */
 object RetrofitInstance {
     val BASE_URL = "https://gym-manager-api.herokuapp.com/"
-    //val BASE_URL = "http://localhost:8888/"
     fun getApiUrl(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL).client(OkHttpClient().newBuilder().also { client ->

@@ -6,10 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputLayout
@@ -116,6 +113,8 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         val tvTenLoaiKH: TextInputLayout = dialog.findViewById(R.id.tvTenLoaiGT)
         val tvTrangThai: TextInputLayout = dialog.findViewById(R.id.tvTTLoaiGT)
         val txtTrangThai: EditText = dialog.findViewById(R.id.txtTTLoaiGT)
+        val swStatus: Switch = dialog.findViewById(R.id.swStatus)
+        swStatus.visibility = View.GONE
         tvTitle.setText("Loại khách hàng")
         tvTenLoaiKH.setHint("Loại khách hàng")
         tvTrangThai.visibility = View.GONE
@@ -162,6 +161,8 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         val tvTenLoaiKH: TextInputLayout = dialog.findViewById(R.id.tvTenLoaiGT)
         val tvTrangThai: TextInputLayout = dialog.findViewById(R.id.tvTTLoaiGT)
         val txtTrangThai: EditText = dialog.findViewById(R.id.txtTTLoaiGT)
+        val swStatus: Switch = dialog.findViewById(R.id.swStatus)
+        swStatus.visibility = View.GONE
         tvTitle.text = "Loại khách hàng"
         tvTenLoaiKH.hint = "Loại khách hàng"
         tvTrangThai.visibility = View.GONE

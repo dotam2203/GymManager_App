@@ -23,27 +23,38 @@ class HomeFragment : FragmentNext() {
         return binding.root
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        if(SingletonAccount.taiKhoan?.maQuyen == "Q02"){
-            val menuTK: MenuItem = menu.findItem(R.id.menuThongke)
-            menuTK.isVisible = false
-
-        }
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //setControl()
         replaceFragment(R.id.fragmentMain, TrangChuFragment())
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.menuTrangChu -> replaceFragment(R.id.fragmentMain, TrangChuFragment())
-                R.id.menuThetap -> replaceFragment(R.id.fragmentMain, TheTapFragment())
-                R.id.menuHoadon -> replaceFragment(R.id.fragmentMain, HoaDonFragment())
-                R.id.menuThongke -> replaceFragment(R.id.fragmentMain, ThongKeFragment())
-                R.id.menuTaikhoan -> replaceFragment(R.id.fragmentMain, TaiKhoanFragment())
+        binding.bottomNavigationView.apply {
+            if (SingletonAccount.taiKhoan?.maQuyen == "Q01") {
+                menu.clear()
+                inflateMenu(R.menu.menu_home)
+                setOnItemSelectedListener {
+                    when (it.itemId) {
+                        R.id.menuTrangChu -> replaceFragment(R.id.fragmentMain, TrangChuFragment())
+                        R.id.menuThetap -> replaceFragment(R.id.fragmentMain, TheTapFragment())
+                        R.id.menuHoadon -> replaceFragment(R.id.fragmentMain, HoaDonFragment())
+                        R.id.menuThongke -> replaceFragment(R.id.fragmentMain, ThongKeFragment())
+                        R.id.menuTaikhoan -> replaceFragment(R.id.fragmentMain, TaiKhoanFragment())
+                    }
+                    true
+                }
+            } else if (SingletonAccount.taiKhoan?.maQuyen == "Q02") {
+                menu.clear()
+                inflateMenu(R.menu.menu_nhanvien)
+                setOnItemSelectedListener {
+                    when (it.itemId) {
+                        R.id.menuTrangChu -> replaceFragment(R.id.fragmentMain, TrangChuFragment())
+                        R.id.menuThetap -> replaceFragment(R.id.fragmentMain, TheTapFragment())
+                        R.id.menuHoadon -> replaceFragment(R.id.fragmentMain, HoaDonFragment())
+                        R.id.menuTaikhoan -> replaceFragment(R.id.fragmentMain, TaiKhoanFragment())
+                    }
+                    true
+                }
             }
-            true
         }
+
     }
 }

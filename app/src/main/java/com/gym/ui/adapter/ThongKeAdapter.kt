@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.gym.databinding.ItemThongkeBinding
 import com.gym.model.ThongKeModel
-import com.gym.ui.FragmentNext
 import java.text.NumberFormat
 
 class ThongKeAdapter : RecyclerView.Adapter<ThongKeAdapter.ViewHolder>(){
@@ -35,11 +34,6 @@ class ThongKeAdapter : RecyclerView.Adapter<ThongKeAdapter.ViewHolder>(){
                     tvDoanhThu.text = "${formatMoney(thongKes[position].donGia)} đ"
                 }
                 else if(flag == 1){
-                    tvDTDichVu.visibility = View.VISIBLE
-                    tvDTThang.text = "${position + 1}"
-                    tvDTDichVu.text = thongKes[position].tenGT
-                    tvDoanhThu.text = "${formatMoney(thongKes[position].donGia)} đ"
-                }else if(flag == 2){
                     tvDTDichVu.visibility = View.VISIBLE
                     tvDTThang.text = "${position + 1}"
                     tvDTDichVu.text = thongKes[position].tenGT

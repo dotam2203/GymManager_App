@@ -128,7 +128,7 @@ class LoginFragment : FragmentNext() {
     }
 
     fun checkAutoLogin() {
-        if (!sharedPreferencesLogin.getUser().isNullOrEmpty()) {
+        if (sharedPreferencesLogin.getUser() != null) {
             binding.apply {
                 txtUserLogin.setText(sharedPreferencesLogin.getUser())
                 txtPassLogin.setText(sharedPreferencesLogin.getPass())

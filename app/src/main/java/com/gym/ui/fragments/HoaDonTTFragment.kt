@@ -217,7 +217,8 @@ class HoaDonTTFragment : FragmentNext(),HoaDonTTAdapter.OnItemClick {
         tvLoaiDV.text = hoaDon.ctTheTaps!![0].tenLoaiGT
         tvKhuyenMai.text = "0%"
         tvGiamTien.text = "0"
-        tvThanhTien.text = hoaDon.ctTheTaps!![0].donGia
+        //tvThanhTien.text = hoaDon.ctTheTaps!![0].donGia
+        tvThanhTien.text = "${formatMoney(hoaDon.ctTheTaps!![0].donGia)} đ"
         //----------------------
         btnThanhToanSau.visibility = View.GONE
         btnThanhToan.visibility = View.GONE

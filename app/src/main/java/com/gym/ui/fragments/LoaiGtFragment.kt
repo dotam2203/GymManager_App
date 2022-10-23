@@ -9,10 +9,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.*
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gym.R
@@ -114,8 +111,10 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         dialog.show()
         val txtTenLoaiGT: EditText = dialog.findViewById(R.id.txtTenLoaiGT)
         val txtTrangThai: EditText = dialog.findViewById(R.id.txtTTLoaiGT)
-        var btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
-        var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
+        val swStatus: Switch = dialog.findViewById(R.id.swStatus)
+        val btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
+        val btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
+        swStatus.visibility = View.GONE
         txtTenLoaiGT.requestFocus()
         txtTrangThai.isEnabled = false
         btnThem.setOnClickListener {
@@ -163,25 +162,34 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         dialog.show()
         val txtTenLoaiGT: EditText = dialog.findViewById(R.id.txtTenLoaiGT)
         val txtTrangThai: EditText = dialog.findViewById(R.id.txtTTLoaiGT)
-        var btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
-        var btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
+        val swStatus: Switch = dialog.findViewById(R.id.swStatus)
+        val btnThem: Button = dialog.findViewById(R.id.btnThemLoaiGT)
+        val btnHuy: Button = dialog.findViewById(R.id.btnHuyLoaiGT)
         txtTenLoaiGT.setText(loaiGt.tenLoaiGT)
         txtTenLoaiGT.requestFocus()
         txtTrangThai.setText(loaiGt.trangThai)
-        txtTrangThai.isEnabled = true
-        btnThem.setText("Cập nhật")
+        txtTrangThai.isEnabled = false
+        btnThem.text = "Cập nhật"
+        if(txtTrangThai.text.toString() == "Hoạt động"){
+            swStatus.isChecked = true
+        }
+        else if(txtTrangThai.text.toString() == "Khóa"){
+            swStatus.isChecked = false
+        }
+        swStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                txtTrangThai.setText("Hoạt động")
+            }
+            else
+                txtTrangThai.setText("Khóa")
+        }
         btnThem.setOnClickListener {
             val tenLoaiGT: String = txtTenLoaiGT.text.toString()
-            val trangThai: String = txtTrangThai.text.toString()
             if(tenLoaiGT == ""){
                 txtTenLoaiGT.error = "Vui lòng không để trống!"
                 txtTenLoaiGT.requestFocus()
             }
-            if(trangThai == ""){
-                txtTrangThai.error = "Vui lòng không để trống!"
-                txtTrangThai.requestFocus()
-            }
-            viewModel.updateLoaiGT(LoaiGtModel(loaiGt.idLoaiGT, replaceString(txtTenLoaiGT.text.toString()), replaceString(txtTrangThai.text.toString())))
+            viewModel.updateLoaiGT(LoaiGtModel(loaiGt.idLoaiGT, replaceString(txtTenLoaiGT.text.toString()), txtTrangThai.text.toString()))
             getDataCoroutine("Cập nhật thành công","Cập nhật thất bại")
             initViewModel()
             Log.d("TAG", "size new: ${loaiGTs.size}")
