@@ -37,7 +37,7 @@ class ThongKeFragment : FragmentNext() {
     var ctThe = CtTheTapModel()
     var item = 0
 
-    ////
+    ////...
 
     private val barChart get() = binding.barchart
     var listThe = ArrayList<TheTapModel>()
