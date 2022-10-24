@@ -95,4 +95,8 @@ dependencies {
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     implementation 'com.aldoapps:autoformatedittext:0.9.3'
     implementation 'com.nex3z:notification-badge:1.0.4'
+    //chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+
+
 }
