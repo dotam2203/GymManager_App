@@ -90,9 +90,18 @@ class LoginFragment : FragmentNext() {
                                 lifecycleScope.launchWhenCreated {
                                     delay(2000L)
                                     //====================
-                                    NotificationHelper(requireContext(), R.drawable.ic_hoadon, "Đăng nhập", "Nhân viên ${nhanVien.hoTen} đăng nhập thành công!").Notification()
-                                    val kh = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                                    kh.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+                                    NotificationHelper(
+                                        requireContext(),
+                                        R.drawable.ic_hoadon,
+                                        "Đăng nhập",
+                                        "Nhân viên ${nhanVien.hoTen} đăng nhập thành công!"
+                                    ).Notification()
+                                    val kh =
+                                        activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                                    kh.hideSoftInputFromWindow(
+                                        activity?.currentFocus?.windowToken,
+                                        0
+                                    )
                                     //===============================
                                 }
                                 break
@@ -109,10 +118,11 @@ class LoginFragment : FragmentNext() {
             }
             tvForgotPass.setOnClickListener {
                 tvForgotPass.setTextColor(R.color.red)
-                getFragment(view,R.id.navLoginToForgotFragment)
+                getFragment(view, R.id.navLoginToForgotFragment)
             }
         }
     }
+
     private fun innitViewModels() {
         viewModel.getDSTaiKhoan()
         //live data
@@ -128,7 +138,7 @@ class LoginFragment : FragmentNext() {
     }
 
     fun checkAutoLogin() {
-        if (sharedPreferencesLogin.getUser() != null) {
+        if (!sharedPreferencesLogin.getUser().isNullOrEmpty()) {
             binding.apply {
                 txtUserLogin.setText(sharedPreferencesLogin.getUser())
                 txtPassLogin.setText(sharedPreferencesLogin.getPass())
@@ -140,8 +150,14 @@ class LoginFragment : FragmentNext() {
                         lifecycleScope.launchWhenCreated {
                             delay(2000L)
                             //====================
-                            NotificationHelper(requireContext(), R.drawable.ic_hoadon, "Đăng nhập", "Nhân viên ${nhanVien.hoTen} đăng nhập thành công!").Notification()
-                            val kh = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            NotificationHelper(
+                                requireContext(),
+                                R.drawable.ic_hoadon,
+                                "Đăng nhập",
+                                "Nhân viên ${nhanVien.hoTen} đăng nhập thành công!"
+                            ).Notification()
+                            val kh =
+                                activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                             kh.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
                             //===============================
                         }
