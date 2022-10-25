@@ -151,7 +151,7 @@ class TheTapFragment : FragmentNext() {
                         requestFocus()
                     }
                 }
-                else if(txtSdtKH.text.toString() == "" || txtSdtKH.text.length != 10){
+                else if(txtSdtKH.text.toString() == "" || txtSdtKH.text.length <= 10){
                     txtSdtKH.apply {
                         error = "Số điện thoại gồm 10 số!"
                         requestFocus()

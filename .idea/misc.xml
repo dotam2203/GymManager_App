@@ -117,6 +117,8 @@
         <entry key="app/src/main/res/layout/dialog_thanhtoan.xml" value="0.24139492753623187" />
         <entry key="app/src/main/res/layout/fragment_dangky.xml" value="0.2703125" />
         <entry key="app/src/main/res/layout/fragment_ds_dangky.xml" value="0.2703125" />
+        <entry key="app/src/main/res/layout/fragment_goitap.xml" value="0.2703125" />
+        <entry key="app/src/main/res/layout/fragment_hoadon_tt.xml" value="0.2703125" />
         <entry key="app/src/main/res/layout/fragment_khachhang.xml" value="0.2703125" />
         <entry key="app/src/main/res/layout/fragment_thetap.xml" value="0.2703125" />
         <entry key="app/src/main/res/layout/fragment_thongke.xml" value="0.19157608695652173" />
