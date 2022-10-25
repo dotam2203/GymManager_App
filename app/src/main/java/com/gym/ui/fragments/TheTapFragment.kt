@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.*
@@ -18,7 +19,7 @@ import com.gym.model.KhachHangModel
 import com.gym.model.LoaiKhModel
 import com.gym.ui.FragmentNext
 import com.gym.ui.adapter.DangKyViewPagerAdapter
-import com.gym.ui.adapter.KhachHangAdapter
+
 
 class TheTapFragment : FragmentNext() {
     private lateinit var binding: FragmentThetapBinding
@@ -127,6 +128,7 @@ class TheTapFragment : FragmentNext() {
         btnHuy.setOnClickListener {
             dialog.dismiss()
         }
+
         txtEmailKH.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -136,7 +138,7 @@ class TheTapFragment : FragmentNext() {
             }
         })
         btnThem.setOnClickListener {
-            if(txtTenKH.text.toString() == "" || txtSdtKH.text.toString() == ""|| selectPhai == ""){
+            if(txtTenKH.text.toString() == "" || txtSdtKH.text.toString() == ""|| selectPhai == "" || !isValidEmail(txtEmailKH.text) ){
                 if(txtTenKH.text.toString() == ""){
                     txtTenKH.apply {
                         error = "Tên không được để trống!"
@@ -152,6 +154,12 @@ class TheTapFragment : FragmentNext() {
                 else if(txtSdtKH.text.toString() == "" || txtSdtKH.text.length != 10){
                     txtSdtKH.apply {
                         error = "Số điện thoại gồm 10 số!"
+                        requestFocus()
+                    }
+                }
+                else if(!isValidEmail(txtEmailKH.text)){
+                    txtEmailKH.apply {
+                        error = "Sai định dạng email!"
                         requestFocus()
                     }
                 }
@@ -292,5 +300,9 @@ class TheTapFragment : FragmentNext() {
         txtEmailKH.setText(khachHang.email)
         txtSdtKH.setText(khachHang.sdt)
         txtDiaChi.setText(khachHang.diaChi)
+    }
+
+    fun isValidEmail(target: CharSequence?): Boolean {
+        return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 }
