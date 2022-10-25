@@ -12,15 +12,26 @@ import androidx.core.app.NotificationManagerCompat
 import com.gym.MainActivity
 import com.gym.R
 
-class NotificationHelper(var context: Context,var icon: Int, var title: String,var msg: String) {
+class NotificationHelper(var context: Context, var icon: Int, var title: String, var msg: String) {
     private val CHANNEL_ID = "Thông Báo"
     private val NOTIFICATION_ID = 123
-    fun Notification(){
+    fun Notification() {
         createNotificationChannel()
-        val senInt = Intent(context,MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        var pendingIntent :  PendingIntent? = null
+        if (pendingIntent == null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val senInt = Intent(context, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                pendingIntent = PendingIntent.getActivities(context, 0, arrayOf(senInt), PendingIntent.FLAG_IMMUTABLE)
+            } else {
+                val senInt = Intent(context, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+                pendingIntent = PendingIntent.getActivities(context, 0, arrayOf(senInt), 0)
+            }
         }
-        val pendingIntent = PendingIntent.getActivities(context,0, arrayOf(senInt),0)
+
         //------set notification dialog----
         val icon = BitmapFactory.decodeResource(context.resources, icon)
         val isNotification = NotificationCompat.Builder(context, CHANNEL_ID)
@@ -31,18 +42,20 @@ class NotificationHelper(var context: Context,var icon: Int, var title: String,v
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID,isNotification)
+        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, isNotification)
         //---------------------------------
     }
-    private fun createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = CHANNEL_ID
             val descrip = "Channel descrip"
             val imports = NotificationManager.IMPORTANCE_DEFAULT
-            val cannels = NotificationChannel(CHANNEL_ID,name,imports).apply {
+            val cannels = NotificationChannel(CHANNEL_ID, name, imports).apply {
                 description = descrip
             }
-            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(cannels)
         }
     }
