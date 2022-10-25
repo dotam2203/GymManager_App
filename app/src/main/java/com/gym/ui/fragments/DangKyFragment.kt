@@ -421,7 +421,7 @@ class DangKyFragment : FragmentNext(), PaymentResultListener {
         tvSoLuong.text = select.substring(0, 1)
         tvKhuyenMai.text = "0%"
         tvGiamTien.text = "0"
-        tvThanhTien.text = "${binding.txtGia.text} đ"
+        tvThanhTien.text = "${binding.txtGia.text}đ"
         //----------------------
         btnThanhToan.setOnClickListener {
             viewModel.insertTheTap(theTapModel)
@@ -432,7 +432,7 @@ class DangKyFragment : FragmentNext(), PaymentResultListener {
                 Log.e("STT2", "2")
                 lifecycleScope.launchWhenCreated {
                     delay(3000L)
-                    ctTTModel = CtTheTapModel(0, tvThanhTien.text.toString(), goiTapModel.maGT, hoaDonModel.maHD, theTapModel.maThe)
+                    ctTTModel = CtTheTapModel(0, formatMoneyToAPI(binding.txtGia.text.toString().trim()), goiTapModel.maGT, hoaDonModel.maHD, theTapModel.maThe)
                     viewModel.insertCtTheTap(ctTTModel)
                     Log.e("STT3", "3")
                 }

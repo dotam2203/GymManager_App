@@ -31,15 +31,7 @@ class HoaDonTTAdapter (private val _itemClick: OnItemClick) : RecyclerView.Adapt
                 tvHoaDonKH.text = hoaDons[position].tenKH
                 imbInfo.setOnClickListener {
                     _itemClick.itemClickInfo(hoaDons[position])
-                    if(row_index==position){
-                        imbInfo.setBackgroundColor(Color.parseColor("#567845"));
-                    }
-                    else
-                    {
-                        imbInfo.setBackgroundColor(Color.parseColor("#ffffff"));
-                    }
                 }
-
             }
         }
     }

@@ -227,7 +227,7 @@ abstract class FragmentNext : Fragment() {
     //gia = 100,000 => 100000
     fun formatMoneyToAPI(gia: String): String{
         //gia = 100,000
-        val str1 = gia.split(" ,")
+        val str1 = gia.split(",")
         var str = ""
         for(i in str1.indices){
             str += str1[i]
