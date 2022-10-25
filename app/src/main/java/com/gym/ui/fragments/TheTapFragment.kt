@@ -205,28 +205,35 @@ class TheTapFragment : FragmentNext() {
                 //compare: s1 > s2 -> >0,
                 //compare: s1 < s2 -> <0,
                 //compare: s1 = s2 -> =0
-                val s1: String = selectItem!!
-                for(i in khachHangs.indices){
-                    val s2 = khachHangs[i].sdt.trim()
-                    if(s1.compareTo(s2) == 0){
-                        khachHang = khachHangs[i]
-                        //pass data customer between two fragment
-                        passDataKH(khachHang)
-                        binding.apply {
-                            btnInfoKH.visibility = View.VISIBLE
-                            if(khachHang.phai.equals("Nam")){
-                                tvKhachHang.setText("Xin chào, anh ${khachHang.hoTen}")
+                if(txtSearchKH.text.isEmpty()){
+                    Toast.makeText(requireContext(), "Vui lòng điền thông tin tìm kiếm!!!", Toast.LENGTH_SHORT).show()
+                }else{
+                    val s1: String = selectItem!!
+                    var check = false
+                    for(i in khachHangs.indices){
+                        val s2 = khachHangs[i].sdt.trim()
+                        if(s1.compareTo(s2) == 0){
+                            khachHang = khachHangs[i]
+                            //pass data customer between two fragment
+                            passDataKH(khachHang)
+                            binding.apply {
+                                btnInfoKH.visibility = View.VISIBLE
+                                if(khachHang.phai.equals("Nam")){
+                                    tvKhachHang.setText("Xin chào, anh ${khachHang.hoTen}")
+                                }
+                                else if(khachHang.phai.equals("Nữ")){
+                                    tvKhachHang.setText("Xin chào, chị ${khachHang.hoTen}")
+                                }
+                                btnInsertKH.visibility = View.GONE
                             }
-                            else if(khachHang.phai.equals("Nữ")){
-                                tvKhachHang.setText("Xin chào, chị ${khachHang.hoTen}")
-                            }
-                            btnInsertKH.visibility = View.GONE
+                            check = true
+                            break
                         }
-                        break
+
                     }
-                    else{
+                    if(!check){
                         txtSearchKH.setText("")
-                        //Toast.makeText(requireContext(), "Không tìm thấy thông tin!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Không tìm thấy thông tin!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
