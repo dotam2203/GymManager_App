@@ -96,7 +96,8 @@ class ThongKeFragment : FragmentNext() {
             spDV.setAdapter(arrayAdapter)
             spDV.setOnItemClickListener { parent, view, position, id ->
                 item = position
-                btnChart.isEnabled = item != 2
+                if(item == 2)
+                    btnChart.visibility = View.GONE
                 tvNgBD.isEnabled = item != 2
                 tvNgKT.isEnabled = item != 2
             }
@@ -142,6 +143,7 @@ class ThongKeFragment : FragmentNext() {
                 showChartLayout(false)
                 thongKeAdapter.flag = item
                 if (item == 0) {
+                    btnChart.visibility = View.VISIBLE
                     //=================
                     col1.text = "Tháng"
                     col2.visibility = View.GONE
@@ -158,6 +160,7 @@ class ThongKeFragment : FragmentNext() {
                         constraint.visibility = View.VISIBLE
                     }
                 } else if (item == 1) {
+                    btnChart.visibility = View.VISIBLE
                     col2.visibility = View.VISIBLE
                     showChartLayout(false)
                     //=================

@@ -241,32 +241,44 @@ class DangKyFragment : FragmentNext(), PaymentResultListener {
             }
             //=================================================
             btnDangKy.setOnClickListener {
-                var saveTheTap = TheTapModel()
-                if (compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))) {
-                    saveTheTap = TheTapModel(
-                        randomString("thẻ tập", getMaTheMax(theTaps)),
-                        getFormatDateToApi(getCurrentDate()),
-                        getFormatDateToApi(txtNgayBD.text.toString()),
-                        getFormatDateToApi(txtNgayKT.text.toString()),
-                        "Hoạt động",
-                        khachHang.maKH
-                    )
-                } else if (!compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))) {
-                    saveTheTap = TheTapModel(
-                        randomString("thẻ tập", getMaTheMax(theTaps)),
-                        getFormatDateToApi(getCurrentDate()),
-                        getFormatDateToApi(txtNgayBD.text.toString()),
-                        getFormatDateToApi(txtNgayKT.text.toString()),
-                        "Khóa",
-                        khachHang.maKH
-                    )
+                if(selectLoaiGT.isNullOrEmpty() || selectGT.isNullOrEmpty() || selectSL.isNullOrEmpty() || txtNgayKT.text.isNullOrEmpty()){
+                    Toast.makeText(requireContext(), "Vui lòng chọn đầy đủ thông tin!", Toast.LENGTH_LONG).show()
+                    if(selectLoaiGT.isNullOrEmpty())
+                     spLoaiGT.requestFocus()
+                    if(selectGT.isNullOrEmpty())
+                     spGoiTap.requestFocus()
+                    if(selectSL.isNullOrEmpty())
+                     spCTLoaiGT.requestFocus()
+
                 }
-                val saveHoaDon = HoaDonModel(getRandomMaHD(), getFormatDateToApi(getCurrentDate()), maNV.toString(), randomString("thẻ tập", getMaTheMax(theTaps)))
-                //=======================================
-                dialogYN(saveTheTap, saveHoaDon, goiTap, loaiGT, selectSL)
-                //=======================================
-                //viewModel.insertTheTap(TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateToApi(getCurrentDate()),getFormatDateToApi(txtNgayBD.text.toString()),getFormatDateToApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH))
-                //Toast.makeText(requireContext(), "Lưu thẻ tập thành công!", Toast.LENGTH_SHORT).show()
+                else{
+                    var saveTheTap = TheTapModel()
+                    if (compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))) {
+                        saveTheTap = TheTapModel(
+                            randomString("thẻ tập", getMaTheMax(theTaps)),
+                            getFormatDateToApi(getCurrentDate()),
+                            getFormatDateToApi(txtNgayBD.text.toString()),
+                            getFormatDateToApi(txtNgayKT.text.toString()),
+                            "Hoạt động",
+                            khachHang.maKH
+                        )
+                    } else if (!compareToDate(getFormatDateCompareTo(txtNgayBD.text.toString()))) {
+                        saveTheTap = TheTapModel(
+                            randomString("thẻ tập", getMaTheMax(theTaps)),
+                            getFormatDateToApi(getCurrentDate()),
+                            getFormatDateToApi(txtNgayBD.text.toString()),
+                            getFormatDateToApi(txtNgayKT.text.toString()),
+                            "Khóa",
+                            khachHang.maKH
+                        )
+                    }
+                    val saveHoaDon = HoaDonModel(getRandomMaHD(), getFormatDateToApi(getCurrentDate()), maNV.toString(), randomString("thẻ tập", getMaTheMax(theTaps)))
+                    //=======================================
+                    dialogYN(saveTheTap, saveHoaDon, goiTap, loaiGT, selectSL)
+                    //=======================================
+                    //viewModel.insertTheTap(TheTapModel(randomString("thẻ tập",getMaTheMax(theTaps)),getFormatDateToApi(getCurrentDate()),getFormatDateToApi(txtNgayBD.text.toString()),getFormatDateToApi(txtNgayKT.text.toString()),"Hoạt động",khachHang.maKH))
+                    //Toast.makeText(requireContext(), "Lưu thẻ tập thành công!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
