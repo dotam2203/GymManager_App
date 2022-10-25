@@ -18,14 +18,15 @@ class NotificationHelper(var context: Context, var icon: Int, var title: String,
     fun Notification() {
         createNotificationChannel()
         var pendingIntent :  PendingIntent? = null
+        var senInt  : Intent? = null
         if (pendingIntent == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val senInt = Intent(context, MainActivity::class.java).apply {
+                senInt = Intent(context, MainActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
                 pendingIntent = PendingIntent.getActivities(context, 0, arrayOf(senInt), PendingIntent.FLAG_IMMUTABLE)
             } else {
-                val senInt = Intent(context, MainActivity::class.java).apply {
+                  senInt = Intent(context, MainActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
                 pendingIntent = PendingIntent.getActivities(context, 0, arrayOf(senInt), 0)

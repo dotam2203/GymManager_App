@@ -152,18 +152,24 @@ class HoaDonTTFragment : FragmentNext(),HoaDonTTAdapter.OnItemClick {
         }
     }
     override fun itemClickInfo(hoaDonModel: HoaDonModel) {
-        val donGia = getGiaGT(hoaDonModel.ctTheTaps?.get(0)?.maGT ?: "")
-        val moTa = getMoTa(hoaDonModel.ctTheTaps?.get(0)?.maGT ?: "")
-        val tenNV = getTenNV(hoaDonModel.maNV)
-        if((donGia != "") && (moTa != "") && (tenNV != "")) {
-            val gia: Long = donGia.toLong()
-            val sum: Long = tongDoanhThu(hoaDonModel.ctTheTaps?.get(0)?.donGia ?: "")
-            val sl : Int = (sum/gia).toInt()
-            dialogBillInfo(sl, donGia, moTa, tenNV, hoaDonModel)
+        if(hoaDonModel.ctTheTaps?.isNotEmpty() == true){
+            val donGia = getGiaGT(hoaDonModel.ctTheTaps?.get(0)?.maGT ?: "")
+            val moTa = getMoTa(hoaDonModel.ctTheTaps?.get(0)?.maGT ?: "")
+            val tenNV = getTenNV(hoaDonModel.maNV)
+            if((donGia != "") && (moTa != "") && (tenNV != "")) {
+                val gia: Long = donGia.toLong()
+                val sum: Long = tongDoanhThu(hoaDonModel.ctTheTaps?.get(0)?.donGia ?: "")
+                val sl : Int = (sum/gia).toInt()
+                dialogBillInfo(sl, donGia, moTa, tenNV, hoaDonModel)
+            }
+        }else
+        {
+            Toast.makeText(context, "Error List Empty ", Toast.LENGTH_SHORT).show()
         }
+
     }
     private fun dialogBillInfo(sl: Int, donGia : String, motTa : String, tenNV : String, hoaDon: HoaDonModel) {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_thanhtoan)
 
