@@ -340,7 +340,7 @@ class DangKyFragment : FragmentNext(), PaymentResultListener {
 
     //============================================
     fun dialogYN(theTapModel: TheTapModel, hoaDonModel: HoaDonModel, goiTapModel: GoiTapModel, loaiGtModel: LoaiGtModel, select: String) {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
 
@@ -369,7 +369,7 @@ class DangKyFragment : FragmentNext(), PaymentResultListener {
     }
 
     fun dialogThanhToan(theTapModel: TheTapModel, hoaDonModel: HoaDonModel, goiTapModel: GoiTapModel, loaiGtModel: LoaiGtModel, select: String) {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         var ctTTModel = CtTheTapModel()
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_thanhtoan)

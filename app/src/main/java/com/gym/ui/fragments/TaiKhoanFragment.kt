@@ -138,7 +138,7 @@ class TaiKhoanFragment : FragmentNext() {
     }
 
     private fun dialogLogout() {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
 

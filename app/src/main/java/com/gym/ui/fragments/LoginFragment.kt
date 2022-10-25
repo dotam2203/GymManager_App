@@ -97,7 +97,7 @@ class LoginFragment : FragmentNext() {
                                         "Nhân viên ${nhanVien.hoTen} đăng nhập thành công!"
                                     ).Notification()
                                     val kh =
-                                        activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                                        requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                                     kh.hideSoftInputFromWindow(
                                         activity?.currentFocus?.windowToken,
                                         0
@@ -157,7 +157,7 @@ class LoginFragment : FragmentNext() {
                                 "Nhân viên ${nhanVien.hoTen} đăng nhập thành công!"
                             ).Notification()
                             val kh =
-                                activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                             kh.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
                             //===============================
                         }

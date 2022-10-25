@@ -121,7 +121,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
 
     private fun dialogInsert() {
         var status = true
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_goitap)
 
@@ -223,7 +223,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
 
     private fun dialogEdit(goiTap: GoiTapModel) {
         var status = false
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_goitap)
 
@@ -345,7 +345,7 @@ class GoiTapFragment : FragmentNext(), GoiTapAdapter.OnItemClick {
     }
 
     private fun dialogYN(goiTapModel: GoiTapModel) {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
 

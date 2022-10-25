@@ -86,14 +86,14 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         binding.apply {
             pbLoad.visibility = View.VISIBLE
             rvLoaiKH.apply {
-                layoutManager = LinearLayoutManager(activity!!)
+                layoutManager = LinearLayoutManager(requireActivity())
                 adapter = loaiKhAdapter
             }
         }
     }
 
     fun dialogInsert() {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loaigt)
 
@@ -141,7 +141,7 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
     }
 
     fun dialogEdit(loaiKh: LoaiKhModel) {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loaigt)
 
@@ -186,7 +186,7 @@ class LoaiKhFragment : FragmentNext(), LoaiKhAdapter.OnItemClick {
         }
     }
     private fun dialogDelete(idLoaiKH: Int){
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
 

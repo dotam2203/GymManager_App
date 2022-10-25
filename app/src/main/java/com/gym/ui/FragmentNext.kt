@@ -237,7 +237,7 @@ abstract class FragmentNext : Fragment() {
     }
     //--------------------------------------------
     fun dialogPopMessage(msg: String, drawable: Int){
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.pop_message)
 

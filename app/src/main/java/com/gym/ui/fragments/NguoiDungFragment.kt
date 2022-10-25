@@ -26,7 +26,7 @@ class NguoiDungFragment : FragmentNext() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewPager.adapter = NguoiDungViewPagerAdapter(childFragmentManager,activity!!.lifecycle)
+        binding.viewPager.adapter = NguoiDungViewPagerAdapter(childFragmentManager,requireActivity().lifecycle)
         binding.viewPager.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout,binding.viewPager){
             tab,position -> tab.text = tabTitle[position]

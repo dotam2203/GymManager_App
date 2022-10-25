@@ -94,7 +94,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         }
     }
     private fun dialogInsert(){
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loaigt)
 
@@ -145,7 +145,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         }
     }
     fun dialogEdit(loaiGt: LoaiGtModel){
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loaigt)
 
@@ -200,7 +200,7 @@ class LoaiGtFragment : FragmentNext(), LoaiGtAdapter.OnItemClick {
         }
     }
     private fun dialogDelete(idLoaiGT: Int){
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
 

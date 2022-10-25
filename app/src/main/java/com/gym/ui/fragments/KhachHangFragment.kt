@@ -114,7 +114,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
     }
     private fun dialogEdit(khachHang: KhachHangModel) {
         var status = true
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_khachhang)
 
@@ -206,7 +206,7 @@ class KhachHangFragment : FragmentNext(), KhachHangAdapter.OnItemClick {
         }
     }
     private fun dialogDelete(maKH: String){
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
 

@@ -67,7 +67,7 @@ class TheTapFragment : FragmentNext() {
 
     private fun dialogInsertKH() {
         var status = true
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_khachhang)
 
@@ -233,7 +233,7 @@ class TheTapFragment : FragmentNext() {
         }
     }
     private fun dialogInfoKH(khachHang: KhachHangModel){
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_khachhang)
 

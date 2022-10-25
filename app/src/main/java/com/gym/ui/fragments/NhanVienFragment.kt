@@ -110,7 +110,7 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
     }
 
     private fun dialogEdit(nhanVien: NhanVienModel) {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_khachhang)
 
@@ -192,7 +192,7 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
     }
 
     private fun dialogInsertNV() {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_khachhang)
 
@@ -302,7 +302,7 @@ class NhanVienFragment : FragmentNext(), NhanVienAdapter.OnItemClick {
     }
 
     private fun dialogDelete(maNV: String, maTK: String) {
-        val dialog = Dialog(activity!!)
+        val dialog = Dialog(requireActivity())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_message)
 
