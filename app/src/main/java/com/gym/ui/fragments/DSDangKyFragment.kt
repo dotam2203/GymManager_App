@@ -77,13 +77,13 @@ class DSDangKyFragment : FragmentNext(), DsTheTapAdapter.OnItemClick {
                 delay(1000L)
                 viewModel.theTaps.collect {
                     if (it.isNotEmpty()) {
-                         for (i in it.indices) {
+                         /*for (i in it.indices) {
                              if (compareToDate(getFormatDateFromAPI1(it[i].ngayBD)))
                                  viewModel.updateTheTap(TheTapModel(it[i].maThe, it[i].ngayDK, it[i].ngayBD, it[i].ngayKT, "Hoạt động", it[i].maKH))
-                             else if (!compareToDate(getFormatDateFromAPI1(it[i].ngayBD))) {
+                             else if (!compareToDate(getFormatDateFromAPI1(it[i].ngayBD)) || !compareToDate(getFormatDateFromAPI1(it[i].ngayKT))) {
                                  viewModel.updateTheTap(TheTapModel(it[i].maThe, it[i].ngayDK, it[i].ngayBD, it[i].ngayKT, "Khóa", it[i].maKH))
                              }
-                         }
+                         }*/
                         /*it.forEach { tt ->
                             val sdf = SimpleDateFormat("dd/MM/yyyy")
                             val dateBD: Date = sdf.parse(getFormatDateFromAPI(tt.ngayBD))

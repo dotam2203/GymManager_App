@@ -41,7 +41,7 @@ class ThongKeAdapter : RecyclerView.Adapter<ThongKeAdapter.ViewHolder>() {
                 } else if (flag == 2) {
                     tvDTThang.text = "${position + 1}"
                     tvDTDichVu.text = thongKes[position].tenGT
-                    tvDoanhThu.text = thongKes[position].donGia
+                    tvDoanhThu.text = "${formatMoney(thongKes[position].donGia)} đ"
                 }
 
             }
