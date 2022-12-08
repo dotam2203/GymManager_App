@@ -5,6 +5,7 @@ import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.InetAddress
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -12,8 +13,9 @@ import java.util.concurrent.TimeUnit
  * Author: tamdt35@fpt.com.vn
  * Date:  07/07/2022
  */
-object RetrofitInstance {
-    val BASE_URL = "https://gym-manager-api.herokuapp.com/"
+object RetrofitInstance{
+    //val BASE_URL = "https://gym-manager-api.herokuapp.com/"
+    private val BASE_URL = "http://192.168.2.20:8888/"//ip address: 192.168.2.20
     fun getApiUrl(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL).client(OkHttpClient().newBuilder().also { client ->
@@ -73,5 +75,4 @@ object RetrofitInstance {
     val loadApiCtTheTap: CtTheTapService by lazy {
         getApiUrl().create(CtTheTapService::class.java)
     }
-
 }
